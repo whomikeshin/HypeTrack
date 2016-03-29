@@ -12,5 +12,5 @@
 !/log/.keep
 /tmp
 
-# Ignore node_modules
-/node_modules/*
+# Ignore all node_modules
+/node_modules
