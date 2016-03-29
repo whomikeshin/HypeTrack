@@ -9,7 +9,7 @@ var App = React.createClass({
   render: function(){
     return (
       <div>
-        <header><h1>New Tunes</h1></header>
+        <header><h1>Hype Train</h1></header>
         {this.props.children}
       </div>
     );
