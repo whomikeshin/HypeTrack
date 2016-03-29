@@ -5,13 +5,13 @@ class User < ActiveRecord::Base
 
   validates :username, :email, :session_token, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
-  validates :username, :email, :password_digest, :session_token, presence: true
+  validates :username, :email, :password_digest, :session_token, :activation_token, presence: true
   # add in activation_token
 
   # add in find by email option
   def self.find_by_credentials(username, password)
     user = User.find_by(username: username)
-    user && user.is_password?(password) ? user : nil
+    user && user.valid_password?(password) ? user : nil
   end
 
   def password=(password)
