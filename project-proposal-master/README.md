@@ -67,14 +67,11 @@ the API.
   - [ ] `GenresIndex`
   - [ ] `SearchIndex`
 
-### Phase 4: Build TrackPlayer. Start Styling (1 day)
+### Phase 4: Build TrackPlayer (1 day)
 
 **Objective:** Playback seeded tracks. Existing pages (including singup/signin) will look good.
 
 - [ ] create working TrackPlayer
-- [ ] create a basic style guide
-- [ ] position elements on the page
-- [ ] add basic colors & styles
 
 ### Phase 5: TrackLists (1 day)
 

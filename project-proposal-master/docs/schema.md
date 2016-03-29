@@ -24,23 +24,19 @@ type        | string    |
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-name        |
-track_id    | integer   | not null, foreign key (references tracks), indexed
-genre_id    | integer   | not null, foreign key (references genres), indexed
+name        | string    | not null
 
 ## tracklists
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-track_id    | integer   | not null, foreign key (references tracks), indexed
-name         | string    | not null
+name        | string    | not null
 
 ## blogs
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
 name        | string    | not null
-track_id    | integer   | not null, foreign key (references tracks), indexed
 
 ## genres
 column name | data type | details
@@ -54,5 +50,6 @@ column name     | data type | details
 ----------------|-----------|-----------------------
 id              | integer   | not null, primary key
 username        | string    | not null, indexed, unique
+email           | string    | not null, indexed, unique
 password_digest | string    | not null
 session_token   | string    | not null, indexed, unique
