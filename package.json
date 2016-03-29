@@ -1,5 +1,5 @@
 {
-  "name": "hypem_clone-master",
+  "name": "hypem_clone_master",
   "version": "1.0.0",
   "description": "== README",
   "main": "index.js",
@@ -25,4 +25,4 @@
   "keywords": [],
   "author": "",
   "license": "ISC"
-}a
+}
