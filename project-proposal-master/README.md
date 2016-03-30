@@ -47,7 +47,7 @@ the API.
 
 - [ ] create `Track` models
 - [ ] seed the database with small amount of tracks
-- [ ] CRUD API for tracks (`TracksController`)
+- [ ] CRUD API for tracks (`Api::TracksController`)
 - [ ] jBuilder views for tracks
 - [ ] setup Webpack & Flux scaffold
 - [ ] setup `APIUtil` to interact with the API

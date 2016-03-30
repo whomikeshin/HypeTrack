@@ -1,6 +1,7 @@
 var React = require('react');
 var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
+var TrackIndexItem = require('./index_item');
 
 function _getAllTracks () {
   return TrackStore.all();
@@ -8,7 +9,7 @@ function _getAllTracks () {
 
 var Index = React.createClass({
   getInitialState: function () {
-    return { tracks: _getAllTracks };
+    return { tracks: _getAllTracks() };
   },
 
   componentDidMount: function () {
@@ -21,7 +22,7 @@ var Index = React.createClass({
   },
 
   _onChange: function () {
-    var tracks = TrackStore.all();
+    var tracks = _getAllTracks();
     this.setState({ tracks: tracks });
   },
 
@@ -33,8 +34,8 @@ var Index = React.createClass({
         <h2 className="tracks-title">Tracks</h2>
         <ul className="tracks-list">
           {tracks.map(function (track) {
-            console.log(track);
-            // return <TrackIndexItem key={track.id} track={track} />;
+            <li>{track.title}</li>;
+            return <TrackIndexItem key={track.id} track={track} />;
           })}
         </ul>
       </div>

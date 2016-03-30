@@ -4,8 +4,12 @@ var TrackConstants = require('../constants/track_constants');
 var _tracks = [];
 var TrackStore = new Store(AppDispatcher);
 
+var resetTracks = function (tracks) {
+  _tracks = tracks.slice();
+};
+
 TrackStore.all = function () {
-  return _tracks.slice(0);
+  return _tracks.slice();
 };
 
 TrackStore.__onDispatch = function (payload) {
