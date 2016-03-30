@@ -1,4 +1,9 @@
 class Api::TracksController < ApplicationController
+  def index
+    @tracks = Track.all
+    render :index
+  end
+
   def create
     @track = Track.new(track_params)
     if @track.save
@@ -30,7 +35,7 @@ class Api::TracksController < ApplicationController
       render :show
     else
       render json: @track.errors.full_messages, status: :unprocessable_entity
-    end       
+    end
   end
 
   private
