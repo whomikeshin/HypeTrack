@@ -65,7 +65,7 @@
 	        React.createElement(
 	          'h1',
 	          null,
-	          'Hype Train'
+	          'HYPE TRAIN'
 	        )
 	      ),
 	      this.props.children
