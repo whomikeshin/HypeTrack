@@ -47,9 +47,9 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ReactRouter = __webpack_require__(159);
-	var root = document.getElementById('root');
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
+	var root = document.getElementById('root');
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -72,16 +72,7 @@
 	  }
 	});
 	
-	var routes = React.createElement(
-	  Route,
-	  { path: '/', component: App },
-	  React.createElement(
-	    Route,
-	    null,
-	    ' path="users/:id" component=',
-	    UserShow
-	  )
-	);
+	var routes = React.createElement(Route, { path: '/', component: App });
 	
 	ReactDOM.render(React.createElement(
 	  Router,

@@ -24,11 +24,6 @@ class Api::TracksController < ApplicationController
     end
   end
 
-  def index
-    @tracks = Track.all
-    render :index
-  end
-
   def update
     @track = Track.find(params[:id])
     if @track.update(track_params)
