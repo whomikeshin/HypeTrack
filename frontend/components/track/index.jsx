@@ -34,7 +34,6 @@ var Index = React.createClass({
         <h2 className="tracks-title">Tracks</h2>
         <ul className="tracks-list">
           {tracks.map(function (track) {
-            <li>{track.title}</li>;
             return <TrackIndexItem key={track.id} track={track} />;
           })}
         </ul>

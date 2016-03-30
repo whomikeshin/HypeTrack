@@ -61,7 +61,7 @@
 	      null,
 	      React.createElement(
 	        'header',
-	        null,
+	        { className: 'header' },
 	        React.createElement(
 	          'h1',
 	          null,
@@ -24805,11 +24805,6 @@
 	        'ul',
 	        { className: 'tracks-list' },
 	        tracks.map(function (track) {
-	          React.createElement(
-	            'li',
-	            null,
-	            track.title
-	          );
 	          return React.createElement(TrackIndexItem, { key: track.id, track: track });
 	        })
 	      )
@@ -31673,11 +31668,32 @@
 	  render: function () {
 	    var track = this.props.track;
 	    return React.createElement(
-	      'div',
-	      { className: 'track-index-item' },
-	      track.artist_id,
-	      ' - ',
-	      track.title
+	      'li',
+	      { className: 'track-group' },
+	      React.createElement(
+	        'section',
+	        { className: 'track-container' },
+	        React.createElement(
+	          'div',
+	          { className: 'track-details' },
+	          React.createElement(
+	            'div',
+	            { className: 'track-artist' },
+	            track.artist_name
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'track-name' },
+	            track.title
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'track-description' },
+	            track.description
+	          )
+	        ),
+	        React.createElement('br', null)
+	      )
 	    );
 	  }
 	});

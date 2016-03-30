@@ -14,42 +14,42 @@ kanye = User.create!(
   activation_token: 2
 )
 
+Artist.destroy_all
+
+kill_j = Artist.create!(
+name: "Kill J"
+)
+
+miguel = Artist.create!(
+name: "Miguel"
+)
+
+gallant = Artist.create!(
+name: "Gallant"
+)
+
 Track.destroy_all
 
 track_1 = Track.create!(
   title: "You're Good But I'm Better",
   description: "Posted by 5 blogs",
-  artist_id: 1
+  artist: kill_j
 )
 
 track_2 = Track.create!(
   title: "Waves",
   description: "Posted by 2 blogs",
-  artist_id: 2
+  artist: miguel
 )
 
 track_3 = Track.create!(
   title: "Weight in Gold",
   description: "Posted by 49 blogs",
-  artist_id: 3
+  artist: gallant
 )
 
 track_4 = Track.create!(
   title: "Bourbon",
   description: "Posted by 34 blogs",
-  artist_id: 3
-)
-
-Artist.destroy_all
-
-artist_1 = Artist.create!(
-  name: "Kill J"
-)
-
-artist_2 = Artist.create!(
-  name: "Miguel"
-)
-
-artist_3 = Artist.create!(
-  name: "Gallant"
+  artist: gallant
 )
