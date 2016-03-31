@@ -1,6 +1,6 @@
 class Track < ActiveRecord::Base
   belongs_to :artist
-  has_and_belongs_to_many :blogs
+  has_many :blogs, through: :track_sources
 
   validates :title, :description, presence: true
 end

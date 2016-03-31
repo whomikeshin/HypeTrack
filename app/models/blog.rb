@@ -1,5 +1,5 @@
 class Blog < ActiveRecord::Base
-  has_and_belongs_to_many :tracks
+  has_many :tracks, through: :track_sources
 
   validates :name, :url, presence: true
 end

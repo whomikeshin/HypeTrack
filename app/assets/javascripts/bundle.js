@@ -31625,7 +31625,8 @@
 	ApiUtil = {
 	  fetchTracks: function () {
 	    $.ajax({
-	      url: "api/tracks",
+	      type: 'get',
+	      url: 'api/tracks',
 	      success: function (tracks) {
 	        ApiActions.receiveTracks(tracks);
 	      },
@@ -31682,6 +31683,7 @@
 	
 	  mixins: [ReactRouter.history],
 	  render: function () {
+	    debugger;
 	    var track = this.props.track;
 	    return React.createElement(
 	      'li',

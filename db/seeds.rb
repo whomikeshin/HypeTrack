@@ -46,26 +46,44 @@ track_1 = Track.create!(
   title: "You're Good But I'm Better",
   description: "Posted by 5 blogs",
   artist: kill_j,
-  blog: pitchfork
 )
 
 track_2 = Track.create!(
   title: "Waves",
   description: "Posted by 2 blogs",
   artist: miguel,
-  blog: pitchfork
 )
 
 track_3 = Track.create!(
   title: "Weight in Gold",
   description: "Posted by 49 blogs",
   artist: gallant,
-  blog: the_fader
 )
 
 track_4 = Track.create!(
   title: "Bourbon",
   description: "Posted by 34 blogs",
   artist: gallant,
-  blog: the_fader
+)
+
+TrackSource.destroy_all
+
+track_1_source = TrackSource.create!(
+  track_id: track_1.id,
+  blog_id: pitchfork.id
+)
+
+track_2_source = TrackSource.create!(
+  track_id: track_2.id,
+  blog_id: pitchfork.id
+)
+
+track_3_source = TrackSource.create!(
+  track_id: track_2.id,
+  blog_id: the_fader.id
+)
+
+track_4_source = TrackSource.create!(
+  track_id: track_1.id,
+  blog_id: the_fader.id
 )
