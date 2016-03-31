@@ -33,6 +33,19 @@ ApiUtil = {
         SessionActions.logout();
       }
     });
+  },
+
+  fetchCurrentUser: function (completion) {
+    $.ajax({
+      type: 'GET',
+      url: 'api/session',
+      success: function (currentUser) {
+        SessionActions.currentUserReceived(currentUser);
+      },
+      complete: function () {
+        completion && completion();
+      }
+    });
   }
 };
 

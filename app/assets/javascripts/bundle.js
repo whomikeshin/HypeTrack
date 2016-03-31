@@ -53,8 +53,29 @@
 	var IndexRoute = ReactRouter.IndexRoute;
 	var hashHistory = ReactRouter.hashHistory;
 	
-	var Index = __webpack_require__(216);
-	var Session = __webpack_require__(243);
+	var TrackIndex = __webpack_require__(216);
+	// var App = require('./components/app');
+	var ApiUtil = __webpack_require__(240);
+	
+	// window.initializeApp = function () {
+	//   debugger;
+	//   ReactDOM.render(
+	//     <Router history={hashHistory} >
+	//       <Route path="/" component={App} >
+	//         <Route path="tracks" component={TrackIndex} />
+	//       </Route>
+	//     </Router>,
+	//     document.getElementById('root')
+	//   );
+	// };
+	
+	function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
+	  if (!SessionStore.currentUserHasBeenFetched()) {
+	    ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
+	  } else {
+	    _redirectIfNotLoggedIn();
+	  }
+	}
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -80,7 +101,7 @@
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: Index })
+	  React.createElement(IndexRoute, { component: TrackIndex })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -31660,6 +31681,19 @@
 	        SessionActions.logout();
 	      }
 	    });
+	  },
+	
+	  fetchCurrentUser: function (completion) {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/session',
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	      },
+	      complete: function () {
+	        completion && completion();
+	      }
+	    });
 	  }
 	};
 	
@@ -31742,58 +31776,6 @@
 	});
 	
 	module.exports = IndexItem;
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(244);
-	var ApiUtil = __webpack_require__(240);
-	
-	var Session = React.createClass({
-	  displayName: 'Session',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Login Page'
-	    );
-	  }
-	});
-	
-	module.exports = Session;
-
-/***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var AppDispatcher = __webpack_require__(236);
-	var SessionConstants = __webpack_require__(245);
-	
-	var SessionStore = new Store(AppDispatcher);
-	
-	var _currentUser;
-	var _currentUserHasBeenFetched = false;
-	
-	SessionStore.currentUser = function () {
-	  return _currentUser;
-	};
-	
-	module.exports = SessionStore;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports) {
-
-	var SessionConstants = {
-	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
-	  LOGOUT: "LOGOUT"
-	};
-	
-	module.exports = SessionConstants;
 
 /***/ }
 /******/ ]);
