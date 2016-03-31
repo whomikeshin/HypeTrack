@@ -66,24 +66,24 @@ track_4 = Track.create!(
   artist: gallant,
 )
 
-TrackSource.destroy_all
+TracksBlog.destroy_all
 
-track_1_source = TrackSource.create!(
+track_1_source = TracksBlog.create!(
   track_id: track_1.id,
   blog_id: pitchfork.id
 )
 
-track_2_source = TrackSource.create!(
+track_2_source = TracksBlog.create!(
   track_id: track_2.id,
   blog_id: pitchfork.id
 )
 
-track_3_source = TrackSource.create!(
+track_3_source = TracksBlog.create!(
   track_id: track_2.id,
   blog_id: the_fader.id
 )
 
-track_4_source = TrackSource.create!(
+track_4_source = TracksBlog.create!(
   track_id: track_1.id,
   blog_id: the_fader.id
 )

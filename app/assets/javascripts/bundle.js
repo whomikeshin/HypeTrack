@@ -31683,7 +31683,6 @@
 	
 	  mixins: [ReactRouter.history],
 	  render: function () {
-	    debugger;
 	    var track = this.props.track;
 	    return React.createElement(
 	      'li',

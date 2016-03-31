@@ -4,7 +4,6 @@ var ReactRouter = require('react-router');
 var IndexItem = React.createClass({
   mixins: [ReactRouter.history],
   render: function () {
-    debugger
     var track = this.props.track;
     return (
       <li className="track-group">
