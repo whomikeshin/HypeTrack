@@ -40,6 +40,11 @@ the_fader = Blog.create!(
   url: "http://www.thefader.com/"
 )
 
+stereogum = Blog.create!(
+  name: "Stererog",
+  url: "http://www.stereogum.com/"
+)
+
 Track.destroy_all
 
 track_1 = Track.create!(
@@ -68,22 +73,27 @@ track_4 = Track.create!(
 
 TracksBlog.destroy_all
 
-track_1_source = TracksBlog.create!(
+track_1_pitchfork = TracksBlog.create!(
   track_id: track_1.id,
   blog_id: pitchfork.id
 )
 
-track_2_source = TracksBlog.create!(
+track_2_pitchfork = TracksBlog.create!(
   track_id: track_2.id,
   blog_id: pitchfork.id
 )
 
-track_3_source = TracksBlog.create!(
+track_2_the_fader = TracksBlog.create!(
   track_id: track_2.id,
   blog_id: the_fader.id
 )
 
-track_4_source = TracksBlog.create!(
-  track_id: track_1.id,
+track_3_the_fader = TracksBlog.create!(
+  track_id: track_3.id,
+  blog_id: the_fader.id
+)
+
+track_4_stereogum = TracksBlog.create!(
+  track_id: track_3.id,
   blog_id: the_fader.id
 )

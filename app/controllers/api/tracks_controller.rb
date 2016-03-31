@@ -1,6 +1,9 @@
 class Api::TracksController < ApplicationController
   def index
-    @tracks = Track.include(tracks_blogs: :blog).all
+    @tracks =
+      Track.all
+        .includes(:blogs)
+
     render :index
   end
 
