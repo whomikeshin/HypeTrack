@@ -31609,7 +31609,9 @@
 /***/ function(module, exports) {
 
 	var TrackConstants = {
-	  TRACKS_RECEIVED: "TRACKS_RECEIVED"
+	  TRACKS_RECEIVED: "TRACKS_RECEIVED",
+	  SINGLE_TRACK_RECEIVED: "SINGLE_TRACK_RECEIVED",
+	  TRACK_REMOVED: "TRACK_REMOVED"
 	};
 	
 	module.exports = TrackConstants;
@@ -31648,6 +31650,20 @@
 	    AppDispatcher.dispatch({
 	      actionType: TrackConstants.TRACKS_RECEIVED,
 	      tracks: tracks
+	    });
+	  },
+	
+	  receiveSingleTrack: function (track) {
+	    AppDispatcher.dispatch({
+	      actionType: TrackConstants.SINGLE_TRACK_RECEIVED,
+	      track: track
+	    });
+	  },
+	
+	  removeTrack: function (track) {
+	    AppDispatcher.dispatch({
+	      actionType: TrackConstants.TRACK_REMOVED,
+	      track: track
 	    });
 	  }
 	};
