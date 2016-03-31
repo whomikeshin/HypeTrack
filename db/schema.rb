@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331175812) do
+ActiveRecord::Schema.define(version: 20160331194543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,14 @@ ActiveRecord::Schema.define(version: 20160331175812) do
 
   add_index "blogs", ["name"], name: "index_blogs_on_name", unique: true, using: :btree
 
+  create_table "playlists", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "playlists", ["name"], name: "index_playlists_on_name", unique: true, using: :btree
+
   create_table "tracks", force: :cascade do |t|
     t.string   "title",       null: false
     t.text     "description", null: false
@@ -51,6 +59,15 @@ ActiveRecord::Schema.define(version: 20160331175812) do
 
   add_index "tracks_blogs", ["blog_id"], name: "index_tracks_blogs_on_blog_id", using: :btree
   add_index "tracks_blogs", ["track_id"], name: "index_tracks_blogs_on_track_id", using: :btree
+
+  create_table "tracks_playlists", force: :cascade do |t|
+    t.integer  "track_id"
+    t.integer  "playlist_id"
+    t.datetime "add_date"
+  end
+
+  add_index "tracks_playlists", ["playlist_id"], name: "index_tracks_playlists_on_playlist_id", using: :btree
+  add_index "tracks_playlists", ["track_id"], name: "index_tracks_playlists_on_track_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                            null: false

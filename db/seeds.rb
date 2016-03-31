@@ -71,6 +71,16 @@ track_4 = Track.create!(
   artist: gallant,
 )
 
+Playlist.destroy_all
+
+latest = Playlist.create!(
+  name: "Latest"
+)
+
+popular = Playlist.create!(
+  name: "Popular"
+)
+
 TracksBlog.destroy_all
 
 track_1_pitchfork = TracksBlog.create!(
@@ -96,4 +106,26 @@ track_3_the_fader = TracksBlog.create!(
 track_4_stereogum = TracksBlog.create!(
   track_id: track_3.id,
   blog_id: the_fader.id
+)
+
+TracksPlaylist.destroy_all
+
+track_1_latest = TracksPlaylist.create!(
+  track_id: track_1.id,
+  playlist_id: latest.id
+)
+
+track_2_latest = TracksPlaylist.create!(
+  track_id: track_2.id,
+  playlist_id: latest.id
+)
+
+track_3_latest = TracksPlaylist.create!(
+  track_id: track_3.id,
+  playlist_id: latest.id
+)
+
+track_4_latest = TracksPlaylist.create!(
+  track_id: track_4.id,
+  playlist_id: latest.id
 )
