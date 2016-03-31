@@ -2,6 +2,7 @@ var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var TrackConstants = require('../constants/track_constants');
 var _tracks = [];
+
 var TrackStore = new Store(AppDispatcher);
 
 var resetTracks = function (tracks) {

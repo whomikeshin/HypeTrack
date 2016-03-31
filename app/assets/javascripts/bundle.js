@@ -47,10 +47,14 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var ReactRouter = __webpack_require__(159);
+	
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
+	var hashHistory = ReactRouter.hashHistory;
+	
 	var Index = __webpack_require__(216);
+	var Session = __webpack_require__(243);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -24822,6 +24826,7 @@
 	var AppDispatcher = __webpack_require__(236);
 	var TrackConstants = __webpack_require__(239);
 	var _tracks = [];
+	
 	var TrackStore = new Store(AppDispatcher);
 	
 	var resetTracks = function (tracks) {
@@ -31625,13 +31630,34 @@
 	ApiUtil = {
 	  fetchTracks: function () {
 	    $.ajax({
-	      type: 'get',
+	      type: 'GET',
 	      url: 'api/tracks',
 	      success: function (tracks) {
 	        ApiActions.receiveTracks(tracks);
 	      },
 	      error: function (data) {
 	        console.log(data);
+	      }
+	    });
+	  },
+	
+	  login: function () {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/session',
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	        callback && callback();
+	      }
+	    });
+	  },
+	
+	  logout: function () {
+	    $.ajax({
+	      type: 'DELETE',
+	      url: 'api/session',
+	      success: function (currentUser) {
+	        SessionActions.logout();
 	      }
 	    });
 	  }
@@ -31716,6 +31742,58 @@
 	});
 	
 	module.exports = IndexItem;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(244);
+	var ApiUtil = __webpack_require__(240);
+	
+	var Session = React.createClass({
+	  displayName: 'Session',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Login Page'
+	    );
+	  }
+	});
+	
+	module.exports = Session;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var SessionConstants = __webpack_require__(245);
+	
+	var SessionStore = new Store(AppDispatcher);
+	
+	var _currentUser;
+	var _currentUserHasBeenFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports) {
+
+	var SessionConstants = {
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT: "LOGOUT"
+	};
+	
+	module.exports = SessionConstants;
 
 /***/ }
 /******/ ]);
