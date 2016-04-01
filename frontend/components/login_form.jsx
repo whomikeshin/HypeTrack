@@ -8,8 +8,8 @@ var LoginForm = React.createClass({
 
   getInitialState: function () {
     return {
-      username: "",
-      password: ""
+      username: "mike",
+      password: "password"
     };
   },
 

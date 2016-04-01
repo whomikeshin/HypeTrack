@@ -24798,12 +24798,12 @@
 	    var tracks = this.state.tracks;
 	
 	    return React.createElement(
-	      'div',
-	      null,
+	      'section',
+	      { className: 'playlist group' },
 	      React.createElement(
 	        'h2',
-	        { className: 'tracks-title' },
-	        'Tracks'
+	        { className: 'playlist-title' },
+	        'Latest Blogged Music'
 	      ),
 	      React.createElement(
 	        'ul',
@@ -31812,35 +31812,36 @@
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
 	
-	  mixins: [ReactRouter.history],
+	  // mixins: [ReactRouter.history],
 	  render: function () {
 	    var track = this.props.track;
 	    return React.createElement(
-	      'li',
-	      { className: 'track-group' },
+	      'section',
+	      { className: 'track-container' },
 	      React.createElement(
-	        'section',
-	        { className: 'track-container' },
-	        React.createElement(
-	          'div',
-	          { className: 'track-details' },
-	          React.createElement(
-	            'div',
-	            { className: 'track-artist' },
-	            track.artist_name
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'track-name' },
-	            track.title
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'track-description' },
-	            track.description
-	          )
-	        ),
-	        React.createElement('br', null)
+	        'div',
+	        { className: 'track-artist' },
+	        track.artist_name
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'track-name' },
+	        track.title
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'track-description' },
+	        track.description.slice(0, 100).concat("...")
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'track-blog' },
+	        track.blogs[0].name
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'track-blog-count' },
+	        track.blog_count
 	      )
 	    );
 	  }
@@ -31876,11 +31877,10 @@
 	
 	  render: function () {
 	    var button, welcomeMessage;
-	
 	    if (this.state.currentUser) {
 	      button = React.createElement(
 	        'button',
-	        { onClick: ApiUtil.logout },
+	        { 'class': 'logout', onClick: ApiUtil.logout },
 	        'Logout'
 	      );
 	      welcomeMessage = React.createElement(
@@ -31903,11 +31903,15 @@
 	      welcomeMessage,
 	      React.createElement(
 	        'header',
-	        { className: 'header' },
+	        { 'class': 'header' },
 	        React.createElement(
 	          'h1',
-	          null,
-	          'HYPE TRAIN'
+	          { 'class': 'header-logo' },
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'HYPE TRAIN'
+	          )
 	        )
 	      ),
 	      this.props.children
@@ -31941,8 +31945,8 @@
 	
 	  getInitialState: function () {
 	    return {
-	      username: "",
-	      password: ""
+	      username: "mike",
+	      password: "password"
 	    };
 	  },
 	

@@ -49,25 +49,25 @@ Track.destroy_all
 
 track_1 = Track.create!(
   title: "You're Good But I'm Better",
-  description: "Posted by 5 blogs",
+  description: "Highly anticipated debut Quasi EP by forward thinking Danish citizen Kill J has finally landed",
   artist: kill_j,
 )
 
 track_2 = Track.create!(
   title: "Waves",
-  description: "Posted by 2 blogs",
+  description: "Miguel dropping the remix to his single 'waves' yesterday and the whole #waves saga",
   artist: miguel,
 )
 
 track_3 = Track.create!(
   title: "Weight in Gold",
-  description: "Posted by 49 blogs",
+  description: "I’m super freaking stoked that Gallant has been garnering so much attention lately – his music is so damn good",
   artist: gallant,
 )
 
 track_4 = Track.create!(
   title: "Bourbon",
-  description: "Posted by 34 blogs",
+  description: "Bounce-Worthy talent Gallant has accomplished much in short amount of time and is now on the verge of releasing his",
   artist: gallant,
 )
 
@@ -98,13 +98,23 @@ track_2_the_fader = TracksBlog.create!(
   blog_id: the_fader.id
 )
 
+track_3_pitchfork = TracksBlog.create!(
+  track_id: track_3.id,
+  blog_id: pitchfork.id
+)
+
 track_3_the_fader = TracksBlog.create!(
   track_id: track_3.id,
   blog_id: the_fader.id
 )
 
-track_4_stereogum = TracksBlog.create!(
+track_3_stereogum = TracksBlog.create!(
   track_id: track_3.id,
+  blog_id: stereogum.id
+)
+
+track_4_stereogum = TracksBlog.create!(
+  track_id: track_4.id,
   blog_id: the_fader.id
 )
 

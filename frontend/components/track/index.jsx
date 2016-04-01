@@ -30,14 +30,14 @@ var Index = React.createClass({
     var tracks = this.state.tracks;
 
     return (
-      <div>
-        <h2 className="tracks-title">Tracks</h2>
+      <section className="playlist group">
+        <h2 className="playlist-title">Latest Blogged Music</h2>
         <ul className="tracks-list">
           {tracks.map(function (track) {
             return <TrackIndexItem key={track.id} track={track} />;
           })}
         </ul>
-      </div>
+      </section>
     );
   }
 });

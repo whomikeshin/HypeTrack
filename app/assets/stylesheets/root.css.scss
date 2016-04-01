@@ -15,7 +15,6 @@ button, article, footer, small {
   background: transparent;
 }
 
-
 body {
   box-sizing: content-box;
   font-family: sans-serif;
@@ -35,14 +34,10 @@ ul {
 
 button {
   cursor: pointer;
+  background: #222;
+  color: #e0e0e0;
+  float: right;
 }
-
-button.submit {
-  background: #efefef;
-  float:right;
-}
-
-
 
 .group:after {
   content: "";
@@ -52,18 +47,32 @@ button.submit {
 
 .header {
   background: #83c441;
-  color: #222222;
-  position: relative;
+  color: #222;
 }
 
-.header h1 {
-  margin: 0 auto;
-  font-weight: bold;
+.header a {
+  display: block;
   font-size: 24px;
-  padding: 5px;
+  padding: 10px 0;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  text-align: left;
 }
 
 .tracks-title {
   font-size: 24px;
   font-weight: bold;
+}
+
+.playlist {
+  text-align: left;
+  position: relative;
+  min-height: 400px;
+  margin-right: 10px;
+  width: 720px;
+  float: left;
 }
