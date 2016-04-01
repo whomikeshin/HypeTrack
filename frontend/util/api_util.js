@@ -49,6 +49,20 @@ ApiUtil = {
         completion && completion();
       }
     });
+  },
+
+  createUser: function (formData, callback) {
+    $.ajax({
+      type: 'POST',
+      url: 'api/users',
+      data: { user: formData },
+      success: function (currentUser) {
+        SessionActions.currentUserReceived(currentUser);
+      },
+      complete: function () {
+        callback && callback();
+      }
+    });
   }
 };
 

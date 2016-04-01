@@ -1,17 +1,16 @@
 var AppDispatcher = require('../dispatcher/dispatcher');
 var Store = require('flux/utils').Store;
 var UserConstants = require ('../constants/user_constants');
-var _users = [];
 
+var _users = [];
 var UserStore = new Store(AppDispatcher);
 
 var resetUsers = function(users) {
-  _users = users.slice(0);
+  _users = users.slice();
 };
 
-// Use for a test //
 UserStore.all = function () {
-  return _users.slice(0);
+  return _users.slice();
 };
 
 UserStore.__onDispatch = function (payload) {
@@ -22,5 +21,12 @@ UserStore.__onDispatch = function (payload) {
       break;
   }
 };
+
+UserStore.find = function (user_id) {
+  return _users.find(function (user) {
+    return user.id === parseInt(user_id);
+  });
+};
+
 
 module.exports = UserStore;

@@ -3,7 +3,6 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var SessionConstants = require('../constants/session_constants');
 
 var SessionStore = new Store(AppDispatcher);
-
 var _currentUser;
 var _currentUserHasBeenFetched = false;
 

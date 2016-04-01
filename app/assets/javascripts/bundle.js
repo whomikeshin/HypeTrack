@@ -54,8 +54,9 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var TrackIndex = __webpack_require__(216);
-	var App = __webpack_require__(243);
-	var LoginForm = __webpack_require__(246);
+	var App = __webpack_require__(246);
+	var LoginForm = __webpack_require__(247);
+	var UserForm = __webpack_require__(248);
 	var ApiUtil = __webpack_require__(240);
 	
 	var router = React.createElement(
@@ -66,6 +67,7 @@
 	    { path: '/', component: App },
 	    React.createElement(Route, { path: 'tracks', component: TrackIndex })
 	  ),
+	  React.createElement(Route, { path: '/users', component: UserForm }),
 	  React.createElement(Route, { path: '/login', component: LoginForm })
 	);
 	
@@ -24765,7 +24767,7 @@
 	var React = __webpack_require__(1);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
-	var TrackIndexItem = __webpack_require__(242);
+	var TrackIndexItem = __webpack_require__(245);
 	
 	function _getAllTracks() {
 	  return TrackStore.all();
@@ -31624,7 +31626,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var ApiActions = __webpack_require__(241);
-	var SessionActions = __webpack_require__(247);
+	var SessionActions = __webpack_require__(242);
 	var SessionStore = __webpack_require__(244);
 	
 	ApiUtil = {
@@ -31674,6 +31676,20 @@
 	        completion && completion();
 	      }
 	    });
+	  },
+	
+	  createUser: function (formData, callback) {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/users',
+	      data: { user: formData },
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	      },
+	      complete: function () {
+	        callback && callback();
+	      }
+	    });
 	  }
 	};
 	
@@ -31713,6 +31729,81 @@
 
 /***/ },
 /* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var SessionConstants = __webpack_require__(243);
+	
+	var SessionActions = {
+	  currentUserReceived: function (currentUser) {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
+	      currentUser: currentUser
+	    });
+	  },
+	
+	  logout: function () {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.LOGOUT
+	    });
+	  }
+	};
+	
+	module.exports = SessionActions;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports) {
+
+	var SessionConstants = {
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT: "LOGOUT"
+	};
+	
+	module.exports = SessionConstants;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var SessionConstants = __webpack_require__(243);
+	
+	var SessionStore = new Store(AppDispatcher);
+	var _currentUser;
+	var _currentUserHasBeenFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+	
+	SessionStore.currentUserHasBeenFetched = function () {
+	  return _currentUserHasBeenFetched;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserHasBeenFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31758,7 +31849,7 @@
 	module.exports = IndexItem;
 
 /***/ },
-/* 243 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31835,59 +31926,7 @@
 	module.exports = App;
 
 /***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var AppDispatcher = __webpack_require__(236);
-	var SessionConstants = __webpack_require__(245);
-	
-	var SessionStore = new Store(AppDispatcher);
-	
-	var _currentUser;
-	var _currentUserHasBeenFetched = false;
-	
-	SessionStore.currentUser = function () {
-	  return _currentUser;
-	};
-	
-	SessionStore.isLoggedIn = function () {
-	  return !!_currentUser;
-	};
-	
-	SessionStore.currentUserHasBeenFetched = function () {
-	  return _currentUserHasBeenFetched;
-	};
-	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case SessionConstants.CURRENT_USER_RECEIVED:
-	      _currentUser = payload.currentUser;
-	      _currentUserHasBeenFetched = true;
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.LOGOUT:
-	      _currentUser = null;
-	      SessionStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = SessionStore;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports) {
-
-	var SessionConstants = {
-	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
-	  LOGOUT: "LOGOUT"
-	};
-	
-	module.exports = SessionConstants;
-
-/***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -31962,28 +32001,91 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(236);
-	var SessionConstants = __webpack_require__(245);
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(240);
 	
-	var SessionActions = {
-	  currentUserReceived: function (currentUser) {
-	    AppDispatcher.dispatch({
-	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
-	      currentUser: currentUser
+	var UserForm = React.createClass({
+	  displayName: 'UserForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      email: "",
+	      username: "",
+	      password: "",
+	      activated: false,
+	      activation_token: "activated"
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Sign Up For Hype Train'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'email' },
+	          'Email'
+	        ),
+	        React.createElement('input', { onChange: this.updateEmail, type: 'text', value: this.state.email }),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'username' },
+	          'Username'
+	        ),
+	        React.createElement('input', { onChange: this.updateUsername, type: 'text', value: this.state.username }),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'password' },
+	          'Password'
+	        ),
+	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Submit'
+	        )
+	      )
+	    );
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	
+	    var router = this.context.router;
+	    ApiUtil.createUser(this.state, function () {
+	      router.push("/tracks");
 	    });
 	  },
 	
-	  logout: function () {
-	    AppDispatcher.dispatch({
-	      actionType: SessionConstants.LOGOUT
-	    });
-	  }
-	};
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
 	
-	module.exports = SessionActions;
+	  updateUsername: function (e) {
+	    this.setState({ username: e.currentTarget.value });
+	  },
+	
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+	});
+	
+	module.exports = UserForm;
 
 /***/ }
 /******/ ]);

@@ -10,6 +10,7 @@ var hashHistory = ReactRouter.hashHistory;
 var TrackIndex = require('./components/track/index');
 var App = require('./components/app');
 var LoginForm = require('./components/login_form');
+var UserForm = require('./components/user/user_form');
 var ApiUtil = require('./util/api_util');
 
 var router = (
@@ -18,6 +19,7 @@ var router = (
       <Route path="tracks" component={TrackIndex}/>
     </Route>
 
+    <Route path="/users" component={UserForm}/>
     <Route path="/login" component={LoginForm}/>
   </Router>
 );
@@ -29,7 +31,7 @@ function _requireLoggedIn(nextState, replace, callback) {
     _redirectIfNotLoggedIn();
   }
 
-  function _redirectIfNotLoggedIn() {
+  function _redirectIfNotLoggedIn () {
     if (!SessionStore.isLoggedIn()) {
       replace("/login");
     }
