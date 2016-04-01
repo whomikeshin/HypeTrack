@@ -1,4 +1,4 @@
-var AppDispatcher = require('../dispatcher/app_dispatcher');
+var AppDispatcher = require('../dispatcher/dispatcher');
 var SessionConstants = require('../constants/session_constants');
 
 var SessionActions = {

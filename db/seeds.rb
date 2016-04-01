@@ -2,7 +2,7 @@ User.destroy_all
 
 me = User.create!(
   email: "mikekshin@hotmail.com",
-  username: "OG",
+  username: "mike",
   password: "password",
   activation_token: 1
 )

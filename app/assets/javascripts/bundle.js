@@ -58,21 +58,18 @@
 	var LoginForm = __webpack_require__(246);
 	var ApiUtil = __webpack_require__(240);
 	
-	window.initializeApp = function () {
-	  debugger;
-	  ReactDOM.render(React.createElement(
-	    Router,
-	    { history: hashHistory },
-	    React.createElement(
-	      Route,
-	      { path: '/', component: App },
-	      React.createElement(Route, { path: 'tracks', component: TrackIndex })
-	    ),
-	    React.createElement(Route, { path: '/login', component: LoginForm })
-	  ), document.getElementById('root'));
-	};
+	var router = React.createElement(
+	  Router,
+	  { history: hashHistory },
+	  React.createElement(
+	    Route,
+	    { path: '/', component: App },
+	    React.createElement(Route, { path: 'tracks', component: TrackIndex })
+	  ),
+	  React.createElement(Route, { path: '/login', component: LoginForm })
+	);
 	
-	function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
+	function _requireLoggedIn(nextState, replace, callback) {
 	  if (!SessionStore.currentUserHasBeenFetched()) {
 	    ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
 	  } else {
@@ -84,31 +81,14 @@
 	      replace("/login");
 	    }
 	
-	    asyncCompletionCallback();
+	    callback();
 	  }
 	}
 	
-	// var App = React.createClass({
-	//   render: function() {
-	//     return (
-	//       <div>
-	//         <header className="header"><h1>HYPE TRAIN</h1></header>
-	//         {this.props.children}
-	//       </div>
-	//     );
-	//   }
-	// });
-	//
-	// var routes = (
-	//   <Route path="/" component={App} >
-	//     <IndexRoute component={TrackIndex} />
-	//   </Route>
-	// );
-	//
-	// document.addEventListener("DOMContentLoaded", function () {
-	//   var root = document.getElementById('root');
-	//   ReactDOM.render(<Router>{routes}</Router>, root);
-	// });
+	document.addEventListener("DOMContentLoaded", function () {
+	  var root = document.getElementById('root');
+	  ReactDOM.render(router, root);
+	});
 
 /***/ },
 /* 1 */
@@ -31644,6 +31624,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var ApiActions = __webpack_require__(241);
+	var SessionActions = __webpack_require__(247);
+	var SessionStore = __webpack_require__(244);
 	
 	ApiUtil = {
 	  fetchTracks: function () {
@@ -31659,10 +31641,11 @@
 	    });
 	  },
 	
-	  login: function () {
+	  login: function (credentials, callback) {
 	    $.ajax({
 	      type: 'POST',
 	      url: 'api/session',
+	      data: credentials,
 	      success: function (currentUser) {
 	        SessionActions.currentUserReceived(currentUser);
 	        callback && callback();
@@ -31818,7 +31801,7 @@
 	      welcomeMessage = React.createElement(
 	        'h2',
 	        null,
-	        'Sign In Bitch!'
+	        'Sign In!'
 	      );
 	    }
 	
@@ -31917,6 +31900,13 @@
 	    router: React.PropTypes.object.isRequired
 	  },
 	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -31924,13 +31914,76 @@
 	      React.createElement(
 	        'h1',
 	        null,
-	        'Please Log In'
+	        'Log In To Hype Train'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'username' },
+	          'Username'
+	        ),
+	        React.createElement('input', { onChange: this.updateUsername, type: 'text', value: this.state.username }),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'password' },
+	          'Password'
+	        ),
+	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Submit'
+	        )
 	      )
 	    );
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	
+	    var router = this.context.router;
+	
+	    ApiUtil.login(this.state, function () {
+	      router.push("/tracks");
+	    });
+	  },
+	
+	  updateUsername: function (e) {
+	    this.setState({ username: e.currentTarget.value });
+	  },
+	
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
 	  }
 	});
 	
 	module.exports = LoginForm;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var SessionConstants = __webpack_require__(245);
+	
+	var SessionActions = {
+	  currentUserReceived: function (currentUser) {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
+	      currentUser: currentUser
+	    });
+	  },
+	
+	  logout: function () {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.LOGOUT
+	    });
+	  }
+	};
+	
+	module.exports = SessionActions;
 
 /***/ }
 /******/ ]);

@@ -1,4 +1,6 @@
 var ApiActions = require('../actions/api_actions');
+var SessionActions = require('../actions/session_actions');
+var SessionStore = require('../stores/session');
 
 ApiUtil = {
   fetchTracks: function () {
@@ -14,10 +16,11 @@ ApiUtil = {
     });
   },
 
-  login: function () {
+  login: function (credentials, callback) {
     $.ajax({
       type: 'POST',
       url: 'api/session',
+      data: credentials,
       success: function (currentUser) {
         SessionActions.currentUserReceived(currentUser);
         callback && callback();

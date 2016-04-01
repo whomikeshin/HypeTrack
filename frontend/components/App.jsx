@@ -25,7 +25,7 @@ var App = React.createClass({
       button = <button onClick={ApiUtil.logout}>Logout</button>
       welcomeMessage = <h2>{this.state.currentUser.username}</h2>;
     } else {
-      welcomeMessage = <h2>Sign In Bitch!</h2>;
+      welcomeMessage = <h2>Sign In!</h2>;
     }
 
     return (

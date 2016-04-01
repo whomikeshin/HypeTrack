@@ -12,22 +12,17 @@ var App = require('./components/app');
 var LoginForm = require('./components/login_form');
 var ApiUtil = require('./util/api_util');
 
-window.initializeApp = function () {
-  debugger;
-  ReactDOM.render(
-    <Router history={hashHistory}>
-      <Route path="/" component={App}>
-        <Route path="tracks" component={TrackIndex}/>
-      </Route>
+var router = (
+  <Router history={hashHistory}>
+    <Route path="/" component={App}>
+      <Route path="tracks" component={TrackIndex}/>
+    </Route>
 
-      <Route path="/login" component={LoginForm}/>
+    <Route path="/login" component={LoginForm}/>
+  </Router>
+);
 
-    </Router>,
-    document.getElementById('root')
-  );
-};
-
-function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
+function _requireLoggedIn(nextState, replace, callback) {
   if (!SessionStore.currentUserHasBeenFetched()) {
     ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
   } else {
@@ -39,28 +34,11 @@ function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
       replace("/login");
     }
 
-    asyncCompletionCallback();
+    callback();
   }
 }
 
-// var App = React.createClass({
-//   render: function() {
-//     return (
-//       <div>
-//         <header className="header"><h1>HYPE TRAIN</h1></header>
-//         {this.props.children}
-//       </div>
-//     );
-//   }
-// });
-//
-// var routes = (
-//   <Route path="/" component={App} >
-//     <IndexRoute component={TrackIndex} />
-//   </Route>
-// );
-//
-// document.addEventListener("DOMContentLoaded", function () {
-//   var root = document.getElementById('root');
-//   ReactDOM.render(<Router>{routes}</Router>, root);
-// });
+document.addEventListener("DOMContentLoaded", function () {
+  var root = document.getElementById('root');
+  ReactDOM.render(router, root);
+});
