@@ -54,20 +54,23 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var TrackIndex = __webpack_require__(216);
-	// var App = require('./components/app');
+	var App = __webpack_require__(243);
+	var LoginForm = __webpack_require__(246);
 	var ApiUtil = __webpack_require__(240);
 	
-	// window.initializeApp = function () {
-	//   debugger;
-	//   ReactDOM.render(
-	//     <Router history={hashHistory} >
-	//       <Route path="/" component={App} >
-	//         <Route path="tracks" component={TrackIndex} />
-	//       </Route>
-	//     </Router>,
-	//     document.getElementById('root')
-	//   );
-	// };
+	window.initializeApp = function () {
+	  debugger;
+	  ReactDOM.render(React.createElement(
+	    Router,
+	    { history: hashHistory },
+	    React.createElement(
+	      Route,
+	      { path: '/', component: App },
+	      React.createElement(Route, { path: 'tracks', component: TrackIndex })
+	    ),
+	    React.createElement(Route, { path: '/login', component: LoginForm })
+	  ), document.getElementById('root'));
+	};
 	
 	function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
 	  if (!SessionStore.currentUserHasBeenFetched()) {
@@ -75,43 +78,37 @@
 	  } else {
 	    _redirectIfNotLoggedIn();
 	  }
+	
+	  function _redirectIfNotLoggedIn() {
+	    if (!SessionStore.isLoggedIn()) {
+	      replace("/login");
+	    }
+	
+	    asyncCompletionCallback();
+	  }
 	}
 	
-	var App = React.createClass({
-	  displayName: 'App',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'header',
-	        { className: 'header' },
-	        React.createElement(
-	          'h1',
-	          null,
-	          'HYPE TRAIN'
-	        )
-	      ),
-	      this.props.children
-	    );
-	  }
-	});
-	
-	var routes = React.createElement(
-	  Route,
-	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: TrackIndex })
-	);
-	
-	document.addEventListener("DOMContentLoaded", function () {
-	  var root = document.getElementById('root');
-	  ReactDOM.render(React.createElement(
-	    Router,
-	    null,
-	    routes
-	  ), root);
-	});
+	// var App = React.createClass({
+	//   render: function() {
+	//     return (
+	//       <div>
+	//         <header className="header"><h1>HYPE TRAIN</h1></header>
+	//         {this.props.children}
+	//       </div>
+	//     );
+	//   }
+	// });
+	//
+	// var routes = (
+	//   <Route path="/" component={App} >
+	//     <IndexRoute component={TrackIndex} />
+	//   </Route>
+	// );
+	//
+	// document.addEventListener("DOMContentLoaded", function () {
+	//   var root = document.getElementById('root');
+	//   ReactDOM.render(<Router>{routes}</Router>, root);
+	// });
 
 /***/ },
 /* 1 */
@@ -31776,6 +31773,164 @@
 	});
 	
 	module.exports = IndexItem;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(244);
+	var ApiUtil = __webpack_require__(240);
+	
+	var App = React.createClass({
+	  displayName: 'App',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      currentUser: null
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.sessionStoreToken = SessionStore.addListener(this.handleChange);
+	    this.handleChange();
+	  },
+	
+	  render: function () {
+	    var button, welcomeMessage;
+	
+	    if (this.state.currentUser) {
+	      button = React.createElement(
+	        'button',
+	        { onClick: ApiUtil.logout },
+	        'Logout'
+	      );
+	      welcomeMessage = React.createElement(
+	        'h2',
+	        null,
+	        this.state.currentUser.username
+	      );
+	    } else {
+	      welcomeMessage = React.createElement(
+	        'h2',
+	        null,
+	        'Sign In Bitch!'
+	      );
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      button,
+	      welcomeMessage,
+	      React.createElement(
+	        'header',
+	        { className: 'header' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'HYPE TRAIN'
+	        )
+	      ),
+	      this.props.children
+	    );
+	  },
+	
+	  handleChange: function () {
+	    if (SessionStore.isLoggedIn()) {
+	      this.setState({ currentUser: SessionStore.currentUser() });
+	    } else {
+	      this.context.router.push("/login");
+	    }
+	  }
+	});
+	
+	module.exports = App;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var SessionConstants = __webpack_require__(245);
+	
+	var SessionStore = new Store(AppDispatcher);
+	
+	var _currentUser;
+	var _currentUserHasBeenFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+	
+	SessionStore.currentUserHasBeenFetched = function () {
+	  return _currentUserHasBeenFetched;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserHasBeenFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports) {
+
+	var SessionConstants = {
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT: "LOGOUT"
+	};
+	
+	module.exports = SessionConstants;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(240);
+	
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Please Log In'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = LoginForm;
 
 /***/ }
 /******/ ]);

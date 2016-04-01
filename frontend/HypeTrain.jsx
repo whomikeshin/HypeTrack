@@ -8,20 +8,24 @@ var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 
 var TrackIndex = require('./components/track/index');
-// var App = require('./components/app');
+var App = require('./components/app');
+var LoginForm = require('./components/login_form');
 var ApiUtil = require('./util/api_util');
 
-// window.initializeApp = function () {
-//   debugger;
-//   ReactDOM.render(
-//     <Router history={hashHistory} >
-//       <Route path="/" component={App} >
-//         <Route path="tracks" component={TrackIndex} />
-//       </Route>
-//     </Router>,
-//     document.getElementById('root')
-//   );
-// };
+window.initializeApp = function () {
+  debugger;
+  ReactDOM.render(
+    <Router history={hashHistory}>
+      <Route path="/" component={App}>
+        <Route path="tracks" component={TrackIndex}/>
+      </Route>
+
+      <Route path="/login" component={LoginForm}/>
+
+    </Router>,
+    document.getElementById('root')
+  );
+};
 
 function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
   if (!SessionStore.currentUserHasBeenFetched()) {
@@ -29,26 +33,34 @@ function _requireLoggedIn(nextState, replace, asyncCompletionCallback) {
   } else {
     _redirectIfNotLoggedIn();
   }
+
+  function _redirectIfNotLoggedIn() {
+    if (!SessionStore.isLoggedIn()) {
+      replace("/login");
+    }
+
+    asyncCompletionCallback();
+  }
 }
 
-var App = React.createClass({
-  render: function() {
-    return (
-      <div>
-        <header className="header"><h1>HYPE TRAIN</h1></header>
-        {this.props.children}
-      </div>
-    );
-  }
-});
-
-var routes = (
-  <Route path="/" component={App} >
-    <IndexRoute component={TrackIndex} />
-  </Route>
-);
-
-document.addEventListener("DOMContentLoaded", function () {
-  var root = document.getElementById('root');
-  ReactDOM.render(<Router>{routes}</Router>, root);
-});
+// var App = React.createClass({
+//   render: function() {
+//     return (
+//       <div>
+//         <header className="header"><h1>HYPE TRAIN</h1></header>
+//         {this.props.children}
+//       </div>
+//     );
+//   }
+// });
+//
+// var routes = (
+//   <Route path="/" component={App} >
+//     <IndexRoute component={TrackIndex} />
+//   </Route>
+// );
+//
+// document.addEventListener("DOMContentLoaded", function () {
+//   var root = document.getElementById('root');
+//   ReactDOM.render(<Router>{routes}</Router>, root);
+// });
