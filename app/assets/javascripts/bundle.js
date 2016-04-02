@@ -24798,19 +24798,76 @@
 	    var tracks = this.state.tracks;
 	
 	    return React.createElement(
-	      'section',
-	      { className: 'playlist group' },
+	      'main',
+	      { className: 'content' },
 	      React.createElement(
-	        'h2',
-	        { className: 'playlist-title' },
-	        'Latest Blogged Music'
-	      ),
-	      React.createElement(
-	        'ul',
-	        { className: 'tracks-list' },
-	        tracks.map(function (track) {
-	          return React.createElement(TrackIndexItem, { key: track.id, track: track });
-	        })
+	        'section',
+	        { className: 'playlist group' },
+	        React.createElement(
+	          'header',
+	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'playlist-title' },
+	            'Latest Blogged Music'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'playlist-menu' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'All'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Freshest'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Only Remixes'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'No Remixes'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Blogs in USA'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'tracks-list' },
+	          tracks.map(function (track) {
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	          })
+	        )
 	      )
 	    );
 	  }
@@ -31816,32 +31873,42 @@
 	  render: function () {
 	    var track = this.props.track;
 	    return React.createElement(
-	      'section',
-	      { className: 'track-container' },
+	      'li',
+	      { className: 'track group' },
 	      React.createElement(
-	        'div',
-	        { className: 'track-artist' },
-	        track.artist_name
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'track-name' },
-	        track.title
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'track-description' },
-	        track.description.slice(0, 100).concat("...")
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'track-blog' },
-	        track.blogs[0].name
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'track-blog-count' },
-	        track.blog_count
+	        'section',
+	        { className: 'track-detail-container' },
+	        React.createElement(
+	          'div',
+	          { className: 'track-artist' },
+	          track.artist_name
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'track-name' },
+	          track.title
+	        ),
+	        React.createElement(
+	          'section',
+	          { className: 'track-blog' },
+	          React.createElement(
+	            'div',
+	            { className: 'track-blog-count' },
+	            'Posted by ',
+	            track.blog_count,
+	            ' blogs'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'track-blog-name' },
+	            track.blogs[0].name
+	          ),
+	          React.createElement(
+	            'p',
+	            { className: 'track-blog-description' },
+	            track.description.slice(0, 200).concat("...")
+	          )
+	        )
 	      )
 	    );
 	  }
@@ -31880,7 +31947,7 @@
 	    if (this.state.currentUser) {
 	      button = React.createElement(
 	        'button',
-	        { 'class': 'logout', onClick: ApiUtil.logout },
+	        { className: 'logout', onClick: ApiUtil.logout },
 	        'Logout'
 	      );
 	      welcomeMessage = React.createElement(
@@ -31903,14 +31970,49 @@
 	      welcomeMessage,
 	      React.createElement(
 	        'header',
-	        { 'class': 'header' },
+	        { className: 'header' },
 	        React.createElement(
-	          'h1',
-	          { 'class': 'header-logo' },
+	          'nav',
+	          { className: 'header-nav group' },
 	          React.createElement(
-	            'a',
-	            { href: '#' },
-	            'HYPE TRAIN'
+	            'h1',
+	            { className: 'header-logo' },
+	            React.createElement(
+	              'a',
+	              { href: '#' },
+	              'Hype Train'
+	            )
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'header-nav-list' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Latest'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Popular'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Genres'
+	              )
+	            )
 	          )
 	        )
 	      ),

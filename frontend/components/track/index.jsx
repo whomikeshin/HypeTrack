@@ -30,14 +30,27 @@ var Index = React.createClass({
     var tracks = this.state.tracks;
 
     return (
-      <section className="playlist group">
-        <h2 className="playlist-title">Latest Blogged Music</h2>
-        <ul className="tracks-list">
-          {tracks.map(function (track) {
-            return <TrackIndexItem key={track.id} track={track} />;
-          })}
-        </ul>
-      </section>
+      <main className="content">
+        <section className="playlist group">
+
+          <header>
+            <h2 className="playlist-title">Latest Blogged Music</h2>
+            <ul className="playlist-menu">
+              <li><a href="#">All</a></li>
+              <li><a href="#">Freshest</a></li>
+              <li><a href="#">Only Remixes</a></li>
+              <li><a href="#">No Remixes</a></li>
+              <li><a href="#">Blogs in USA</a></li>
+            </ul>
+          </header>
+
+          <ul className="tracks-list">
+            {tracks.map(function (track) {
+              return <TrackIndexItem key={track.id} track={track} />;
+            })}
+          </ul>
+        </section>
+      </main>
     );
   }
 });

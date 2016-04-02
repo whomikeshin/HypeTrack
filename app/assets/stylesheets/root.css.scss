@@ -1,7 +1,6 @@
-html, body, header, nav, a, ul, li,
-strong, main, section, img, div, h2, p,
-form, fieldset, label, input, textarea,
-button, article, footer, small {
+html, body, div, header, nav, a, h1, h2,
+ul, li, main, section, img, p, form, fieldset,
+label, input, textarea, button {
   border: 0;
   margin: 0;
   padding: 0;
@@ -16,11 +15,14 @@ button, article, footer, small {
 }
 
 body {
-  box-sizing: content-box;
   font-family: sans-serif;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 15px;
   background: #fff;
+  color: #000;
+}
+
+ul {
+  list-style: none;
 }
 
 input, textarea, button {
@@ -28,13 +30,9 @@ input, textarea, button {
   border: 1px solid #ccc;
 }
 
-ul {
-  list-style: none;
-}
-
 button {
   cursor: pointer;
-  background: #222;
+  background: #3d3c3a;
   color: #e0e0e0;
   float: right;
 }
@@ -45,34 +43,137 @@ button {
   display: block;
 }
 
+/* Header */
+
 .header {
   background: #83c441;
   color: #222;
+  height: 42px;
+  line-height: 42px;
 }
 
 .header a {
   display: block;
-  font-size: 24px;
-  padding: 10px 0;
+  padding: 0 10px;
 }
 
-h2 {
+.header-nav {
+  margin: 0 auto;
+  width: 1032px;
+}
+
+.header-logo {
+  float: left;
+  font-weight: 600;
   font-size: 24px;
-  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.header-logo:hover {
+  color: #fff;
+}
+
+.header-nav-list {
+  float: left;
+}
+
+.header-nav-list > li {
+  float: left;
+}
+
+.header-nav-list > li:hover {
+  background: #222;
+  color: #e0e0e0;
+}
+
+/* Track Index */
+.content {
   position: relative;
+  margin: 0 auto;
+  width: 1032px;
   text-align: left;
-}
-
-.tracks-title {
-  font-size: 24px;
-  font-weight: bold;
 }
 
 .playlist {
-  text-align: left;
-  position: relative;
+  width: 728px;
   min-height: 400px;
   margin-right: 10px;
-  width: 720px;
   float: left;
+}
+
+.playlist-title {
+  font-size: 29px;
+  margin: 25px 0;
+  display: block;
+}
+
+.playlist-menu {
+  border-bottom: 1px solid #999;
+  line-height: 35px;
+  height: 35px;
+}
+
+.playlist-menu a {
+  display: block;
+  padding: 0 10px;
+}
+
+.playlist-menu > li {
+  float: left;
+}
+
+.playlist-menu > li:hover {
+  text-decoration: underline;
+}
+
+.playlist-menu > li:first-child {
+  border-top: 1px solid #999;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+}
+
+.track-list {
+}
+
+/* Track Index Item */
+
+.track {
+  display: block;
+  padding: 22px 0 15px 0;
+  border-bottom: 1px solid #999;
+}
+
+.track-detail-container {
+  float: left;
+  padding: 0 120px 0 93px;
+}
+
+.track-detail-container > div:hover {
+  text-decoration: underline;
+}
+
+.track-artist, .track-name {
+  font-size: 20px;
+  float: left;
+  display: block;
+}
+
+.track-name {
+  padding-left: 10px;
+}
+
+.track-blog {
+  color: #0063dc;
+  font-size: 13px;
+}
+
+.track-blog > div:hover {
+  text-decoration: underline;
+}
+
+.track-blog-description {
+  color: #000;
+  word-wrap: break-word;
+  margin: 0 0 10px 0;
+  line-height: 18px;
 }

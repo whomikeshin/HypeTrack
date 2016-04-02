@@ -21,7 +21,7 @@ var App = React.createClass({
   render: function () {
     var button, welcomeMessage;
     if (this.state.currentUser) {
-      button = <button class="logout" onClick={ApiUtil.logout}>Logout</button>;
+      button = <button className="logout" onClick={ApiUtil.logout}>Logout</button>;
       welcomeMessage = <h2>{this.state.currentUser.username}</h2>;
     } else {
       welcomeMessage = <h2>Sign In!</h2>;
@@ -31,10 +31,20 @@ var App = React.createClass({
       <div>
         {button}
         {welcomeMessage}
-        <header class="header">
-          <h1 class="header-logo">
-            <a href="#">HYPE TRAIN</a>
-          </h1>
+        <header className="header">
+          <nav className="header-nav group">
+
+            <h1 className="header-logo">
+              <a href="#">Hype Train</a>
+            </h1>
+
+            <ul className="header-nav-list">
+              <li><a href="#">Latest</a></li>
+              <li><a href="#">Popular</a></li>
+              <li><a href="#">Genres</a></li>
+            </ul>
+
+          </nav>
         </header>
         {this.props.children}
       </div>
