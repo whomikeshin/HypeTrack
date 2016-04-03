@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160403020800) do
+ActiveRecord::Schema.define(version: 20160403153903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,13 +47,6 @@ ActiveRecord::Schema.define(version: 20160403020800) do
     t.datetime "post_date"
     t.string   "track_title"
     t.string   "artist_name"
-    t.string   "track_image_content_type"
-    t.integer  "track_image_file_size"
-    t.datetime "track_image_updated_at"
-    t.string   "audio_file_name"
-    t.string   "audio_content_type"
-    t.integer  "audio_file_size"
-    t.datetime "audio_updated_at"
     t.text     "track_info"
   end
 
@@ -65,6 +58,7 @@ ActiveRecord::Schema.define(version: 20160403020800) do
     t.integer  "artist_id",                null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "track_image_file_name"
     t.string   "track_image_content_type"
     t.integer  "track_image_file_size"
     t.datetime "track_image_updated_at"
