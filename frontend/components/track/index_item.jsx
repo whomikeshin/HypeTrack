@@ -13,6 +13,8 @@ var IndexItem = React.createClass({
             {track.artist_name}
           </div>
 
+          <p className="track-dash"> - </p>
+
           <div className="track-name">
             {track.title}
           </div>
@@ -25,9 +27,9 @@ var IndexItem = React.createClass({
             <div className="track-blog-name">
               {track.blogs[0].name}
             </div>
-            
+
             <p className="track-blog-description">
-              {track.description.slice(0, 200).concat("...")}
+              {track.posts[0].track_info.slice(0, 200).concat("...")}
             </p>
           </section>
 

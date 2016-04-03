@@ -1,5 +1,5 @@
-json.extract! track, :id, :title, :description, :blogs, :playlists
+json.extract! track, :id, :title, :blogs, :playlists, :posts
 
 json.artist_name track.artist.name
 
-json.blog_count track.blogs.count
+json.blog_count track.blogs.length

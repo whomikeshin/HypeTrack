@@ -49,25 +49,21 @@ Track.destroy_all
 
 track_1 = Track.create!(
   title: "You're Good But I'm Better",
-  description: "Highly anticipated debut Quasi EP by forward thinking Danish citizen Kill J has finally landed",
   artist: kill_j,
 )
 
 track_2 = Track.create!(
   title: "Waves",
-  description: "Miguel dropping the remix to his single 'waves' yesterday and the whole #waves saga",
   artist: miguel,
 )
 
 track_3 = Track.create!(
   title: "Weight in Gold",
-  description: "I’m super freaking stoked that Gallant has been garnering so much attention lately – his music is so damn good",
   artist: gallant,
 )
 
 track_4 = Track.create!(
   title: "Bourbon",
-  description: "Bounce-Worthy talent Gallant has accomplished much in short amount of time and is now on the verge of releasing his",
   artist: gallant,
 )
 
@@ -85,36 +81,43 @@ Post.destroy_all
 
 track_1_pitchfork = Post.create!(
   track_id: track_1.id,
+  track_info: "Highly anticipated debut Quasi EP by forward thinking Danish citizen Kill J has finally landed",
   blog_id: pitchfork.id
 )
 
 track_2_pitchfork = Post.create!(
   track_id: track_2.id,
+  track_info: "Miguel dropping the remix to his single 'waves' yesterday and the whole #waves saga",
   blog_id: pitchfork.id
 )
 
 track_2_the_fader = Post.create!(
   track_id: track_2.id,
+  track_info: "Miguel recruits rap wunderkind Travis $cott for the remix of “Waves” and it obviously couldn’t have come at a better time",
   blog_id: the_fader.id
 )
 
 track_3_pitchfork = Post.create!(
   track_id: track_3.id,
+  track_info: "Bounce-Worthy talent Gallant has accomplished much in short amount of time and is now on the verge of releasing his",
   blog_id: pitchfork.id
 )
 
 track_3_the_fader = Post.create!(
   track_id: track_3.id,
+  track_info: "This song is straight up Ginuwine, Dru Hill, Jodeci, H-Town nostalgia. A powerful voice worth it's weight in gold",
   blog_id: the_fader.id
 )
 
 track_3_stereogum = Post.create!(
   track_id: track_3.id,
+  track_info: "Art lives on heartbreak. I was first introduced to Gallant, the young soaring R&B star when I saw him perform",
   blog_id: stereogum.id
 )
 
 track_4_stereogum = Post.create!(
   track_id: track_4.id,
+  track_info: "With the sea of falsetto-oriented R&B cropping up on the daily, it takes a solid track to truly standout",
   blog_id: the_fader.id
 )
 

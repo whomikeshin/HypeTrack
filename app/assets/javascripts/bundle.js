@@ -31884,6 +31884,11 @@
 	          track.artist_name
 	        ),
 	        React.createElement(
+	          'p',
+	          { className: 'track-dash' },
+	          ' - '
+	        ),
+	        React.createElement(
 	          'div',
 	          { className: 'track-name' },
 	          track.title
@@ -31906,7 +31911,7 @@
 	          React.createElement(
 	            'p',
 	            { className: 'track-blog-description' },
-	            track.description.slice(0, 200).concat("...")
+	            track.posts[0].track_info.slice(0, 200).concat("...")
 	          )
 	        )
 	      )
