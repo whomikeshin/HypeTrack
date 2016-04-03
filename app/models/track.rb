@@ -6,8 +6,8 @@ class Track < ActiveRecord::Base
   # validates_attachment_content_type :audio, content_type: /\Aaudio\/.*\Z/
 
   belongs_to :artist
-  has_many :tracks_blogs
-  has_many :blogs, through: :tracks_blogs
+  has_many :posts
+  has_many :blogs, through: :posts
   has_many :tracks_playlists
   has_many :playlists, through: :tracks_playlists
 

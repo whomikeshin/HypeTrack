@@ -81,39 +81,39 @@ popular = Playlist.create!(
   name: "Popular"
 )
 
-TracksBlog.destroy_all
+Post.destroy_all
 
-track_1_pitchfork = TracksBlog.create!(
+track_1_pitchfork = Post.create!(
   track_id: track_1.id,
   blog_id: pitchfork.id
 )
 
-track_2_pitchfork = TracksBlog.create!(
+track_2_pitchfork = Post.create!(
   track_id: track_2.id,
   blog_id: pitchfork.id
 )
 
-track_2_the_fader = TracksBlog.create!(
+track_2_the_fader = Post.create!(
   track_id: track_2.id,
   blog_id: the_fader.id
 )
 
-track_3_pitchfork = TracksBlog.create!(
+track_3_pitchfork = Post.create!(
   track_id: track_3.id,
   blog_id: pitchfork.id
 )
 
-track_3_the_fader = TracksBlog.create!(
+track_3_the_fader = Post.create!(
   track_id: track_3.id,
   blog_id: the_fader.id
 )
 
-track_3_stereogum = TracksBlog.create!(
+track_3_stereogum = Post.create!(
   track_id: track_3.id,
   blog_id: stereogum.id
 )
 
-track_4_stereogum = TracksBlog.create!(
+track_4_stereogum = Post.create!(
   track_id: track_4.id,
   blog_id: the_fader.id
 )
