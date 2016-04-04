@@ -229,3 +229,41 @@ button {
   margin: 0 0 10px 0;
   line-height: 18px;
 }
+
+/*/ Forms /*/
+.login-form {
+  height: 290px;
+  width: 370px;
+}
+
+.sign-up-form {
+  height: 540px;
+  width: 340px;
+}
+
+.login-form > h1 {
+  background: #83c441;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid #4D8119;
+  padding-left: 10px;
+  line-height: 36px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  margin: 3px 0;
+}
+
+.login-form > input {
+  display: block;
+  background: #efefef;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000;
+}

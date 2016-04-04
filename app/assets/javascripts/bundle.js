@@ -32209,7 +32209,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'signup-form' },
 	      React.createElement(
 	        'h1',
 	        null,
@@ -34219,7 +34219,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'login-form' },
 	      React.createElement(
 	        'h1',
 	        null,
@@ -34243,7 +34243,7 @@
 	        React.createElement(
 	          'button',
 	          null,
-	          'Submit'
+	          'Log in'
 	        )
 	      )
 	    );

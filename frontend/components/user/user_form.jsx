@@ -18,7 +18,7 @@ var UserForm = React.createClass({
 
   render: function () {
     return (
-      <div>
+      <div className="signup-form">
         <h1>Sign Up For Hype Train</h1>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="email">Email</label>

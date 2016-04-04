@@ -15,7 +15,7 @@ var LoginForm = React.createClass({
 
   render: function () {
     return (
-      <div>
+      <div className="login-form">
         <h1>Log In To Hype Train</h1>
 
         <form onSubmit={this.handleSubmit}>
@@ -25,7 +25,7 @@ var LoginForm = React.createClass({
           <label htmlFor="password">Password</label>
           <input onChange={this.updatePassword} type="password" value={this.state.password}/>
 
-          <button>Submit</button>
+          <button>Log in</button>
         </form>
       </div>
     );
