@@ -8,12 +8,16 @@ class Api::TracksController < ApplicationController
     render :index
   end
 
+  def show
+    @track = Track.find(params[:id])
+  end
+
   def create
     @track = Track.new(track_params)
     if @track.save
-      render :show
+      render json: ["Track was created"]
     else
-      render json: @track.errors.full_messages, status: :unprocessable_entity
+      render json: @track.errors.full_messages, status: 422
     end
   end
 
@@ -24,7 +28,7 @@ class Api::TracksController < ApplicationController
       @track.destroy
       render :show
     else
-      render json: ["Track does not exist"], status: :unprocessable_entity
+      render json: ["Track does not exist"], status: 422
     end
   end
 
@@ -33,12 +37,12 @@ class Api::TracksController < ApplicationController
     if @track.update(track_params)
       render :show
     else
-      render json: @track.errors.full_messages, status: :unprocessable_entity
+      render json: @track.errors.full_messages, status: 422
     end
   end
 
   private
   def track_params
-    params.require(:track).permit(:title) #:description, :artist)
+    params.require(:track).permit(:title, :artist)
   end
 end

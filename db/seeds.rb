@@ -78,40 +78,44 @@ popular = Playlist.create!(
   name: "Popular"
 )
 
+favorites = Playlist.create!(
+  name: "Favorites"
+)
+
 Post.destroy_all
 
 Post.create!(
-  track_id: track_1.id,
+  track: track_1,
   track_info: "Kanye West's album The Life of Pablo will finally be available to stream and purchase outside of TIDAL",
   blog_id: pitchfork.id
 )
 
 Post.create!(
-  track_id: track_2.id,
+  track: track_2,
   track_info: "It appears Oxford outfit Foals wanted to hit the ground running with album four",
   blog_id: pitchfork.id
 )
 
 Post.create!(
-  track_id: track_3.id,
+  track: track_3,
   track_info: "Bounce-Worthy talent Gallant has accomplished much in short amount of time and is now on the verge of releasing his",
   blog_id: pitchfork.id
 )
 
 Post.create!(
-  track_id: track_3.id,
+  track: track_3,
   track_info: "This song is straight up Ginuwine, Dru Hill, Jodeci, H-Town nostalgia. A powerful voice worth it's weight in gold",
   blog_id: the_fader.id
 )
 
 Post.create!(
-  track_id: track_3.id,
+  track: track_3,
   track_info: "Art lives on heartbreak. I was first introduced to Gallant, the young soaring R&B star when I saw him perform",
   blog_id: stereogum.id
 )
 
 Post.create!(
-  track_id: track_4.id,
+  track: track_4,
   track_info: "With the sea of falsetto-oriented R&B cropping up on the daily, it takes a solid track to truly standout",
   blog_id: the_fader.id
 )

@@ -54,10 +54,10 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var TrackIndex = __webpack_require__(216);
-	var TrackForm = __webpack_require__(250);
-	var App = __webpack_require__(246);
-	var LoginForm = __webpack_require__(247);
-	var UserForm = __webpack_require__(248);
+	var TrackForm = __webpack_require__(246);
+	var App = __webpack_require__(247);
+	var LoginForm = __webpack_require__(248);
+	var UserForm = __webpack_require__(249);
 	var ApiUtil = __webpack_require__(240);
 	
 	var router = React.createElement(
@@ -31951,8 +31951,85 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(240);
+	
+	var TrackForm = React.createClass({
+	  displayName: 'TrackForm',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      title: "",
+	      imageFile: null,
+	      imageUrl: null
+	    };
+	  },
+	
+	  updateTitle: function (e) {
+	    this.setState({ title: e.currentTarget.value });
+	  },
+	
+	  updateFile: function (e) {
+	    var file = e.currentTarget.files[0];
+	    var reader = new FileReader();
+	
+	    reader.onloadend = function () {
+	      var result = reader.result;
+	      this.setState({ imageFile: file, imageUrl: result });
+	    }.bind(this);
+	
+	    reader.readAsDataURL(file);
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var formData = new FormData();
+	    formData.append("track[title]", this.state.title);
+	    formData.append("post[image]", this.state.imageFile);
+	
+	    ApiUtil.createTrack(formData);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          null,
+	          'Title'
+	        ),
+	        React.createElement('input', { onChange: this.updateTitle, type: 'text', value: this.state.title }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Image'
+	        ),
+	        React.createElement('input', { onChnage: this.updateFile, type: 'file' }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Save Track'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = TrackForm;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(244);
 	var ApiUtil = __webpack_require__(240);
+	var Player = __webpack_require__(250);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -32046,6 +32123,7 @@
 	          )
 	        )
 	      ),
+	      React.createElement(Player, null),
 	      this.props.children
 	    );
 	  },
@@ -32062,7 +32140,7 @@
 	module.exports = App;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32137,7 +32215,7 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32224,81 +32302,39 @@
 	module.exports = UserForm;
 
 /***/ },
-/* 249 */,
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(240);
+	// var PlayerStore = require('../stores/player');
+	var TrackStore = __webpack_require__(217);
 	
-	var TrackForm = React.createClass({
-	  displayName: 'TrackForm',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      title: "",
-	      imageFile: null,
-	      imageUrl: null
-	    };
-	  },
-	
-	  updateTitle: function (e) {
-	    this.setState({ title: e.currentTarget.value });
-	  },
-	
-	  updateFile: function (e) {
-	    var file = e.currentTarget.files[0];
-	    var reader = new FileReader();
-	
-	    reader.onloadend = function () {
-	      var result = reader.result;
-	      this.setState({ imageFile: file, imageUrl: result });
-	    }.bind(this);
-	
-	    reader.readAsDataURL(file);
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var formData = new FormData();
-	    formData.append("track[title]", this.state.title);
-	    formData.append("post[image]", this.state.imageFile);
-	
-	    ApiUtil.createTrack(formData);
-	  },
+	var Player = React.createClass({
+	  displayName: 'Player',
 	
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'player' },
 	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
+	        'nav',
+	        { className: 'player-nav group' },
 	        React.createElement(
-	          'label',
-	          null,
-	          'Title'
+	          'div',
+	          { className: 'player-controls' },
+	          'Player Controls'
 	        ),
-	        React.createElement('input', { onChange: this.updateTitle, type: 'text', value: this.state.title }),
-	        React.createElement('br', null),
 	        React.createElement(
-	          'label',
-	          null,
-	          'Image'
-	        ),
-	        React.createElement('input', { onChnage: this.updateFile, type: 'file' }),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Save Track'
+	          'div',
+	          { className: 'user-menu' },
+	          'User menu'
 	        )
 	      )
 	    );
 	  }
 	});
 	
-	module.exports = TrackForm;
+	module.exports = Player;
 
 /***/ }
 /******/ ]);

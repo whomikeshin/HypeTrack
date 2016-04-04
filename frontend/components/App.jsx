@@ -1,6 +1,7 @@
 var React = require('react');
 var SessionStore = require('../stores/session');
 var ApiUtil = require('../util/api_util');
+var Player = require('./player');
 
 var App = React.createClass({
   contextTypes: {
@@ -46,6 +47,7 @@ var App = React.createClass({
 
           </nav>
         </header>
+        <Player />
         {this.props.children}
       </div>
     );

@@ -17,4 +17,5 @@ class Track < ActiveRecord::Base
   has_many :user_favorites, through: :favorites, source: :user
 
   validates :title, presence: true
+
 end

@@ -49,6 +49,8 @@ button {
   background: #83c441;
   height: 42px;
   line-height: 42px;
+  z-index: 201;
+  position: relative;
 }
 
 .header a {
@@ -86,7 +88,39 @@ button {
   color: #e0e0e0;
 }
 
+/*/ Player /*/
+
+.player {
+  display: block;
+  background: #222;
+  color: #e0e0e0;
+  height: 33px;
+  width: 100%;
+  line-height: 20px;
+  position: absolute;
+  left: 0;
+  z-index: 200;
+}
+
+.player-nav {
+  position: relative;
+  width: 1038px;
+  margin: 0 auto;
+}
+
+.player-controls{
+  float: left;
+  position: relative;
+  width: 728px;
+}
+
+.user-menu {
+  position: absolute;
+  right: 0;
+}
+
 /* Track Index */
+
 .content {
   position: relative;
   margin: 0 auto;
