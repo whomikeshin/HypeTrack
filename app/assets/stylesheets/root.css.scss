@@ -90,7 +90,7 @@ button {
 
 /*/ Player /*/
 
-.player {
+.player-container {
   display: block;
   background: #222;
   color: #e0e0e0;
@@ -102,7 +102,7 @@ button {
   z-index: 200;
 }
 
-.player-nav {
+.player {
   position: relative;
   width: 1038px;
   margin: 0 auto;
@@ -114,12 +114,11 @@ button {
   width: 728px;
 }
 
-.user-menu {
-  position: absolute;
-  right: 0;
+.login-menu, .profile-menu {
+  float: right;
 }
 
-.user-buttons > button {
+.login-button, .signup-button {
   float: right;
   font-size: 14px;
   margin-left: 5px;

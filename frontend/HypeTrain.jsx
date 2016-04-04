@@ -10,8 +10,8 @@ var hashHistory = ReactRouter.hashHistory;
 var TrackIndex = require('./components/track/index');
 var TrackForm = require('./components/track/track_form');
 var App = require('./components/app');
-var LoginForm = require('./components/user/login_form');
-var UserForm = require('./components/user/user_form');
+// var LoginForm = require('./components/user/login_form');
+// var UserForm = require('./components/user/user_form');
 var ApiUtil = require('./util/api_util');
 
 var Modal = require("react-modal");
@@ -22,30 +22,31 @@ var router = (
       <Route path="tracks" component={TrackIndex}/>
       <Route path="upload" component={TrackForm}/>
     </Route>
-
-    <Route path="/users" component={UserForm}/>
-    <Route path="/login" component={LoginForm}/>
   </Router>
 );
 
-function _requireLoggedIn(nextState, replace, callback) {
-  if (!SessionStore.currentUserHasBeenFetched()) {
-    ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
-  } else {
-    _redirectIfNotLoggedIn();
-  }
-
-  function _redirectIfNotLoggedIn () {
-    if (!SessionStore.isLoggedIn()) {
-      replace("/login");
-    }
-
-    callback();
-  }
-}
 
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.getElementById('root');
   Modal.setAppElement(root);
   ReactDOM.render(router, root);
 });
+
+// <Route path="/users" component={UserForm}/>
+// <Route path="/login" component={LoginForm}/>
+
+// function _requireLoggedIn(nextState, replace, callback) {
+//   if (!SessionStore.currentUserHasBeenFetched()) {
+//     ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
+//   } else {
+//     _redirectIfNotLoggedIn();
+//   }
+//
+//   function _redirectIfNotLoggedIn () {
+//     if (!SessionStore.isLoggedIn()) {
+//       replace("/login");
+//     }
+//
+//     callback();
+//   }
+// }

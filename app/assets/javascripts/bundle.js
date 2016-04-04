@@ -56,8 +56,8 @@
 	var TrackIndex = __webpack_require__(216);
 	var TrackForm = __webpack_require__(246);
 	var App = __webpack_require__(247);
-	var LoginForm = __webpack_require__(272);
-	var UserForm = __webpack_require__(249);
+	// var LoginForm = require('./components/user/login_form');
+	// var UserForm = require('./components/user/user_form');
 	var ApiUtil = __webpack_require__(240);
 	
 	var Modal = __webpack_require__(251);
@@ -70,32 +70,33 @@
 	    { path: '/', component: App },
 	    React.createElement(Route, { path: 'tracks', component: TrackIndex }),
 	    React.createElement(Route, { path: 'upload', component: TrackForm })
-	  ),
-	  React.createElement(Route, { path: '/users', component: UserForm }),
-	  React.createElement(Route, { path: '/login', component: LoginForm })
+	  )
 	);
-	
-	function _requireLoggedIn(nextState, replace, callback) {
-	  if (!SessionStore.currentUserHasBeenFetched()) {
-	    ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
-	  } else {
-	    _redirectIfNotLoggedIn();
-	  }
-	
-	  function _redirectIfNotLoggedIn() {
-	    if (!SessionStore.isLoggedIn()) {
-	      replace("/login");
-	    }
-	
-	    callback();
-	  }
-	}
 	
 	document.addEventListener("DOMContentLoaded", function () {
 	  var root = document.getElementById('root');
 	  Modal.setAppElement(root);
 	  ReactDOM.render(router, root);
 	});
+	
+	// <Route path="/users" component={UserForm}/>
+	// <Route path="/login" component={LoginForm}/>
+
+	// function _requireLoggedIn(nextState, replace, callback) {
+	//   if (!SessionStore.currentUserHasBeenFetched()) {
+	//     ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
+	//   } else {
+	//     _redirectIfNotLoggedIn();
+	//   }
+	//
+	//   function _redirectIfNotLoggedIn () {
+	//     if (!SessionStore.isLoggedIn()) {
+	//       replace("/login");
+	//     }
+	//
+	//     callback();
+	//   }
+	// }
 
 /***/ },
 /* 1 */
@@ -31821,6 +31822,7 @@
 	
 	var SessionActions = {
 	  currentUserReceived: function (currentUser) {
+	    debugger;
 	    AppDispatcher.dispatch({
 	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
 	      currentUser: currentUser
@@ -31879,6 +31881,7 @@
 	      SessionStore.__emitChange();
 	      break;
 	    case SessionConstants.LOGOUT:
+	      debugger;
 	      _currentUser = null;
 	      SessionStore.__emitChange();
 	      break;
@@ -32033,6 +32036,9 @@
 	var SessionStore = __webpack_require__(244);
 	var ApiUtil = __webpack_require__(240);
 	var Player = __webpack_require__(248);
+	var UserModal = __webpack_require__(275);
+	var LoginModal = __webpack_require__(276);
+	var ProfileMenu = __webpack_require__(277);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -32053,31 +32059,35 @@
 	  },
 	
 	  render: function () {
-	    var button, welcomeMessage;
+	    var sideMenu, welcomeMessage;
 	    if (this.state.currentUser) {
-	      button = React.createElement(
-	        'button',
-	        { className: 'logout', onClick: ApiUtil.logout },
-	        'Logout'
-	      );
 	      welcomeMessage = React.createElement(
 	        'h2',
 	        null,
 	        this.state.currentUser.username
 	      );
+	      sideMenu = React.createElement(
+	        'div',
+	        { className: 'profile-menu' },
+	        React.createElement(ProfileMenu, null)
+	      );
 	    } else {
 	      welcomeMessage = React.createElement(
 	        'h2',
 	        null,
-	        'Sign In!'
+	        'Sign In'
+	      );
+	      sideMenu = React.createElement(
+	        'div',
+	        { className: 'login-menu' },
+	        React.createElement(UserModal, null),
+	        React.createElement(LoginModal, null)
 	      );
 	    }
 	
 	    return React.createElement(
 	      'div',
 	      null,
-	      button,
-	      welcomeMessage,
 	      React.createElement(
 	        'header',
 	        { className: 'header' },
@@ -32126,8 +32136,21 @@
 	          )
 	        )
 	      ),
-	      this.props.children,
-	      React.createElement(Player, null)
+	      React.createElement(
+	        'nav',
+	        { className: 'player-container' },
+	        React.createElement(
+	          'div',
+	          { className: 'player group' },
+	          React.createElement(Player, null)
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'side-menu' },
+	          sideMenu
+	        )
+	      ),
+	      this.props.children
 	    );
 	  },
 	
@@ -32135,7 +32158,7 @@
 	    if (SessionStore.isLoggedIn()) {
 	      this.setState({ currentUser: SessionStore.currentUser() });
 	    } else {
-	      this.context.router.push("/login");
+	      this.setState({ currentUser: null });
 	    }
 	  }
 	});
@@ -32149,7 +32172,6 @@
 	var React = __webpack_require__(1);
 	var PlayerStore = __webpack_require__(274);
 	var TrackStore = __webpack_require__(217);
-	var UserMenu = __webpack_require__(273);
 	
 	var Player = React.createClass({
 	  displayName: 'Player',
@@ -32157,25 +32179,8 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'player' },
-	      React.createElement(
-	        'nav',
-	        { className: 'player-nav group' },
-	        React.createElement(
-	          'div',
-	          { className: 'player-controls' },
-	          'Player Controls'
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'user-menu' },
-	          React.createElement(
-	            'div',
-	            { className: 'user-buttons' },
-	            React.createElement(UserMenu, null)
-	          )
-	        )
-	      )
+	      { className: 'player-controls' },
+	      'Player Controls'
 	    );
 	  }
 	});
@@ -34271,16 +34276,28 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 273 */
+/* 273 */,
+/* 274 */
+/***/ function(module, exports) {
+
+	// var Store = require('flux/utils').Store;
+	// var AppDispatcher = require('../dispatcher/dispatcher');
+	// var PlayerConstants = require('../constants/session_constants');
+	//
+	// var PlayerStore = new Store(AppDispatcher);
+
+	// module.exports = PlayerStore;
+
+/***/ },
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var NewUserForm = __webpack_require__(249);
-	var LoginForm = __webpack_require__(272);
 	var Modal = __webpack_require__(251);
 	
-	var UserMenu = React.createClass({
-	  displayName: 'UserMenu',
+	var NewUserModal = React.createClass({
+	  displayName: 'NewUserModal',
 	
 	
 	  getInitialState: function () {
@@ -34301,7 +34318,7 @@
 	      null,
 	      React.createElement(
 	        'button',
-	        { onClick: this.openModal },
+	        { className: 'signup-button', onClick: this.openModal },
 	        'Sign up'
 	      ),
 	      React.createElement(
@@ -34310,10 +34327,44 @@
 	          isOpen: this.state.modalOpen,
 	          onRequestClose: this.closeModal },
 	        React.createElement(NewUserForm, null)
-	      ),
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewUserModal;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var LoginForm = __webpack_require__(272);
+	var Modal = __webpack_require__(251);
+	
+	var LoginModal = React.createClass({
+	  displayName: 'LoginModal',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
 	      React.createElement(
 	        'button',
-	        { onClick: this.openModal },
+	        { className: 'login-button', onClick: this.openModal },
 	        'Log in'
 	      ),
 	      React.createElement(
@@ -34327,19 +34378,99 @@
 	  }
 	});
 	
-	module.exports = UserMenu;
+	module.exports = LoginModal;
 
 /***/ },
-/* 274 */
-/***/ function(module, exports) {
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
 
-	// var Store = require('flux/utils').Store;
-	// var AppDispatcher = require('../dispatcher/dispatcher');
-	// var PlayerConstants = require('../constants/session_constants');
-	//
-	// var PlayerStore = new Store(AppDispatcher);
-
-	// module.exports = PlayerStore;
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(240);
+	
+	var ProfileMenu = React.createClass({
+	  displayName: 'ProfileMenu',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'ul',
+	        { className: 'profile-list' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Feed'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Favorites'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Friends'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Find Friends'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Find Blogs'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Settings'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Logout'
+	          )
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'logout', onClick: ApiUtil.logout },
+	          'Logout'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ProfileMenu;
 
 /***/ }
 /******/ ]);

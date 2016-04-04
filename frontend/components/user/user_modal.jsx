@@ -1,9 +1,8 @@
 var React = require('react');
 var NewUserForm = require('./user_form');
-var LoginForm = require('./login_form');
 var Modal = require('react-modal');
 
-var UserMenu = React.createClass({
+var NewUserModal = React.createClass({
 
   getInitialState: function() {
     return({ modalOpen: false });
@@ -20,22 +19,15 @@ var UserMenu = React.createClass({
   render: function() {
     return(
       <div>
-        <button onClick={this.openModal}>Sign up</button>
+        <button className="signup-button" onClick={this.openModal}>Sign up</button>
         <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}>
-            <NewUserForm />
-        </Modal>
-
-        <button onClick={this.openModal}>Log in</button>
-        <Modal
-          isOpen={this.state.modalOpen}
-          onRequestClose={this.closeModal}>
-            <LoginForm />
+          <NewUserForm />
         </Modal>
       </div>
     );
   }
 });
 
-module.exports = UserMenu;
+module.exports = NewUserModal;

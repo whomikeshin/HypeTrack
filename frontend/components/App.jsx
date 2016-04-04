@@ -2,6 +2,9 @@ var React = require('react');
 var SessionStore = require('../stores/session');
 var ApiUtil = require('../util/api_util');
 var Player = require('./player');
+var UserModal = require('./user/user_modal');
+var LoginModal = require('./user/login_modal');
+var ProfileMenu = require('./user/profile_menu');
 
 var App = React.createClass({
   contextTypes: {
@@ -20,18 +23,22 @@ var App = React.createClass({
   },
 
   render: function () {
-    var button, welcomeMessage;
+    var sideMenu, welcomeMessage;
     if (this.state.currentUser) {
-      button = <button className="logout" onClick={ApiUtil.logout}>Logout</button>;
       welcomeMessage = <h2>{this.state.currentUser.username}</h2>;
+      sideMenu = <div className="profile-menu">
+                    <ProfileMenu />
+                  </div>;
     } else {
-      welcomeMessage = <h2>Sign In!</h2>;
+      welcomeMessage = <h2>Sign In</h2>;
+      sideMenu = <div className="login-menu">
+                    <UserModal/>
+                    <LoginModal />
+                  </div>;
     }
 
     return (
       <div>
-        {button}
-        {welcomeMessage}
         <header className="header">
           <nav className="header-nav group">
 
@@ -47,8 +54,19 @@ var App = React.createClass({
 
           </nav>
         </header>
+
+        <nav className="player-container">
+
+          <div className="player group">
+            <Player />
+          </div>
+
+          <div className="side-menu">
+            {sideMenu}
+          </div>
+
+        </nav>
         {this.props.children}
-        <Player />
       </div>
     );
   },
@@ -57,7 +75,7 @@ var App = React.createClass({
     if (SessionStore.isLoggedIn()) {
       this.setState({ currentUser: SessionStore.currentUser() });
     } else {
-      this.context.router.push("/login");
+      this.setState({ currentUser: null });
     }
   }
 });
