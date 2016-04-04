@@ -8,10 +8,13 @@ class Track < ActiveRecord::Base
   belongs_to :artist
 
   has_many :posts
-  has_many :blogs, through: :posts
+  has_many :blogs, through: :posts, source: :blog
 
   has_many :tracks_playlists
   has_many :playlists, through: :tracks_playlists
+
+  has_many :favorites, dependent: :destroy
+  has_many :user_favorites, through: :favorites, source: :user
 
   validates :title, presence: true
 end

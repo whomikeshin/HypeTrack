@@ -2,7 +2,8 @@ class Api::TracksController < ApplicationController
   def index
     @tracks =
       Track.all
-        .includes(:blogs)
+        .includes(:posts)
+        .includes(:user_favorites)
 
     render :index
   end

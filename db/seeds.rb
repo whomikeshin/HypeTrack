@@ -80,37 +80,37 @@ popular = Playlist.create!(
 
 Post.destroy_all
 
-track_1_pitchfork = Post.create!(
+Post.create!(
   track_id: track_1.id,
   track_info: "Kanye West's album The Life of Pablo will finally be available to stream and purchase outside of TIDAL",
   blog_id: pitchfork.id
 )
 
-track_2_pitchfork = Post.create!(
+Post.create!(
   track_id: track_2.id,
   track_info: "It appears Oxford outfit Foals wanted to hit the ground running with album four",
   blog_id: pitchfork.id
 )
 
-track_3_pitchfork = Post.create!(
+Post.create!(
   track_id: track_3.id,
   track_info: "Bounce-Worthy talent Gallant has accomplished much in short amount of time and is now on the verge of releasing his",
   blog_id: pitchfork.id
 )
 
-track_3_the_fader = Post.create!(
+Post.create!(
   track_id: track_3.id,
   track_info: "This song is straight up Ginuwine, Dru Hill, Jodeci, H-Town nostalgia. A powerful voice worth it's weight in gold",
   blog_id: the_fader.id
 )
 
-track_3_stereogum = Post.create!(
+Post.create!(
   track_id: track_3.id,
   track_info: "Art lives on heartbreak. I was first introduced to Gallant, the young soaring R&B star when I saw him perform",
   blog_id: stereogum.id
 )
 
-track_4_stereogum = Post.create!(
+Post.create!(
   track_id: track_4.id,
   track_info: "With the sea of falsetto-oriented R&B cropping up on the daily, it takes a solid track to truly standout",
   blog_id: the_fader.id
@@ -118,22 +118,39 @@ track_4_stereogum = Post.create!(
 
 TracksPlaylist.destroy_all
 
-track_1_latest = TracksPlaylist.create!(
+TracksPlaylist.create!(
   track_id: track_1.id,
   playlist_id: latest.id
 )
 
-track_2_latest = TracksPlaylist.create!(
+TracksPlaylist.create!(
   track_id: track_2.id,
   playlist_id: latest.id
 )
 
-track_3_latest = TracksPlaylist.create!(
+TracksPlaylist.create!(
   track_id: track_3.id,
   playlist_id: latest.id
 )
 
-track_4_latest = TracksPlaylist.create!(
+TracksPlaylist.create!(
   track_id: track_4.id,
   playlist_id: latest.id
+)
+
+Favorite.destroy_all
+
+Favorite.create!(
+  user: me,
+  track: track_1
+)
+
+Favorite.create!(
+  user: me,
+  track: track_3
+)
+
+Favorite.create!(
+  user: me,
+  track: track_4
 )

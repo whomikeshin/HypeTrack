@@ -5,7 +5,9 @@ var TrackForm = React.createClass({
 
   getInitialState: function () {
     return {
-      title: ""
+      title: "",
+      imageFile: null,
+      imageUrl: null
     };
   },
 
@@ -13,20 +15,36 @@ var TrackForm = React.createClass({
     this.setState({ title: e.currentTarget.value });
   },
 
+  updateFile: function (e) {
+    var file = e.currentTarget.files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+      var result = reader.result;
+      this.setState({ imageFile: file, imageUrl: result });
+    }.bind(this);
+
+    reader.readAsDataURL(file);
+  },
+
   handleSubmit: function (e) {
     e.preventDefault();
     var formData = new FormData();
     formData.append("track[title]", this.state.title);
+    formData.append("post[image]", this.state.imageFile);
+
     ApiUtil.createTrack(formData);
   },
 
   render: function () {
     return(
       <div>
-        <h2>New Track</h2>
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="title">Title</label>
+          <label>Title</label>
           <input onChange={this.updateTitle} type="text" value={this.state.title}/>
+          <br/>
+          <label>Image</label>
+          <input onChnage={this.updateFile} type="file"></input>
 
           <button>Save Track</button>
         </form>

@@ -4,9 +4,14 @@ class User < ActiveRecord::Base
   after_initialize :ensure_session_token
 
   validates :username, :email, :session_token, uniqueness: true
+  validates_format_of :email, with: /@/
   validates :password, length: { minimum: 6, allow_nil: true }
   validates :username, :email, :password_digest, :session_token, :activation_token, presence: true
   # add in activation_token
+
+
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_tracks, through: :favorites, source: :tracks
 
   # add in find by email option
   def self.find_by_credentials(username, password)

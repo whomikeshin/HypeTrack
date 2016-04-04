@@ -32237,7 +32237,9 @@
 	
 	  getInitialState: function () {
 	    return {
-	      title: ""
+	      title: "",
+	      imageFile: null,
+	      imageUrl: null
 	    };
 	  },
 	
@@ -32245,10 +32247,24 @@
 	    this.setState({ title: e.currentTarget.value });
 	  },
 	
+	  updateFile: function (e) {
+	    var file = e.currentTarget.files[0];
+	    var reader = new FileReader();
+	
+	    reader.onloadend = function () {
+	      var result = reader.result;
+	      this.setState({ imageFile: file, imageUrl: result });
+	    }.bind(this);
+	
+	    reader.readAsDataURL(file);
+	  },
+	
 	  handleSubmit: function (e) {
 	    e.preventDefault();
 	    var formData = new FormData();
 	    formData.append("track[title]", this.state.title);
+	    formData.append("post[image]", this.state.imageFile);
+	
 	    ApiUtil.createTrack(formData);
 	  },
 	
@@ -32257,19 +32273,21 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        'h2',
-	        null,
-	        'New Track'
-	      ),
-	      React.createElement(
 	        'form',
 	        { onSubmit: this.handleSubmit },
 	        React.createElement(
 	          'label',
-	          { htmlFor: 'title' },
+	          null,
 	          'Title'
 	        ),
 	        React.createElement('input', { onChange: this.updateTitle, type: 'text', value: this.state.title }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Image'
+	        ),
+	        React.createElement('input', { onChnage: this.updateFile, type: 'file' }),
 	        React.createElement(
 	          'button',
 	          null,
