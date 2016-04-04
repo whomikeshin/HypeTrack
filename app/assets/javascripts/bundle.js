@@ -54,6 +54,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var TrackIndex = __webpack_require__(216);
+	var TrackForm = __webpack_require__(250);
 	var App = __webpack_require__(246);
 	var LoginForm = __webpack_require__(247);
 	var UserForm = __webpack_require__(248);
@@ -65,7 +66,8 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: App },
-	    React.createElement(Route, { path: 'tracks', component: TrackIndex })
+	    React.createElement(Route, { path: 'tracks', component: TrackIndex }),
+	    React.createElement(Route, { path: 'upload', component: TrackForm })
 	  ),
 	  React.createElement(Route, { path: '/users', component: UserForm }),
 	  React.createElement(Route, { path: '/login', component: LoginForm })
@@ -24897,7 +24899,11 @@
 	TrackStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case TrackConstants.TRACKS_RECEIVED:
-	      var result = resetTracks(payload.tracks);
+	      resetTracks(payload.tracks);
+	      TrackStore.__emitChange();
+	      break;
+	    case TrackConstants.SINGLE_TRACK_RECEIVED:
+	      _tracks[payload.track.id] = payload.track;
 	      TrackStore.__emitChange();
 	      break;
 	  }
@@ -31700,6 +31706,23 @@
 	    });
 	  },
 	
+	  createTrack: function (formData, callback) {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/tracks',
+	      processData: false,
+	      contentType: false,
+	      data: formData,
+	      success: function (track) {
+	        ApiActions.receiveSingleTrack(track);
+	        callback && callback();
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  },
+	
 	  login: function (credentials, callback) {
 	    $.ajax({
 	      type: 'POST',
@@ -31707,6 +31730,8 @@
 	      data: credentials,
 	      success: function (currentUser) {
 	        SessionActions.currentUserReceived(currentUser);
+	      },
+	      complete: function () {
 	        callback && callback();
 	      }
 	    });
@@ -32197,6 +32222,65 @@
 	});
 	
 	module.exports = UserForm;
+
+/***/ },
+/* 249 */,
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(240);
+	
+	var TrackForm = React.createClass({
+	  displayName: 'TrackForm',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      title: ""
+	    };
+	  },
+	
+	  updateTitle: function (e) {
+	    this.setState({ title: e.currentTarget.value });
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var formData = new FormData();
+	    formData.append("track[title]", this.state.title);
+	    ApiUtil.createTrack(formData);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h2',
+	        null,
+	        'New Track'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'title' },
+	          'Title'
+	        ),
+	        React.createElement('input', { onChange: this.updateTitle, type: 'text', value: this.state.title }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Save Track'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = TrackForm;
 
 /***/ }
 /******/ ]);

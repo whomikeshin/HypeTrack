@@ -1,27 +1,20 @@
 User.destroy_all
 
 me = User.create!(
-  email: "mikekshin@hotmail.com",
+  email: "mike@hotmail.com",
   username: "mike",
   password: "password",
   activation_token: 1
 )
 
-kanye = User.create!(
-  email: "yeezy@hotmail.com",
-  username: "yeezy",
-  password: "password",
-  activation_token: 2
-)
-
 Artist.destroy_all
 
-kill_j = Artist.create!(
-  name: "Kill J"
+kanye = Artist.create!(
+  name: "Kanye"
 )
 
-miguel = Artist.create!(
-  name: "Miguel"
+foals = Artist.create!(
+  name: "Foals"
 )
 
 gallant = Artist.create!(
@@ -48,23 +41,31 @@ stereogum = Blog.create!(
 Track.destroy_all
 
 track_1 = Track.create!(
-  title: "You're Good But I'm Better",
-  artist: kill_j,
+  title: "Fade",
+  artist: kanye,
+  # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg",
+  # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Kanye+-+Fade.mp3",
 )
 
 track_2 = Track.create!(
-  title: "Waves",
-  artist: miguel,
+  title: "London Thunder",
+  artist: foals,
+  # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg",
+  # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Foals+-+London+Thunder.mp3",
 )
 
 track_3 = Track.create!(
   title: "Weight in Gold",
   artist: gallant,
+  # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg",
+  # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Weight+In+Gold.mp3"
 )
 
 track_4 = Track.create!(
   title: "Bourbon",
   artist: gallant,
+  # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg",
+  # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Bourbon.mp3"
 )
 
 Playlist.destroy_all
@@ -81,20 +82,14 @@ Post.destroy_all
 
 track_1_pitchfork = Post.create!(
   track_id: track_1.id,
-  track_info: "Highly anticipated debut Quasi EP by forward thinking Danish citizen Kill J has finally landed",
+  track_info: "Kanye West's album The Life of Pablo will finally be available to stream and purchase outside of TIDAL",
   blog_id: pitchfork.id
 )
 
 track_2_pitchfork = Post.create!(
   track_id: track_2.id,
-  track_info: "Miguel dropping the remix to his single 'waves' yesterday and the whole #waves saga",
+  track_info: "It appears Oxford outfit Foals wanted to hit the ground running with album four",
   blog_id: pitchfork.id
-)
-
-track_2_the_fader = Post.create!(
-  track_id: track_2.id,
-  track_info: "Miguel recruits rap wunderkind Travis $cott for the remix of “Waves” and it obviously couldn’t have come at a better time",
-  blog_id: the_fader.id
 )
 
 track_3_pitchfork = Post.create!(

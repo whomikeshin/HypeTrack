@@ -16,6 +16,23 @@ ApiUtil = {
     });
   },
 
+  createTrack: function (formData, callback) {
+    $.ajax({
+      type: 'POST',
+      url: 'api/tracks',
+      processData: false,
+      contentType: false,
+      data: formData,
+      success: function (track) {
+        ApiActions.receiveSingleTrack(track);
+        callback && callback();
+      },
+      error: function(data) {
+        console.log(data);
+      },
+    });
+  },
+
   login: function (credentials, callback) {
     $.ajax({
       type: 'POST',
@@ -23,6 +40,8 @@ ApiUtil = {
       data: credentials,
       success: function (currentUser) {
         SessionActions.currentUserReceived(currentUser);
+      },
+      complete: function () {
         callback && callback();
       }
     });

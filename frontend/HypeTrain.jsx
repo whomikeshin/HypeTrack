@@ -8,6 +8,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 
 var TrackIndex = require('./components/track/index');
+var TrackForm = require('./components/track/track_form');
 var App = require('./components/app');
 var LoginForm = require('./components/login_form');
 var UserForm = require('./components/user/user_form');
@@ -17,6 +18,7 @@ var router = (
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <Route path="tracks" component={TrackIndex}/>
+      <Route path="upload" component={TrackForm}/>
     </Route>
 
     <Route path="/users" component={UserForm}/>

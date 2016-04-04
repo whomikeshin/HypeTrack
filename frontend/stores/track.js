@@ -16,7 +16,11 @@ TrackStore.all = function () {
 TrackStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case TrackConstants.TRACKS_RECEIVED:
-      var result = resetTracks(payload.tracks);
+      resetTracks(payload.tracks);
+      TrackStore.__emitChange();
+      break;
+    case TrackConstants.SINGLE_TRACK_RECEIVED:
+      _tracks[payload.track.id] = payload.track;
       TrackStore.__emitChange();
       break;
   }
