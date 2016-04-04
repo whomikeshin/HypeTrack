@@ -1,6 +1,7 @@
 var React = require('react');
-// var PlayerStore = require('../stores/player');
+var PlayerStore = require('../stores/player');
 var TrackStore = require('../stores/track');
+var UserMenu = require('./user/user_menu');
 
 var Player = React.createClass({
   render: function () {
@@ -12,7 +13,9 @@ var Player = React.createClass({
           </div>
 
           <div className="user-menu">
-            User menu
+            <div className="user-buttons">
+              <UserMenu />
+            </div>
           </div>
         </nav>
       </div>

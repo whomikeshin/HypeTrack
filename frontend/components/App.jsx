@@ -47,8 +47,8 @@ var App = React.createClass({
 
           </nav>
         </header>
-        <Player />
         {this.props.children}
+        <Player />
       </div>
     );
   },

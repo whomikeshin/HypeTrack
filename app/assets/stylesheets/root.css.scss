@@ -25,16 +25,16 @@ ul {
   list-style: none;
 }
 
-input, textarea, button {
+input, textarea {
   padding: 4px;
   border: 1px solid #ccc;
 }
 
 button {
+  padding: 4px;
   cursor: pointer;
   background: #3d3c3a;
   color: #e0e0e0;
-  float: right;
 }
 
 .group:after {
@@ -117,6 +117,13 @@ button {
 .user-menu {
   position: absolute;
   right: 0;
+}
+
+.user-buttons > button {
+  float: right;
+  font-size: 14px;
+  margin-left: 5px;
+  height: 100%;
 }
 
 /* Track Index */

@@ -1,5 +1,5 @@
 var React = require('react');
-var ApiUtil = require('../util/api_util');
+var ApiUtil = require('../../util/api_util');
 
 var LoginForm = React.createClass({
   contextTypes: {

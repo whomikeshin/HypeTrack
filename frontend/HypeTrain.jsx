@@ -10,9 +10,11 @@ var hashHistory = ReactRouter.hashHistory;
 var TrackIndex = require('./components/track/index');
 var TrackForm = require('./components/track/track_form');
 var App = require('./components/app');
-var LoginForm = require('./components/login_form');
+var LoginForm = require('./components/user/login_form');
 var UserForm = require('./components/user/user_form');
 var ApiUtil = require('./util/api_util');
+
+var Modal = require("react-modal");
 
 var router = (
   <Router history={hashHistory}>
@@ -44,5 +46,6 @@ function _requireLoggedIn(nextState, replace, callback) {
 
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.getElementById('root');
+  Modal.setAppElement(root);
   ReactDOM.render(router, root);
 });
