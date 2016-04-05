@@ -152,16 +152,16 @@ TracksPlaylist.create!(
 Favorite.destroy_all
 
 Favorite.create!(
-  user: yeezus,
+  user: guest,
   track: track_1
 )
 
 Favorite.create!(
-  user: yeezus,
+  user: me,
   track: track_3
 )
 
 Favorite.create!(
-  user: yeezus,
+  user: me,
   track: track_4
 )
