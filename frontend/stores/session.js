@@ -26,7 +26,6 @@ SessionStore.__onDispatch = function (payload) {
       SessionStore.__emitChange();
       break;
     case SessionConstants.LOGOUT:
-      debugger;
       _currentUser = null;
       SessionStore.__emitChange();
       break;

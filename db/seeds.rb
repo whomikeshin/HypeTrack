@@ -7,6 +7,13 @@ me = User.create!(
   activation_token: 1
 )
 
+yeezus = User.create!(
+  email: "kanye@hotmail.com",
+  username: "yeezus",
+  password: "password",
+  activation_token: 2
+)
+
 Artist.destroy_all
 
 kanye = Artist.create!(
@@ -145,16 +152,16 @@ TracksPlaylist.create!(
 Favorite.destroy_all
 
 Favorite.create!(
-  user: me,
+  user: yeezus,
   track: track_1
 )
 
 Favorite.create!(
-  user: me,
+  user: yeezus,
   track: track_3
 )
 
 Favorite.create!(
-  user: me,
+  user: yeezus,
   track: track_4
 )

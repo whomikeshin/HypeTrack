@@ -33,6 +33,32 @@ ApiUtil = {
     });
   },
 
+  createFavorite: function (track_id, success) {
+    $.ajax({
+      type: 'POST',
+      url: 'api/tracks/' + track_id + '/favorite',
+      success: function (track) {
+        ApiActions.receiveSingleTrack(track);
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  },
+
+  destroyFavorite: function (track_id, success) {
+    $.ajax({
+      type: 'DELETE',
+      url: 'api/tracks/' + track_id + '/favorite',
+      success: function (track) {
+        ApiActions.receiveSingleTrack(track);
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  },
+
   login: function (credentials, callback) {
     $.ajax({
       type: 'POST',

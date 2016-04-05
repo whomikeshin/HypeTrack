@@ -14,7 +14,7 @@ class Track < ActiveRecord::Base
   has_many :playlists, through: :tracks_playlists
 
   has_many :favorites, dependent: :destroy
-  has_many :user_favorites, through: :favorites, source: :user
+  has_many :lovers, through: :favorites, source: :user
 
   validates :title, presence: true
 

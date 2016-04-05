@@ -3,7 +3,7 @@ class Api::TracksController < ApplicationController
     @tracks =
       Track.all
         .includes(:posts)
-        .includes(:user_favorites)
+        .includes(:lovers)
 
     render :index
   end

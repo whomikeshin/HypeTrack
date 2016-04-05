@@ -31727,6 +31727,32 @@
 	    });
 	  },
 	
+	  createFavorite: function (track_id, success) {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/tracks/' + track_id + '/favorite',
+	      success: function (track) {
+	        ApiActions.receiveSingleTrack(track);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  },
+	
+	  destroyFavorite: function (track_id, success) {
+	    $.ajax({
+	      type: 'DELETE',
+	      url: 'api/tracks/' + track_id + '/favorite',
+	      success: function (track) {
+	        ApiActions.receiveSingleTrack(track);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  },
+	
 	  login: function (credentials, callback) {
 	    $.ajax({
 	      type: 'POST',
@@ -31822,7 +31848,6 @@
 	
 	var SessionActions = {
 	  currentUserReceived: function (currentUser) {
-	    debugger;
 	    AppDispatcher.dispatch({
 	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
 	      currentUser: currentUser
@@ -31881,7 +31906,6 @@
 	      SessionStore.__emitChange();
 	      break;
 	    case SessionConstants.LOGOUT:
-	      debugger;
 	      _currentUser = null;
 	      SessionStore.__emitChange();
 	      break;
@@ -31896,13 +31920,22 @@
 
 	var React = __webpack_require__(1);
 	var ReactRouter = __webpack_require__(159);
+	var SessionStore = __webpack_require__(244);
+	var ApiUtil = __webpack_require__(240);
 	
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
 	
 	  // mixins: [ReactRouter.history],
 	  render: function () {
+	    var favoriteButton;
 	    var track = this.props.track;
+	    var currentUser = SessionStore.currentUser();
+	
+	    if (currentUser) {
+	      favoriteButton = this._favorite();
+	    }
+	
 	    return React.createElement(
 	      'li',
 	      { className: 'track group' },
@@ -31944,9 +31977,53 @@
 	            { className: 'track-blog-description' },
 	            track.posts[0].track_info.slice(0, 200).concat("...")
 	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'fav-div' },
+	          track.favorite_count,
+	          favoriteButton
 	        )
 	      )
 	    );
+	  },
+	
+	  _favorite: function () {
+	    var track = this.props.track;
+	    var currentUser = SessionStore.currentUser();
+	    if (track.favorite_ids.includes(currentUser.id)) {
+	      return React.createElement(
+	        'button',
+	        {
+	          className: 'unfavorite',
+	          onClick: this._unfavorTrack.bind(this, track.id) },
+	        React.createElement(
+	          'div',
+	          { className: 'heart' },
+	          '♥'
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'button',
+	        {
+	          className: 'favorite',
+	          onClick: this._favorTrack.bind(this, track.id) },
+	        React.createElement(
+	          'div',
+	          { className: 'heart' },
+	          '♥'
+	        )
+	      );
+	    }
+	  },
+	
+	  _favorTrack: function (track_id) {
+	    ApiUtil.createFavorite(track_id);
+	  },
+	
+	  _unfavorTrack: function (track_id) {
+	    ApiUtil.destroyFavorite(track_id);
 	  }
 	});
 	
@@ -34397,6 +34474,15 @@
 	      React.createElement(
 	        'ul',
 	        { className: 'profile-list' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '#' },
+	            'Me'
+	          )
+	        ),
 	        React.createElement(
 	          'li',
 	          null,

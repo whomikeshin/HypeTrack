@@ -229,7 +229,23 @@ button {
   line-height: 18px;
 }
 
+.fav-div {
+  background: transparent;
+  font-size: 20px;
+  color: #b3b3b3;
+  float: right;
+}
+
+.favorite {
+  color: #ed2024;
+}
+
+.unfavorite {
+  color: #b3b3b3;
+}
+
 /*/ Forms /*/
+
 .login-form {
   height: 290px;
   width: 370px;

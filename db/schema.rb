@@ -80,6 +80,15 @@ ActiveRecord::Schema.define(version: 20160404010051) do
 
   add_index "tracks", ["title", "artist_id"], name: "index_tracks_on_title_and_artist_id", unique: true, using: :btree
 
+  create_table "tracks_blogs", force: :cascade do |t|
+    t.integer  "track_id"
+    t.integer  "blog_id"
+    t.datetime "post_date"
+  end
+
+  add_index "tracks_blogs", ["blog_id"], name: "index_tracks_blogs_on_blog_id", using: :btree
+  add_index "tracks_blogs", ["track_id"], name: "index_tracks_blogs_on_track_id", using: :btree
+
   create_table "tracks_playlists", force: :cascade do |t|
     t.integer  "track_id"
     t.integer  "playlist_id"

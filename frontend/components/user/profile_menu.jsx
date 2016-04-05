@@ -6,6 +6,7 @@ var ProfileMenu = React.createClass({
     return(
       <div>
         <ul className="profile-list">
+          <li><a href="#">Me</a></li>
           <li><a href="#">Feed</a></li>
           <li><a href="#">Favorites</a></li>
           <li><a href="#">Friends</a></li>
