@@ -18,12 +18,12 @@ var LoginForm = React.createClass({
       <div className="login-form">
         <h1>Log In To Hype Train</h1>
 
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this._handleSubmit}>
           <label htmlFor="username">Username</label>
-          <input onChange={this.updateUsername} type="text" value={this.state.username}/>
+          <input onChange={this._updateUsername} type="text" value={this.state.username}/>
 
           <label htmlFor="password">Password</label>
-          <input onChange={this.updatePassword} type="password" value={this.state.password}/>
+          <input onChange={this._updatePassword} type="password" value={this.state.password}/>
 
           <button>Log in</button>
         </form>
@@ -31,7 +31,7 @@ var LoginForm = React.createClass({
     );
   },
 
-  handleSubmit: function (e) {
+  _handleSubmit: function (e) {
     e.preventDefault();
 
     var router = this.context.router;
@@ -41,11 +41,11 @@ var LoginForm = React.createClass({
     });
   },
 
-  updateUsername: function (e) {
+  _updateUsername: function (e) {
     this.setState({ username: e.currentTarget.value });
   },
 
-  updatePassword: function (e) {
+  _updatePassword: function (e) {
     this.setState({ password: e.currentTarget.value });
   }
 });

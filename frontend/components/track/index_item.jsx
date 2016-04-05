@@ -1,14 +1,16 @@
 var React = require('react');
 var ReactRouter = require('react-router');
+var Link = require('react-router').Link;
 var SessionStore = require('../../stores/session');
+var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
 
 var IndexItem = React.createClass({
+
   render: function () {
     var favoriteButton;
     var track = this.props.track;
     var currentUser = SessionStore.currentUser();
-
     if (currentUser) {
       favoriteButton = this._favorite();
     }
@@ -27,18 +29,21 @@ var IndexItem = React.createClass({
             {track.title}
           </div>
 
-          <section className="track-blog">
-            <div className="track-blog-count">
-              Posted by {track.blog_count} blogs
+          <section className="track-post">
+            <div className="track-post-count">
+              Posted by {track.post_count} blogs
             </div>
 
             <div className="track-blog-name">
               {track.blogs[0].name}
             </div>
 
-            <p className="track-blog-description">
+            <p className="track-post-info">
               {track.posts[0].track_info.slice(0, 200).concat("...")}
             </p>
+
+            <a href={track.posts[0].post_url} className="track-blog">Read Post →</a>
+
           </section>
         </section>
 
@@ -79,7 +84,11 @@ var IndexItem = React.createClass({
 
   _unfavorTrack: function (track_id) {
     ApiUtil.destroyFavorite(track_id);
-  }
+  },
+
+  _onTrackChange: function () {
+    this.forceUpdate();
+  },
 });
 
 module.exports = IndexItem;

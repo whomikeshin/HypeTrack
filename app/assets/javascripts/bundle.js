@@ -55,6 +55,8 @@
 	
 	var TrackIndex = __webpack_require__(216);
 	var TrackForm = __webpack_require__(246);
+	var Profile = __webpack_require__(276);
+	
 	var App = __webpack_require__(247);
 	
 	var ApiUtil = __webpack_require__(240);
@@ -68,7 +70,8 @@
 	    Route,
 	    { path: '/', component: App },
 	    React.createElement(Route, { path: 'tracks', component: TrackIndex }),
-	    React.createElement(Route, { path: 'upload', component: TrackForm })
+	    React.createElement(Route, { path: 'upload', component: TrackForm }),
+	    React.createElement(Route, { path: 'users/:id', component: Profile })
 	  )
 	);
 	
@@ -24903,7 +24906,12 @@
 	      TrackStore.__emitChange();
 	      break;
 	    case TrackConstants.SINGLE_TRACK_RECEIVED:
-	      _tracks[payload.track.id] = payload.track;
+	      for (var i = 0; i < _tracks.length; i++) {
+	        if (_tracks[i].id === payload.track.id) {
+	          _tracks[i] = payload.track;
+	        }
+	      }
+	      // _tracks[payload.track.id] = payload.track;
 	      TrackStore.__emitChange();
 	      break;
 	  }
@@ -31690,7 +31698,6 @@
 
 	var ApiActions = __webpack_require__(241);
 	var SessionActions = __webpack_require__(242);
-	var SessionStore = __webpack_require__(244);
 	
 	ApiUtil = {
 	  fetchTracks: function () {
@@ -31793,9 +31800,23 @@
 	      data: { user: formData },
 	      success: function (currentUser) {
 	        SessionActions.currentUserReceived(currentUser);
-	      },
-	      complete: function () {
 	        callback && callback();
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  },
+	
+	  fetchUser: function (user_id) {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/user' + user_id,
+	      success: function (user) {
+	        ApiActions.receiveUsers([user]);
+	      },
+	      error: function (data) {
+	        console.log(data);
 	      }
 	    });
 	  }
@@ -31809,6 +31830,7 @@
 
 	var AppDispatcher = __webpack_require__(236);
 	var TrackConstants = __webpack_require__(239);
+	var UserConstants = __webpack_require__(275);
 	
 	var ApiActions = {
 	  receiveTracks: function (tracks) {
@@ -31829,6 +31851,13 @@
 	    AppDispatcher.dispatch({
 	      actionType: TrackConstants.TRACK_REMOVED,
 	      track: track
+	    });
+	  },
+	
+	  receiveUsers: function (users) {
+	    AppDispatcher.dispatch({
+	      actionType: UserConstants.USERS_RECEIVED,
+	      users: users
 	    });
 	  }
 	};
@@ -31916,17 +31945,19 @@
 
 	var React = __webpack_require__(1);
 	var ReactRouter = __webpack_require__(159);
+	var Link = __webpack_require__(159).Link;
 	var SessionStore = __webpack_require__(244);
+	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
 	
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
 	
+	
 	  render: function () {
 	    var favoriteButton;
 	    var track = this.props.track;
 	    var currentUser = SessionStore.currentUser();
-	
 	    if (currentUser) {
 	      favoriteButton = this._favorite();
 	    }
@@ -31954,12 +31985,12 @@
 	        ),
 	        React.createElement(
 	          'section',
-	          { className: 'track-blog' },
+	          { className: 'track-post' },
 	          React.createElement(
 	            'div',
-	            { className: 'track-blog-count' },
+	            { className: 'track-post-count' },
 	            'Posted by ',
-	            track.blog_count,
+	            track.post_count,
 	            ' blogs'
 	          ),
 	          React.createElement(
@@ -31969,8 +32000,13 @@
 	          ),
 	          React.createElement(
 	            'p',
-	            { className: 'track-blog-description' },
+	            { className: 'track-post-info' },
 	            track.posts[0].track_info.slice(0, 200).concat("...")
+	          ),
+	          React.createElement(
+	            'a',
+	            { href: track.posts[0].post_url, className: 'track-blog' },
+	            'Read Post →'
 	          )
 	        )
 	      ),
@@ -32019,6 +32055,10 @@
 	
 	  _unfavorTrack: function (track_id) {
 	    ApiUtil.destroyFavorite(track_id);
+	  },
+	
+	  _onTrackChange: function () {
+	    this.forceUpdate();
 	  }
 	});
 	
@@ -32105,6 +32145,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
 	var SessionStore = __webpack_require__(244);
 	var ApiUtil = __webpack_require__(240);
 	var Player = __webpack_require__(248);
@@ -32150,10 +32191,18 @@
 	        'Sign In'
 	      );
 	      sideMenu = React.createElement(
-	        'div',
+	        'ul',
 	        { className: 'login-menu' },
-	        React.createElement(UserModal, null),
-	        React.createElement(LoginModal, null)
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(UserModal, null)
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(LoginModal, null)
+	        )
 	      );
 	    }
 	
@@ -32170,8 +32219,8 @@
 	            'h1',
 	            { className: 'header-logo' },
 	            React.createElement(
-	              'a',
-	              { href: '#' },
+	              Link,
+	              { to: "/tracks/" },
 	              'Hype Train'
 	            )
 	          ),
@@ -32214,12 +32263,12 @@
 	        React.createElement(
 	          'div',
 	          { className: 'player group' },
-	          React.createElement(Player, null)
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'side-menu' },
-	          sideMenu
+	          React.createElement(Player, null),
+	          React.createElement(
+	            'div',
+	            { className: 'side-menu group' },
+	            sideMenu
+	          )
 	        )
 	      ),
 	      this.props.children
@@ -32371,25 +32420,25 @@
 	      ),
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit },
+	        { onSubmit: this._handleSubmit },
 	        React.createElement(
 	          'label',
 	          { htmlFor: 'email' },
 	          'Email'
 	        ),
-	        React.createElement('input', { onChange: this.updateEmail, type: 'text', value: this.state.email }),
+	        React.createElement('input', { onChange: this._updateEmail, type: 'text', value: this.state.email }),
 	        React.createElement(
 	          'label',
 	          { htmlFor: 'username' },
 	          'Username'
 	        ),
-	        React.createElement('input', { onChange: this.updateUsername, type: 'text', value: this.state.username }),
+	        React.createElement('input', { onChange: this._updateUsername, type: 'text', value: this.state.username }),
 	        React.createElement(
 	          'label',
 	          { htmlFor: 'password' },
 	          'Password'
 	        ),
-	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement('input', { onChange: this._updatePassword, type: 'password', value: this.state.password }),
 	        React.createElement(
 	          'button',
 	          null,
@@ -32399,7 +32448,7 @@
 	    );
 	  },
 	
-	  handleSubmit: function (e) {
+	  _handleSubmit: function (e) {
 	    e.preventDefault();
 	
 	    var router = this.context.router;
@@ -32408,15 +32457,15 @@
 	    });
 	  },
 	
-	  updateEmail: function (e) {
+	  _updateEmail: function (e) {
 	    this.setState({ email: e.currentTarget.value });
 	  },
 	
-	  updateUsername: function (e) {
+	  _updateUsername: function (e) {
 	    this.setState({ username: e.currentTarget.value });
 	  },
 	
-	  updatePassword: function (e) {
+	  _updatePassword: function (e) {
 	    this.setState({ password: e.currentTarget.value });
 	  }
 	});
@@ -34444,19 +34493,19 @@
 	      ),
 	      React.createElement(
 	        'form',
-	        { onSubmit: this.handleSubmit },
+	        { onSubmit: this._handleSubmit },
 	        React.createElement(
 	          'label',
 	          { htmlFor: 'username' },
 	          'Username'
 	        ),
-	        React.createElement('input', { onChange: this.updateUsername, type: 'text', value: this.state.username }),
+	        React.createElement('input', { onChange: this._updateUsername, type: 'text', value: this.state.username }),
 	        React.createElement(
 	          'label',
 	          { htmlFor: 'password' },
 	          'Password'
 	        ),
-	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement('input', { onChange: this._updatePassword, type: 'password', value: this.state.password }),
 	        React.createElement(
 	          'button',
 	          null,
@@ -34466,7 +34515,7 @@
 	    );
 	  },
 	
-	  handleSubmit: function (e) {
+	  _handleSubmit: function (e) {
 	    e.preventDefault();
 	
 	    var router = this.context.router;
@@ -34476,11 +34525,11 @@
 	    });
 	  },
 	
-	  updateUsername: function (e) {
+	  _updateUsername: function (e) {
 	    this.setState({ username: e.currentTarget.value });
 	  },
 	
-	  updatePassword: function (e) {
+	  _updatePassword: function (e) {
 	    this.setState({ password: e.currentTarget.value });
 	  }
 	});
@@ -34493,23 +34542,27 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
+	var SessionStore = __webpack_require__(244);
+	var Link = __webpack_require__(159).Link;
 	
 	var ProfileMenu = React.createClass({
 	  displayName: 'ProfileMenu',
 	
 	  render: function () {
+	    var currentUser = SessionStore.currentUser();
+	    // debugger;
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(
 	        'ul',
-	        { className: 'profile-list' },
+	        { className: 'profile-list group' },
 	        React.createElement(
 	          'li',
 	          null,
 	          React.createElement(
-	            'a',
-	            { href: '#' },
+	            Link,
+	            { to: "/users/" + currentUser.id },
 	            'Me'
 	          )
 	        ),
@@ -34571,15 +34624,10 @@
 	          'li',
 	          null,
 	          React.createElement(
-	            'a',
-	            { href: '#' },
+	            'button',
+	            { className: 'logout', onClick: ApiUtil.logout },
 	            'Logout'
 	          )
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'logout', onClick: ApiUtil.logout },
-	          'Logout'
 	        )
 	      )
 	    );
@@ -34587,6 +34635,100 @@
 	});
 	
 	module.exports = ProfileMenu;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  USERS_RECEIVED: "USERS_RECEIVED"
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(277);
+	var ApiUtil = __webpack_require__(240);
+	var SessionStore = __webpack_require__(244);
+	
+	var Profile = React.createClass({
+	  displayName: 'Profile',
+	
+	
+	  // getInitialState: function () {
+	  //   return { user: null };
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.onChangeToken = UserStore.addListener(this._onChange);
+	  //   ApiUtil.fetchUser(this.props.params.id);
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.onChangeToken.remove();
+	  // },
+	  //
+	  // componentWillReceiveProps: function (nextProps) {
+	  //   ApiUtil.fetchUser(nextProps.params.id);
+	  // },
+	
+	  render: function () {
+	    var currentUser = SessionStore.currentUser;
+	    return React.createElement(
+	      'div',
+	      null,
+	      'My Feed',
+	      currentUser.username
+	    );
+	  },
+	
+	  _onChange: function () {
+	    var user = UserStore.find(this.props.params.id);
+	    this.setState({ user: user });
+	  }
+	});
+	
+	module.exports = Profile;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var Store = __webpack_require__(218).Store;
+	var UserConstants = __webpack_require__(275);
+	
+	var _users = [];
+	var UserStore = new Store(AppDispatcher);
+	
+	var resetUsers = function (users) {
+	  _users = users.slice();
+	};
+	
+	UserStore.all = function () {
+	  return _users.slice();
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.ActionType) {
+	    case UserConstants.USERS_RECEIVED:
+	      var result = resetUsers(payload.users);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	UserStore.find = function (user_id) {
+	  return _users.find(function (user) {
+	    return user.id === parseInt(user_id);
+	  });
+	};
+	
+	module.exports = UserStore;
 
 /***/ }
 /******/ ]);

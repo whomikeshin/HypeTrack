@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   resources :artists, only: [:create, :destroy]
 
   namespace :api, defaults: { format: :json } do
-    resources :users, only: [:create, :show]
+    resources :users, only: [:create, :show] do
+      resources :tracks, only: [:index]
+    end
+
     resource :session, only: [:create, :destroy, :show]
 
     resources :tracks, only: [:create, :destroy, :show, :update, :index] do

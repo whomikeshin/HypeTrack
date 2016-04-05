@@ -110,19 +110,34 @@ button {
 
 .player-controls{
   float: left;
-  position: relative;
   width: 728px;
 }
 
-.login-menu, .profile-menu {
+.side-menu {
   float: right;
 }
 
+.login-menu > li {
+  float: left;
+}
+
+.profile-list {
+  border: 1px solid #222;
+}
+
+.profile-list > a {
+  display: block;
+}
+
+.profile-list > li {
+  background: #3d3c3a;
+  padding: 4px;
+  border-bottom: 1px solid #222;
+}
+
 .login-button, .signup-button {
-  float: right;
   font-size: 14px;
   margin-left: 5px;
-  height: 100%;
 }
 
 /* Track Index */
@@ -207,22 +222,22 @@ button {
   padding: 0 5px;
 }
 
-.track-blog {
+.track-post {
   float: left;
   color: #0063dc;
   font-size: 13px;
 }
 
-.track-blog > div:hover {
+.track-post > div:hover {
   text-decoration: underline;
 }
 
-.track-blog-count {
+.track-post-count {
   padding: 5px 0;
   margin: 5px 0;
 }
 
-.track-blog-description {
+.track-post-info {
   color: #000;
   word-wrap: break-word;
   margin: 0 0 10px 0;
@@ -244,11 +259,11 @@ button {
 }
 
 .favorite {
-  color: #ed2024;
+  color: #b3b3b3;
 }
 
 .unfavorite {
-  color: #b3b3b3;
+  color: #ed2024;
 }
 
 /*/ Forms /*/
@@ -288,8 +303,4 @@ label {
   font-size: 14px;
   line-height: 16px;
   color: #000;
-}
-
-.modal {
-  background: #fff;
 }

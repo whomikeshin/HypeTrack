@@ -20,15 +20,15 @@ var UserForm = React.createClass({
     return (
       <div className="signup-form">
         <h1>Sign Up For Hype Train</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this._handleSubmit}>
           <label htmlFor="email">Email</label>
-          <input onChange={this.updateEmail} type="text" value={this.state.email}/>
+          <input onChange={this._updateEmail} type="text" value={this.state.email}/>
 
           <label htmlFor="username">Username</label>
-          <input onChange={this.updateUsername} type="text" value={this.state.username}/>
+          <input onChange={this._updateUsername} type="text" value={this.state.username}/>
 
           <label htmlFor="password">Password</label>
-          <input onChange={this.updatePassword} type="password" value={this.state.password}/>
+          <input onChange={this._updatePassword} type="password" value={this.state.password}/>
 
           <button>Submit</button>
         </form>
@@ -36,7 +36,7 @@ var UserForm = React.createClass({
     );
   },
 
-  handleSubmit: function (e) {
+  _handleSubmit: function (e) {
     e.preventDefault();
 
     var router = this.context.router;
@@ -45,15 +45,15 @@ var UserForm = React.createClass({
     });
   },
 
-  updateEmail: function (e) {
+  _updateEmail: function (e) {
     this.setState({ email: e.currentTarget.value });
   },
 
-  updateUsername: function (e) {
+  _updateUsername: function (e) {
     this.setState({ username: e.currentTarget.value });
   },
 
-  updatePassword: function (e) {
+  _updatePassword: function (e) {
     this.setState({ password: e.currentTarget.value });
   }
 });

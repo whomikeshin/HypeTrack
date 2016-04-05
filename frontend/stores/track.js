@@ -20,7 +20,12 @@ TrackStore.__onDispatch = function (payload) {
       TrackStore.__emitChange();
       break;
     case TrackConstants.SINGLE_TRACK_RECEIVED:
-      _tracks[payload.track.id] = payload.track;
+      for (var i = 0; i < _tracks.length; i++ ) {
+        if (_tracks[i].id === payload.track.id) {
+          _tracks[i] = payload.track;
+        }
+      }
+      // _tracks[payload.track.id] = payload.track;
       TrackStore.__emitChange();
       break;
   }

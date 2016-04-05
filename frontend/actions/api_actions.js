@@ -1,5 +1,6 @@
 var AppDispatcher = require('../dispatcher/dispatcher');
 var TrackConstants = require('../constants/track_constants');
+var UserConstants = require('../constants/user_constants');
 
 var ApiActions = {
   receiveTracks: function (tracks) {
@@ -20,6 +21,13 @@ var ApiActions = {
     AppDispatcher.dispatch({
       actionType: TrackConstants.TRACK_REMOVED,
       track: track
+    });
+  },
+
+  receiveUsers: function (users) {
+    AppDispatcher.dispatch({
+      actionType: UserConstants.USERS_RECEIVED,
+      users: users
     });
   }
 };

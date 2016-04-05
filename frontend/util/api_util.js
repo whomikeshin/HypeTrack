@@ -1,6 +1,5 @@
 var ApiActions = require('../actions/api_actions');
 var SessionActions = require('../actions/session_actions');
-var SessionStore = require('../stores/session');
 
 ApiUtil = {
   fetchTracks: function () {
@@ -103,9 +102,23 @@ ApiUtil = {
       data: { user: formData },
       success: function (currentUser) {
         SessionActions.currentUserReceived(currentUser);
-      },
-      complete: function () {
         callback && callback();
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  },
+
+  fetchUser: function (user_id) {
+    $.ajax({
+      type: 'GET',
+      url: 'api/user' + user_id,
+      success: function (user) {
+        ApiActions.receiveUsers([user]);
+      },
+      error: function (data) {
+        console.log(data);
       }
     });
   }

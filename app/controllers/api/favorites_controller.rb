@@ -6,19 +6,19 @@ class Api::FavoritesController < ApplicationController
 
     if favorite.save
       @track = favorite.track
-      render 'api/tracks/index'
+      render 'api/tracks/show'
     else
       render json: favorite.errors.full_messages, status: 422
     end
   end
 
   def destroy
-    favorite = current_user.favorites.find_by(track: params[:track_id])
+    favorite = current_user.favorites.find_by(track_id: params[:track_id])
 
     if favorite
-      favorite.destory
+      favorite.destroy
       @track = favorite.track
-      render 'api/tracks/index'
+      render 'api/tracks/show'
     else
       render json: ["Favorite does not exist"], status: 422
     end

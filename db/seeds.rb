@@ -14,6 +14,13 @@ guest = User.create!(
   activation_token: 2
 )
 
+yeezus = User.create!(
+  email: "kanye@hotmail.com",
+  username: "yeezus",
+  password: "password",
+  activation_token: 3
+)
+
 Artist.destroy_all
 
 kanye = Artist.create!(
@@ -28,6 +35,15 @@ gallant = Artist.create!(
   name: "Gallant"
 )
 
+pretty_sister = Artist.create!(
+  name: "Pretty Sister"
+)
+
+vallis_alps = Artist.create!(
+  name: "Vallis Alps"
+)
+
+
 Blog.destroy_all
 
 pitchfork = Blog.create!(
@@ -41,38 +57,55 @@ the_fader = Blog.create!(
 )
 
 stereogum = Blog.create!(
-  name: "Stererog",
+  name: "Stereogum",
   url: "http://www.stereogum.com/"
+)
+
+musicgeeks = Blog.create!(
+  name: "Musicgeeks",
+  url: "https://www.musicgeeks.co/"
+)
+
+stereofox = Blog.create!(
+  name: "Stereofox",
+  url: "http://www.stereofox.com/"
+)
+
+dancing_astronaut = Blog.create!(
+  name: "Dancing Astronaut",
+  url: "http://www.dancingastronaut.com/"
 )
 
 Track.destroy_all
 
-track_1 = Track.create!(
-  title: "Fade",
-  artist: kanye,
-  # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg",
-  # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Kanye+-+Fade.mp3",
-)
-
-track_2 = Track.create!(
-  title: "London Thunder",
+mountain_at_my_gates = Track.create!(
+  title: "Mountain At My Gates",
   artist: foals,
   # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg",
-  # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Foals+-+London+Thunder.mp3",
 )
 
-track_3 = Track.create!(
+weight_in_gold = Track.create!(
   title: "Weight in Gold",
   artist: gallant,
   # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg",
   # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Weight+In+Gold.mp3"
 )
 
-track_4 = Track.create!(
+bourbon = Track.create!(
   title: "Bourbon",
   artist: gallant,
   # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg",
   # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Bourbon.mp3"
+)
+
+come_to_la = Track.create!(
+  title: "Come To LA",
+  artist: pretty_sister,
+)
+
+young = Track.create!(
+  title: "Young",
+  artist: vallis_alps,
 )
 
 Playlist.destroy_all
@@ -92,76 +125,76 @@ favorites = Playlist.create!(
 Post.destroy_all
 
 Post.create!(
-  track: track_1,
-  track_info: "Kanye West's album The Life of Pablo will finally be available to stream and purchase outside of TIDAL",
-  blog_id: pitchfork.id
+  track: mountain_at_my_gates,
+  track_info: "Foals are making me sososo happy lately. Just a few weeks ago they have released 'What Went Down', the title",
+  blog_id: stereofox.id,
+  post_date: Time.now,
+  post_url: "http://www.stereofox.com/foals-mountain-at-my-gates"
 )
 
 Post.create!(
-  track: track_2,
-  track_info: "It appears Oxford outfit Foals wanted to hit the ground running with album four",
-  blog_id: pitchfork.id
-)
-
-Post.create!(
-  track: track_3,
+  track: weight_in_gold,
   track_info: "Bounce-Worthy talent Gallant has accomplished much in short amount of time and is now on the verge of releasing his",
-  blog_id: pitchfork.id
+  blog_id: dancing_astronaut.id,
+  post_date: Time.now,
+  post_url: "http://www.dancingastronaut.com/2015/06/gallants-weight-gold-zane-lowes-first-ever-beats-1-premiere/"
 )
 
 Post.create!(
-  track: track_3,
-  track_info: "This song is straight up Ginuwine, Dru Hill, Jodeci, H-Town nostalgia. A powerful voice worth it's weight in gold",
-  blog_id: the_fader.id
+  track: weight_in_gold,
+  track_info: "Gallant’s “Weight In Gold” inhabits a rarefied space somewhere between Leon Bridges’ sweet nostalgia and Miguel’s heavy, riff-soaked take on R&B",
+  blog_id: the_fader.id,
+  post_date: Time.now,
+  post_url: "http://www.thefader.com/2015/06/30/gallant-weight-in-gold"
 )
 
 Post.create!(
-  track: track_3,
-  track_info: "Art lives on heartbreak. I was first introduced to Gallant, the young soaring R&B star when I saw him perform",
-  blog_id: stereogum.id
+  track: weight_in_gold,
+  track_info: "LOVE This is sexy, heartfelt R&B that reminds of the Ginuwine and Jodeci days. Which totally dates me, I know",
+  blog_id: musicgeeks.id,
+  post_date: Time.now,
+  post_url: "https://www.musicgeeks.co/gallant/"
 )
 
 Post.create!(
-  track: track_4,
-  track_info: "With the sea of falsetto-oriented R&B cropping up on the daily, it takes a solid track to truly standout",
-  blog_id: the_fader.id
+  track: bourbon,
+  track_info: "LA R&B singer and Sufjan Stevens pal Gallant has announced his new album Ology due later this spring",
+  blog_id: stereogum.id,
+  post_date: Time.now,
+  post_url: "http://www.stereogum.com/1863203/gallant-bourbon/mp3s/"
+)
+
+Post.create!(
+  track: come_to_la,
+  track_info: "LOVE Huge bouncing bass and razor sharp guitar funk take me straight back to 90's West Coast hip hop",
+  blog_id: musicgeeks.id,
+  post_date: Time.now,
+  post_url: "https://www.musicgeeks.co/pretty-sister/"
+)
+
+Post.create!(
+  track: young,
+  track_info: "We somehow missed this awesome song when it first got published in the beginning of 2015... but, oh well",
+  blog_id: stereofox.id,
+  post_date: Time.now,
+  post_url: "http://www.stereofox.com/vallis-alps-young/"
 )
 
 TracksPlaylist.destroy_all
 
 TracksPlaylist.create!(
-  track_id: track_1.id,
+  track_id: mountain_at_my_gates.id,
   playlist_id: latest.id
 )
 
 TracksPlaylist.create!(
-  track_id: track_2.id,
+  track_id: weight_in_gold.id,
   playlist_id: latest.id
 )
 
 TracksPlaylist.create!(
-  track_id: track_3.id,
-  playlist_id: latest.id
-)
-
-TracksPlaylist.create!(
-  track_id: track_4.id,
+  track_id: bourbon.id,
   playlist_id: latest.id
 )
 
 Favorite.destroy_all
-
-Favorite.create!(
-  user: guest,
-  track: track_1
-)
-
-Favorite.create!(
-  user: me,
-  track: track_3
-)
-
-Favorite.create!(
-  user: me,
-  track: track_4
-)
