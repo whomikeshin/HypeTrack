@@ -41,13 +41,13 @@ var IndexItem = React.createClass({
               {track.posts[0].track_info.slice(0, 200).concat("...")}
             </p>
           </section>
-
-          <div className="fav-div">
-            {track.favorite_count}
-            {favoriteButton}
-          </div>
-
         </section>
+
+        <div className="fav-div">
+          {track.favorite_count}
+          {favoriteButton}
+        </div>
+
       </li>
     );
   },

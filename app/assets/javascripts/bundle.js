@@ -31977,13 +31977,13 @@
 	            { className: 'track-blog-description' },
 	            track.posts[0].track_info.slice(0, 200).concat("...")
 	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'fav-div' },
-	          track.favorite_count,
-	          favoriteButton
 	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'fav-div' },
+	        track.favorite_count,
+	        favoriteButton
 	      )
 	    );
 	  },
@@ -34372,6 +34372,24 @@
 	var React = __webpack_require__(1);
 	var NewUserForm = __webpack_require__(249);
 	var Modal = __webpack_require__(251);
+	var style = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+	  },
+	  content: {
+	    top: '50%',
+	    left: '50%',
+	    right: 'auto',
+	    bottom: 'auto',
+	    marginRight: '-50%',
+	    transform: 'translate(-50%, -50%)'
+	  }
+	};
 	
 	var NewUserModal = React.createClass({
 	  displayName: 'NewUserModal',
@@ -34402,7 +34420,8 @@
 	        Modal,
 	        {
 	          isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal },
+	          onRequestClose: this.closeModal,
+	          style: style },
 	        React.createElement(NewUserForm, null)
 	      )
 	    );
@@ -34418,6 +34437,24 @@
 	var React = __webpack_require__(1);
 	var LoginForm = __webpack_require__(272);
 	var Modal = __webpack_require__(251);
+	var style = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+	  },
+	  content: {
+	    top: '50%',
+	    left: '50%',
+	    right: 'auto',
+	    bottom: 'auto',
+	    marginRight: '-50%',
+	    transform: 'translate(-50%, -50%)'
+	  }
+	};
 	
 	var LoginModal = React.createClass({
 	  displayName: 'LoginModal',
@@ -34448,7 +34485,8 @@
 	        Modal,
 	        {
 	          isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal },
+	          onRequestClose: this.closeModal,
+	          style: style },
 	        React.createElement(LoginForm, null)
 	      )
 	    );
