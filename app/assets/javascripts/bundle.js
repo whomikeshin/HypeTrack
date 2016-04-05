@@ -31922,7 +31922,6 @@
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
 	
-	  // mixins: [ReactRouter.history],
 	  render: function () {
 	    var favoriteButton;
 	    var track = this.props.track;

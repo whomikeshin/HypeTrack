@@ -4,7 +4,6 @@ var SessionStore = require('../../stores/session');
 var ApiUtil = require('../../util/api_util');
 
 var IndexItem = React.createClass({
-  // mixins: [ReactRouter.history],
   render: function () {
     var favoriteButton;
     var track = this.props.track;

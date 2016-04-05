@@ -4,7 +4,7 @@ class ArtistsController < ApplicationController
     if @artist.save
       render json: ["Artist was created"]
     else
-      render json: @artist.errors.full_messages, status: status: 422
+      render json: @artist.errors.full_messages, status: 422
     end
   end
 
@@ -15,7 +15,7 @@ class ArtistsController < ApplicationController
       @artist.destroy
       render json: ["Arist was destroyed"]
     else
-      render json: ["Artist does not exist"], status: :status: 422
+      render json: ["Artist does not exist"], status: 422
     end
   end
 
