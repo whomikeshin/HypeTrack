@@ -56,11 +56,10 @@
 	var TrackIndex = __webpack_require__(216);
 	var TrackForm = __webpack_require__(246);
 	var App = __webpack_require__(247);
-	// var LoginForm = require('./components/user/login_form');
-	// var UserForm = require('./components/user/user_form');
+	
 	var ApiUtil = __webpack_require__(240);
 	
-	var Modal = __webpack_require__(251);
+	var Modal = __webpack_require__(252);
 	
 	var router = React.createElement(
 	  Router,
@@ -79,9 +78,6 @@
 	  ReactDOM.render(router, root);
 	});
 	
-	// <Route path="/users" component={UserForm}/>
-	// <Route path="/login" component={LoginForm}/>
-
 	// function _requireLoggedIn(nextState, replace, callback) {
 	//   if (!SessionStore.currentUserHasBeenFetched()) {
 	//     ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
@@ -32113,9 +32109,9 @@
 	var SessionStore = __webpack_require__(244);
 	var ApiUtil = __webpack_require__(240);
 	var Player = __webpack_require__(248);
-	var UserModal = __webpack_require__(275);
-	var LoginModal = __webpack_require__(276);
-	var ProfileMenu = __webpack_require__(277);
+	var UserModal = __webpack_require__(250);
+	var LoginModal = __webpack_require__(272);
+	var ProfileMenu = __webpack_require__(274);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -32247,7 +32243,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PlayerStore = __webpack_require__(274);
+	var PlayerStore = __webpack_require__(249);
 	var TrackStore = __webpack_require__(217);
 	
 	var Player = React.createClass({
@@ -32266,6 +32262,83 @@
 
 /***/ },
 /* 249 */
+/***/ function(module, exports) {
+
+	// var Store = require('flux/utils').Store;
+	// var AppDispatcher = require('../dispatcher/dispatcher');
+	// var PlayerConstants = require('../constants/session_constants');
+	//
+	// var PlayerStore = new Store(AppDispatcher);
+
+	// module.exports = PlayerStore;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var NewUserForm = __webpack_require__(251);
+	var Modal = __webpack_require__(252);
+	var style = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+	  },
+	  content: {
+	    top: '50%',
+	    left: '50%',
+	    right: 'auto',
+	    bottom: 'auto',
+	    marginRight: '-50%',
+	    transform: 'translate(-50%, -50%)'
+	  }
+	};
+	
+	var NewUserModal = React.createClass({
+	  displayName: 'NewUserModal',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'button',
+	        { className: 'signup-button', onClick: this.openModal },
+	        'Sign up'
+	      ),
+	      React.createElement(
+	        Modal,
+	        {
+	          isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: style },
+	        React.createElement(NewUserForm, null)
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NewUserModal;
+
+/***/ },
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32352,24 +32425,23 @@
 	module.exports = UserForm;
 
 /***/ },
-/* 250 */,
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(252);
+	module.exports = __webpack_require__(253);
 	
 
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(253);
-	var ModalPortal = React.createFactory(__webpack_require__(254));
-	var ariaAppHider = __webpack_require__(269);
-	var elementClass = __webpack_require__(270);
+	var ExecutionEnvironment = __webpack_require__(254);
+	var ModalPortal = React.createFactory(__webpack_require__(255));
+	var ariaAppHider = __webpack_require__(270);
+	var elementClass = __webpack_require__(271);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32448,7 +32520,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32493,14 +32565,14 @@
 
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(255);
-	var scopeTab = __webpack_require__(257);
-	var Assign = __webpack_require__(258);
+	var focusManager = __webpack_require__(256);
+	var scopeTab = __webpack_require__(258);
+	var Assign = __webpack_require__(259);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32697,10 +32769,10 @@
 
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(256);
+	var findTabbable = __webpack_require__(257);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32771,7 +32843,7 @@
 
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32827,10 +32899,10 @@
 
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(256);
+	var findTabbable = __webpack_require__(257);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32848,7 +32920,7 @@
 
 
 /***/ },
-/* 258 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32859,9 +32931,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(259),
-	    createAssigner = __webpack_require__(265),
-	    keys = __webpack_require__(261);
+	var baseAssign = __webpack_require__(260),
+	    createAssigner = __webpack_require__(266),
+	    keys = __webpack_require__(262);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -32934,7 +33006,7 @@
 
 
 /***/ },
-/* 259 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32945,8 +33017,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(260),
-	    keys = __webpack_require__(261);
+	var baseCopy = __webpack_require__(261),
+	    keys = __webpack_require__(262);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -32967,7 +33039,7 @@
 
 
 /***/ },
-/* 260 */
+/* 261 */
 /***/ function(module, exports) {
 
 	/**
@@ -33005,7 +33077,7 @@
 
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33016,9 +33088,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(262),
-	    isArguments = __webpack_require__(263),
-	    isArray = __webpack_require__(264);
+	var getNative = __webpack_require__(263),
+	    isArguments = __webpack_require__(264),
+	    isArray = __webpack_require__(265);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33247,7 +33319,7 @@
 
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -33390,7 +33462,7 @@
 
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports) {
 
 	/**
@@ -33639,7 +33711,7 @@
 
 
 /***/ },
-/* 264 */
+/* 265 */
 /***/ function(module, exports) {
 
 	/**
@@ -33825,7 +33897,7 @@
 
 
 /***/ },
-/* 265 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33836,9 +33908,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(266),
-	    isIterateeCall = __webpack_require__(267),
-	    restParam = __webpack_require__(268);
+	var bindCallback = __webpack_require__(267),
+	    isIterateeCall = __webpack_require__(268),
+	    restParam = __webpack_require__(269);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -33883,7 +33955,7 @@
 
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/**
@@ -33954,7 +34026,7 @@
 
 
 /***/ },
-/* 267 */
+/* 268 */
 /***/ function(module, exports) {
 
 	/**
@@ -34092,7 +34164,7 @@
 
 
 /***/ },
-/* 268 */
+/* 269 */
 /***/ function(module, exports) {
 
 	/**
@@ -34165,7 +34237,7 @@
 
 
 /***/ },
-/* 269 */
+/* 270 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34212,7 +34284,7 @@
 
 
 /***/ },
-/* 270 */
+/* 271 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34277,166 +34349,12 @@
 
 
 /***/ },
-/* 271 */,
 /* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(240);
-	
-	var LoginForm = React.createClass({
-	  displayName: 'LoginForm',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      username: "mike",
-	      password: "password"
-	    };
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'login-form' },
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Log In To Hype Train'
-	      ),
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'username' },
-	          'Username'
-	        ),
-	        React.createElement('input', { onChange: this.updateUsername, type: 'text', value: this.state.username }),
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'password' },
-	          'Password'
-	        ),
-	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Log in'
-	        )
-	      )
-	    );
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	
-	    var router = this.context.router;
-	
-	    ApiUtil.login(this.state, function () {
-	      router.push("/tracks");
-	    });
-	  },
-	
-	  updateUsername: function (e) {
-	    this.setState({ username: e.currentTarget.value });
-	  },
-	
-	  updatePassword: function (e) {
-	    this.setState({ password: e.currentTarget.value });
-	  }
-	});
-	
-	module.exports = LoginForm;
-
-/***/ },
-/* 273 */,
-/* 274 */
-/***/ function(module, exports) {
-
-	// var Store = require('flux/utils').Store;
-	// var AppDispatcher = require('../dispatcher/dispatcher');
-	// var PlayerConstants = require('../constants/session_constants');
-	//
-	// var PlayerStore = new Store(AppDispatcher);
-
-	// module.exports = PlayerStore;
-
-/***/ },
-/* 275 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var NewUserForm = __webpack_require__(249);
-	var Modal = __webpack_require__(251);
-	var style = {
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(0, 0, 0, 0.75)'
-	  },
-	  content: {
-	    top: '50%',
-	    left: '50%',
-	    right: 'auto',
-	    bottom: 'auto',
-	    marginRight: '-50%',
-	    transform: 'translate(-50%, -50%)'
-	  }
-	};
-	
-	var NewUserModal = React.createClass({
-	  displayName: 'NewUserModal',
-	
-	
-	  getInitialState: function () {
-	    return { modalOpen: false };
-	  },
-	
-	  closeModal: function () {
-	    this.setState({ modalOpen: false });
-	  },
-	
-	  openModal: function () {
-	    this.setState({ modalOpen: true });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'button',
-	        { className: 'signup-button', onClick: this.openModal },
-	        'Sign up'
-	      ),
-	      React.createElement(
-	        Modal,
-	        {
-	          isOpen: this.state.modalOpen,
-	          onRequestClose: this.closeModal,
-	          style: style },
-	        React.createElement(NewUserForm, null)
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = NewUserModal;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var LoginForm = __webpack_require__(272);
-	var Modal = __webpack_require__(251);
+	var LoginForm = __webpack_require__(273);
+	var Modal = __webpack_require__(252);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -34496,7 +34414,82 @@
 	module.exports = LoginModal;
 
 /***/ },
-/* 277 */
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(240);
+	
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      username: "guest",
+	      password: "password"
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'login-form' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Log In To Hype Train'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'username' },
+	          'Username'
+	        ),
+	        React.createElement('input', { onChange: this.updateUsername, type: 'text', value: this.state.username }),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'password' },
+	          'Password'
+	        ),
+	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Log in'
+	        )
+	      )
+	    );
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	
+	    var router = this.context.router;
+	
+	    ApiUtil.login(this.state, function () {
+	      router.push("/tracks");
+	    });
+	  },
+	
+	  updateUsername: function (e) {
+	    this.setState({ username: e.currentTarget.value });
+	  },
+	
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+	});
+	
+	module.exports = LoginForm;
+
+/***/ },
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
