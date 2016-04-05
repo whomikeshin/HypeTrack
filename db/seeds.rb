@@ -7,9 +7,9 @@ me = User.create!(
   activation_token: 1
 )
 
-yeezus = User.create!(
-  email: "kanye@hotmail.com",
-  username: "yeezus",
+guest = User.create!(
+  email: "guest@hotmail.com",
+  username: "guest",
   password: "password",
   activation_token: 2
 )
