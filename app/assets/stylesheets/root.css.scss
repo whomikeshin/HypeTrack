@@ -1,6 +1,6 @@
 html, body, div, header, nav, a, h1, h2,
-ul, li, main, section, img, p, form, fieldset,
-label, input, textarea, button {
+ul, li, main, section, figure, img, p, form,
+fieldset, label, input, textarea, button {
   border: 0;
   margin: 0;
   padding: 0;
@@ -206,6 +206,7 @@ button {
 }
 
 .track-list {
+  display: block;
 }
 
 /* Track Index Item */
@@ -219,10 +220,20 @@ button {
 .track-detail-container {
   float: left;
   padding: 0 120px 0 93px;
+  position: relative;
 }
 
 .track-detail-container > div:hover {
   text-decoration: underline;
+}
+
+.track-image > img {
+  display: block;
+  border: 1px solid #555;
+  max-height: 80px;
+  max-width: 80px;
+  position: absolute;
+  left: 0;
 }
 
 .track-artist, .track-name, .track-dash {
@@ -232,7 +243,7 @@ button {
 }
 
 .track-name {
-  color: #555555;
+  color: #555;
 }
 
 .track-dash {
@@ -265,7 +276,8 @@ button {
 .fav-div {
   font-size: 20px;
   color: #b3b3b3;
-  float: right;
+  position: absolute;
+  right: 0;
 }
 
 .fav-div > button {
@@ -321,4 +333,26 @@ label {
   font-size: 14px;
   line-height: 16px;
   color: #000;
+}
+
+/*/ Profile /*/
+
+.profile-header {
+  width: 728px;
+  height: 100px;
+  margin-top: 50px;
+}
+
+.profile-image > img {
+  border: 1px solid #555;
+  max-height: 80px;
+  max-width: 80px;
+  float: left;
+  margin-right: 5px;
+}
+
+.profile-header > h2 {
+  color: #222;
+  font-size: 18px;
+  font-weight: 600px;
 }

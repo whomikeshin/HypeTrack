@@ -30,6 +30,13 @@ var ApiActions = {
       users: users
     });
   }
+
+  // receiveSingleUser: function (user) {
+  //   AppDispatcher.dispatch({
+  //     actionType: UserConstants.SINGLE_USER_RECEIVED,
+  //     user: user
+  //   });
+  // }
 };
 
 module.exports = ApiActions;

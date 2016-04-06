@@ -81,21 +81,16 @@ Track.destroy_all
 mountain_at_my_gates = Track.create!(
   title: "Mountain At My Gates",
   artist: foals,
-  # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg",
 )
 
 weight_in_gold = Track.create!(
   title: "Weight in Gold",
   artist: gallant,
-  # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg",
-  # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Weight+In+Gold.mp3"
 )
 
 bourbon = Track.create!(
   title: "Bourbon",
   artist: gallant,
-  # track_image: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg",
-  # audio: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Bourbon.mp3"
 )
 
 come_to_la = Track.create!(
@@ -129,7 +124,8 @@ Post.create!(
   track_info: "Foals are making me sososo happy lately. Just a few weeks ago they have released 'What Went Down', the title",
   blog_id: stereofox.id,
   post_date: Time.now,
-  post_url: "http://www.stereofox.com/foals-mountain-at-my-gates"
+  post_url: "http://www.stereofox.com/foals-mountain-at-my-gates",
+  thumb_url: "http://www.stereofox.com/images/25491/resized/24672.jpg"
 )
 
 Post.create!(
@@ -137,7 +133,8 @@ Post.create!(
   track_info: "Bounce-Worthy talent Gallant has accomplished much in short amount of time and is now on the verge of releasing his",
   blog_id: dancing_astronaut.id,
   post_date: Time.now,
-  post_url: "http://www.dancingastronaut.com/2015/06/gallants-weight-gold-zane-lowes-first-ever-beats-1-premiere/"
+  post_url: "http://www.dancingastronaut.com/2015/06/gallants-weight-gold-zane-lowes-first-ever-beats-1-premiere/",
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg"
 )
 
 Post.create!(
@@ -145,7 +142,8 @@ Post.create!(
   track_info: "Gallant’s “Weight In Gold” inhabits a rarefied space somewhere between Leon Bridges’ sweet nostalgia and Miguel’s heavy, riff-soaked take on R&B",
   blog_id: the_fader.id,
   post_date: Time.now,
-  post_url: "http://www.thefader.com/2015/06/30/gallant-weight-in-gold"
+  post_url: "http://www.thefader.com/2015/06/30/gallant-weight-in-gold",
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg"
 )
 
 Post.create!(
@@ -153,7 +151,9 @@ Post.create!(
   track_info: "LOVE This is sexy, heartfelt R&B that reminds of the Ginuwine and Jodeci days. Which totally dates me, I know",
   blog_id: musicgeeks.id,
   post_date: Time.now,
-  post_url: "https://www.musicgeeks.co/gallant/"
+  post_url: "https://www.musicgeeks.co/gallant/",
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg"
+
 )
 
 Post.create!(
@@ -161,7 +161,8 @@ Post.create!(
   track_info: "LA R&B singer and Sufjan Stevens pal Gallant has announced his new album Ology due later this spring",
   blog_id: stereogum.id,
   post_date: Time.now,
-  post_url: "http://www.stereogum.com/1863203/gallant-bourbon/mp3s/"
+  post_url: "http://www.stereogum.com/1863203/gallant-bourbon/mp3s/",
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg"
 )
 
 Post.create!(
@@ -169,7 +170,8 @@ Post.create!(
   track_info: "LOVE Huge bouncing bass and razor sharp guitar funk take me straight back to 90's West Coast hip hop",
   blog_id: musicgeeks.id,
   post_date: Time.now,
-  post_url: "https://www.musicgeeks.co/pretty-sister/"
+  post_url: "https://www.musicgeeks.co/pretty-sister/",
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg"
 )
 
 Post.create!(
@@ -177,7 +179,8 @@ Post.create!(
   track_info: "We somehow missed this awesome song when it first got published in the beginning of 2015... but, oh well",
   blog_id: stereofox.id,
   post_date: Time.now,
-  post_url: "http://www.stereofox.com/vallis-alps-young/"
+  post_url: "http://www.stereofox.com/vallis-alps-young/",
+  thumb_url: "http://www.stereofox.com/images/22848/resized/22863.jpg"
 )
 
 TracksPlaylist.destroy_all

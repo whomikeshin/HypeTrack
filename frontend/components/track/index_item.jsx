@@ -19,6 +19,11 @@ var IndexItem = React.createClass({
       <li className="track group">
 
         <section className="track-detail-container">
+
+          <div className="track-image">
+            <img src={track.posts[0].thumb_url}/>
+          </div>
+
           <div className="track-artist">
             {track.artist_name}
           </div>
@@ -45,12 +50,14 @@ var IndexItem = React.createClass({
             <a href={track.posts[0].post_url} className="track-blog">Read Post →</a>
 
           </section>
+
+          <span className="fav-div">
+            {track.favorite_count}
+            {favoriteButton}
+          </span>
+
         </section>
 
-        <div className="fav-div">
-          {track.favorite_count}
-          {favoriteButton}
-        </div>
 
       </li>
     );

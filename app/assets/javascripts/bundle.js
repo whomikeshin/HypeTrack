@@ -56,11 +56,10 @@
 	var TrackIndex = __webpack_require__(216);
 	var TrackForm = __webpack_require__(247);
 	var Profile = __webpack_require__(248);
+	var FavoriteIndex = __webpack_require__(278);
 	
 	var App = __webpack_require__(250);
-	
 	var ApiUtil = __webpack_require__(240);
-	
 	var Modal = __webpack_require__(255);
 	
 	var router = React.createElement(
@@ -71,7 +70,8 @@
 	    { path: '/', component: App },
 	    React.createElement(Route, { path: 'tracks', component: TrackIndex }),
 	    React.createElement(Route, { path: 'upload', component: TrackForm }),
-	    React.createElement(Route, { path: 'users/:id', component: Profile })
+	    React.createElement(Route, { path: 'users/:id', component: Profile }),
+	    React.createElement(IndexRoute, { component: FavoriteIndex })
 	  )
 	);
 	
@@ -31809,7 +31809,7 @@
 	  fetchUser: function (user_id) {
 	    $.ajax({
 	      type: 'GET',
-	      url: 'api/user' + user_id,
+	      url: 'api/users/' + user_id,
 	      success: function (user) {
 	        ApiActions.receiveUsers([user]);
 	      },
@@ -31858,6 +31858,13 @@
 	      users: users
 	    });
 	  }
+	
+	  // receiveSingleUser: function (user) {
+	  //   AppDispatcher.dispatch({
+	  //     actionType: UserConstants.SINGLE_USER_RECEIVED,
+	  //     user: user
+	  //   });
+	  // }
 	};
 	
 	module.exports = ApiActions;
@@ -31867,7 +31874,8 @@
 /***/ function(module, exports) {
 
 	var UserConstants = {
-	  USERS_RECEIVED: "USERS_RECEIVED"
+	  USERS_RECEIVED: "USERS_RECEIVED",
+	  SINGLE_USER_RECEIVED: "SINGLE_USER_RECEIVED"
 	};
 	
 	module.exports = UserConstants;
@@ -31938,6 +31946,11 @@
 	        { className: 'track-detail-container' },
 	        React.createElement(
 	          'div',
+	          { className: 'track-image' },
+	          React.createElement('img', { src: track.posts[0].thumb_url })
+	        ),
+	        React.createElement(
+	          'div',
 	          { className: 'track-artist' },
 	          track.artist_name
 	        ),
@@ -31976,13 +31989,13 @@
 	            { href: track.posts[0].post_url, className: 'track-blog' },
 	            'Read Post →'
 	          )
+	        ),
+	        React.createElement(
+	          'span',
+	          { className: 'fav-div' },
+	          track.favorite_count,
+	          favoriteButton
 	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'fav-div' },
-	        track.favorite_count,
-	        favoriteButton
 	      )
 	    );
 	  },
@@ -32154,43 +32167,82 @@
 
 	var React = __webpack_require__(1);
 	var UserStore = __webpack_require__(249);
-	var ApiUtil = __webpack_require__(240);
 	var SessionStore = __webpack_require__(246);
+	var TrackIndexItem = __webpack_require__(245);
+	var TrackStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(240);
 	
 	var Profile = React.createClass({
 	  displayName: 'Profile',
 	
 	
-	  // getInitialState: function () {
-	  //   return { user: null };
-	  // },
-	  //
-	  // componentDidMount: function () {
-	  //   this.onChangeToken = UserStore.addListener(this._onChange);
-	  //   ApiUtil.fetchUser(this.props.params.id);
-	  // },
-	  //
-	  // componentWillUnmount: function () {
-	  //   this.onChangeToken.remove();
-	  // },
-	  //
-	  // componentWillReceiveProps: function (nextProps) {
-	  //   ApiUtil.fetchUser(nextProps.params.id);
-	  // },
+	  getInitialState: function () {
+	    return { user: null };
+	  },
 	
-	  render: function () {
-	    var currentUser = SessionStore.currentUser;
-	    return React.createElement(
-	      'div',
-	      null,
-	      'My Feed',
-	      currentUser.username
-	    );
+	  componentDidMount: function () {
+	    this.onChangeToken = UserStore.addListener(this._onChange);
+	    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
+	    ApiUtil.fetchUser(this.props.params.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	    this.onTrackChangeToken.remove();
 	  },
 	
 	  _onChange: function () {
-	    var user = UserStore.find(this.props.params.id);
-	    this.setState({ user: user });
+	    this.setState({ user: UserStore.find(this.props.params.id) });
+	  },
+	
+	  _onTrackChange: function () {
+	    this.forceUpdate();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ user: UserStore.find(newProps.params.id) });
+	  },
+	
+	  render: function () {
+	    var user = this.state.user;
+	
+	    if (!user) {
+	      return React.createElement(
+	        'p',
+	        null,
+	        'Loading user...'
+	      );
+	    }
+	
+	    return React.createElement(
+	      'main',
+	      { className: 'content' },
+	      React.createElement(
+	        'section',
+	        { className: 'playlist group' },
+	        React.createElement(
+	          'header',
+	          { className: 'profile-header group' },
+	          React.createElement(
+	            'figure',
+	            { className: 'profile-image' },
+	            React.createElement('img', { src: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg" })
+	          ),
+	          React.createElement(
+	            'h2',
+	            { className: 'profile-name' },
+	            user.username
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'tracks-list' },
+	          user.favorite_tracks.map(function (track) {
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	          })
+	        )
+	      )
+	    );
 	  }
 	});
 	
@@ -32216,9 +32268,9 @@
 	};
 	
 	UserStore.__onDispatch = function (payload) {
-	  switch (payload.ActionType) {
+	  switch (payload.actionType) {
 	    case UserConstants.USERS_RECEIVED:
-	      var result = resetUsers(payload.users);
+	      resetUsers(payload.users);
 	      UserStore.__emitChange();
 	      break;
 	  }
@@ -32383,7 +32435,12 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'player-controls' },
-	      'Player Controls'
+	      React.createElement(
+	        'audio',
+	        { controls: true },
+	        React.createElement('source', { src: 'https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Weight+In+Gold.mp3' }),
+	        React.createElement('source', { src: 'https://s3.amazonaws.com/hype-train-dev/seed-audio/Kanye+-+Fade.mp3' })
+	      )
 	    );
 	  }
 	});
@@ -34663,7 +34720,6 @@
 	
 	  render: function () {
 	    var currentUser = SessionStore.currentUser();
-	    // debugger;
 	    return React.createElement(
 	      'div',
 	      { className: 'dropdown' },
@@ -34744,6 +34800,121 @@
 	});
 	
 	module.exports = ProfileMenu;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var TrackStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(240);
+	var TrackIndexItem = __webpack_require__(245);
+	
+	function _getAllTracks() {
+	  return TrackStore.all();
+	}
+	
+	var FavoriteIndex = React.createClass({
+	  displayName: 'FavoriteIndex',
+	
+	  getInitialState: function () {
+	    return { tracks: _getAllTracks() };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = TrackStore.addListener(this._onChange);
+	    ApiUtil.fetchTracks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    var tracks = _getAllTracks();
+	    this.setState({ tracks: tracks });
+	  },
+	
+	  render: function () {
+	    var tracks = this.state.tracks;
+	
+	    return React.createElement(
+	      'main',
+	      { className: 'content' },
+	      React.createElement(
+	        'section',
+	        { className: 'playlist group' },
+	        React.createElement(
+	          'header',
+	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'playlist-title' },
+	            'Latest Blogged Music'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'playlist-menu' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'All'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Freshest'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Only Remixes'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'No Remixes'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Blogs in USA'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'tracks-list' },
+	          tracks.map(function (track) {
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	          })
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = FavoriteIndex;
 
 /***/ }
 /******/ ]);

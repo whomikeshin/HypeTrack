@@ -111,7 +111,7 @@ ApiUtil = {
   fetchUser: function (user_id) {
     $.ajax({
       type: 'GET',
-      url: 'api/user' + user_id,
+      url: 'api/users/' + user_id,
       success: function (user) {
         ApiActions.receiveUsers([user]);
       },

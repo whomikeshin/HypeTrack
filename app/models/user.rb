@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
 
   has_many :favorites, dependent: :destroy
-  has_many :favorite_tracks, through: :favorites, source: :tracks
+  has_many :favorite_tracks, through: :favorites, source: :track
 
   # add in find by email option
   def self.find_by_credentials(username, password)

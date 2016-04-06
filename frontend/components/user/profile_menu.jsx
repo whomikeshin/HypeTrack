@@ -6,7 +6,6 @@ var Link = require('react-router').Link;
 var ProfileMenu = React.createClass({
   render: function() {
     var currentUser = SessionStore.currentUser();
-    // debugger;
     return(
       <div className="dropdown">
         <Link to={"/users/" + currentUser.id}>Me</Link>

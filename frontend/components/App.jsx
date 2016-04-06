@@ -63,7 +63,6 @@ var App = React.createClass({
             <div className="side-menu group">
               {sideMenu}
             </div>
-
           </div>
         </nav>
         {this.props.children}
