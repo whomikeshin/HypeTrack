@@ -54,14 +54,14 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var TrackIndex = __webpack_require__(216);
-	var TrackForm = __webpack_require__(246);
-	var Profile = __webpack_require__(276);
+	var TrackForm = __webpack_require__(247);
+	var Profile = __webpack_require__(248);
 	
-	var App = __webpack_require__(247);
+	var App = __webpack_require__(250);
 	
 	var ApiUtil = __webpack_require__(240);
 	
-	var Modal = __webpack_require__(252);
+	var Modal = __webpack_require__(255);
 	
 	var router = React.createElement(
 	  Router,
@@ -31697,7 +31697,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var ApiActions = __webpack_require__(241);
-	var SessionActions = __webpack_require__(242);
+	var SessionActions = __webpack_require__(243);
 	
 	ApiUtil = {
 	  fetchTracks: function () {
@@ -31763,8 +31763,6 @@
 	      data: credentials,
 	      success: function (currentUser) {
 	        SessionActions.currentUserReceived(currentUser);
-	      },
-	      complete: function () {
 	        callback && callback();
 	      }
 	    });
@@ -31830,7 +31828,7 @@
 
 	var AppDispatcher = __webpack_require__(236);
 	var TrackConstants = __webpack_require__(239);
-	var UserConstants = __webpack_require__(275);
+	var UserConstants = __webpack_require__(242);
 	
 	var ApiActions = {
 	  receiveTracks: function (tracks) {
@@ -31866,10 +31864,20 @@
 
 /***/ },
 /* 242 */
+/***/ function(module, exports) {
+
+	var UserConstants = {
+	  USERS_RECEIVED: "USERS_RECEIVED"
+	};
+	
+	module.exports = UserConstants;
+
+/***/ },
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(236);
-	var SessionConstants = __webpack_require__(243);
+	var SessionConstants = __webpack_require__(244);
 	
 	var SessionActions = {
 	  currentUserReceived: function (currentUser) {
@@ -31889,7 +31897,7 @@
 	module.exports = SessionActions;
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports) {
 
 	var SessionConstants = {
@@ -31900,53 +31908,13 @@
 	module.exports = SessionConstants;
 
 /***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var AppDispatcher = __webpack_require__(236);
-	var SessionConstants = __webpack_require__(243);
-	
-	var SessionStore = new Store(AppDispatcher);
-	var _currentUser;
-	var _currentUserHasBeenFetched = false;
-	
-	SessionStore.currentUser = function () {
-	  return _currentUser;
-	};
-	
-	SessionStore.isLoggedIn = function () {
-	  return !!_currentUser;
-	};
-	
-	SessionStore.currentUserHasBeenFetched = function () {
-	  return _currentUserHasBeenFetched;
-	};
-	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case SessionConstants.CURRENT_USER_RECEIVED:
-	      _currentUser = payload.currentUser;
-	      _currentUserHasBeenFetched = true;
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.LOGOUT:
-	      _currentUser = null;
-	      SessionStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = SessionStore;
-
-/***/ },
 /* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ReactRouter = __webpack_require__(159);
 	var Link = __webpack_require__(159).Link;
-	var SessionStore = __webpack_require__(244);
+	var SessionStore = __webpack_require__(246);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
 	
@@ -32068,6 +32036,46 @@
 /* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var SessionConstants = __webpack_require__(244);
+	
+	var SessionStore = new Store(AppDispatcher);
+	var _currentUser;
+	var _currentUserHasBeenFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+	
+	SessionStore.currentUserHasBeenFetched = function () {
+	  return _currentUserHasBeenFetched;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserHasBeenFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
 	
@@ -32141,17 +32149,101 @@
 	module.exports = TrackForm;
 
 /***/ },
-/* 247 */
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(249);
+	var ApiUtil = __webpack_require__(240);
+	var SessionStore = __webpack_require__(246);
+	
+	var Profile = React.createClass({
+	  displayName: 'Profile',
+	
+	
+	  // getInitialState: function () {
+	  //   return { user: null };
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.onChangeToken = UserStore.addListener(this._onChange);
+	  //   ApiUtil.fetchUser(this.props.params.id);
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.onChangeToken.remove();
+	  // },
+	  //
+	  // componentWillReceiveProps: function (nextProps) {
+	  //   ApiUtil.fetchUser(nextProps.params.id);
+	  // },
+	
+	  render: function () {
+	    var currentUser = SessionStore.currentUser;
+	    return React.createElement(
+	      'div',
+	      null,
+	      'My Feed',
+	      currentUser.username
+	    );
+	  },
+	
+	  _onChange: function () {
+	    var user = UserStore.find(this.props.params.id);
+	    this.setState({ user: user });
+	  }
+	});
+	
+	module.exports = Profile;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var Store = __webpack_require__(218).Store;
+	var UserConstants = __webpack_require__(242);
+	
+	var _users = [];
+	var UserStore = new Store(AppDispatcher);
+	
+	var resetUsers = function (users) {
+	  _users = users.slice();
+	};
+	
+	UserStore.all = function () {
+	  return _users.slice();
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.ActionType) {
+	    case UserConstants.USERS_RECEIVED:
+	      var result = resetUsers(payload.users);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	UserStore.find = function (user_id) {
+	  return _users.find(function (user) {
+	    return user.id === parseInt(user_id);
+	  });
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
-	var SessionStore = __webpack_require__(244);
+	var SessionStore = __webpack_require__(246);
 	var ApiUtil = __webpack_require__(240);
-	var Player = __webpack_require__(248);
-	var UserModal = __webpack_require__(250);
-	var LoginModal = __webpack_require__(272);
-	var ProfileMenu = __webpack_require__(274);
+	var Player = __webpack_require__(251);
+	var UserModal = __webpack_require__(253);
+	var LoginModal = __webpack_require__(275);
+	var ProfileMenu = __webpack_require__(277);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -32172,24 +32264,14 @@
 	  },
 	
 	  render: function () {
-	    var sideMenu, welcomeMessage;
+	    var sideMenu;
 	    if (this.state.currentUser) {
-	      welcomeMessage = React.createElement(
-	        'h2',
-	        null,
-	        this.state.currentUser.username
-	      );
 	      sideMenu = React.createElement(
 	        'div',
 	        { className: 'profile-menu' },
 	        React.createElement(ProfileMenu, null)
 	      );
 	    } else {
-	      welcomeMessage = React.createElement(
-	        'h2',
-	        null,
-	        'Sign In'
-	      );
 	      sideMenu = React.createElement(
 	        'ul',
 	        { className: 'login-menu' },
@@ -32287,11 +32369,11 @@
 	module.exports = App;
 
 /***/ },
-/* 248 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PlayerStore = __webpack_require__(249);
+	var PlayerStore = __webpack_require__(252);
 	var TrackStore = __webpack_require__(217);
 	
 	var Player = React.createClass({
@@ -32309,7 +32391,7 @@
 	module.exports = Player;
 
 /***/ },
-/* 249 */
+/* 252 */
 /***/ function(module, exports) {
 
 	// var Store = require('flux/utils').Store;
@@ -32321,12 +32403,12 @@
 	// module.exports = PlayerStore;
 
 /***/ },
-/* 250 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var NewUserForm = __webpack_require__(251);
-	var Modal = __webpack_require__(252);
+	var NewUserForm = __webpack_require__(254);
+	var Modal = __webpack_require__(255);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -32337,12 +32419,14 @@
 	    backgroundColor: 'rgba(0, 0, 0, 0.75)'
 	  },
 	  content: {
-	    top: '50%',
+	    position: 'absolute',
+	    top: '60%',
 	    left: '50%',
 	    right: 'auto',
 	    bottom: 'auto',
 	    marginRight: '-50%',
-	    transform: 'translate(-50%, -50%)'
+	    transform: 'translate(-50%, -50%)',
+	    border: '3px solid #000'
 	  }
 	};
 	
@@ -32386,7 +32470,7 @@
 	module.exports = NewUserModal;
 
 /***/ },
-/* 251 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32415,7 +32499,7 @@
 	      { className: 'signup-form' },
 	      React.createElement(
 	        'h1',
-	        null,
+	        { className: 'form-header' },
 	        'Sign Up For Hype Train'
 	      ),
 	      React.createElement(
@@ -32441,7 +32525,7 @@
 	        React.createElement('input', { onChange: this._updatePassword, type: 'password', value: this.state.password }),
 	        React.createElement(
 	          'button',
-	          null,
+	          { className: 'form-submit' },
 	          'Submit'
 	        )
 	      )
@@ -32473,23 +32557,23 @@
 	module.exports = UserForm;
 
 /***/ },
-/* 252 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(253);
+	module.exports = __webpack_require__(256);
 	
 
 
 /***/ },
-/* 253 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(254);
-	var ModalPortal = React.createFactory(__webpack_require__(255));
-	var ariaAppHider = __webpack_require__(270);
-	var elementClass = __webpack_require__(271);
+	var ExecutionEnvironment = __webpack_require__(257);
+	var ModalPortal = React.createFactory(__webpack_require__(258));
+	var ariaAppHider = __webpack_require__(273);
+	var elementClass = __webpack_require__(274);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32568,7 +32652,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 254 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32613,14 +32697,14 @@
 
 
 /***/ },
-/* 255 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(256);
-	var scopeTab = __webpack_require__(258);
-	var Assign = __webpack_require__(259);
+	var focusManager = __webpack_require__(259);
+	var scopeTab = __webpack_require__(261);
+	var Assign = __webpack_require__(262);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32817,10 +32901,10 @@
 
 
 /***/ },
-/* 256 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(257);
+	var findTabbable = __webpack_require__(260);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32891,7 +32975,7 @@
 
 
 /***/ },
-/* 257 */
+/* 260 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32947,10 +33031,10 @@
 
 
 /***/ },
-/* 258 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(257);
+	var findTabbable = __webpack_require__(260);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32968,7 +33052,7 @@
 
 
 /***/ },
-/* 259 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32979,9 +33063,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(260),
-	    createAssigner = __webpack_require__(266),
-	    keys = __webpack_require__(262);
+	var baseAssign = __webpack_require__(263),
+	    createAssigner = __webpack_require__(269),
+	    keys = __webpack_require__(265);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -33054,7 +33138,7 @@
 
 
 /***/ },
-/* 260 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33065,8 +33149,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(261),
-	    keys = __webpack_require__(262);
+	var baseCopy = __webpack_require__(264),
+	    keys = __webpack_require__(265);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -33087,7 +33171,7 @@
 
 
 /***/ },
-/* 261 */
+/* 264 */
 /***/ function(module, exports) {
 
 	/**
@@ -33125,7 +33209,7 @@
 
 
 /***/ },
-/* 262 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33136,9 +33220,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(263),
-	    isArguments = __webpack_require__(264),
-	    isArray = __webpack_require__(265);
+	var getNative = __webpack_require__(266),
+	    isArguments = __webpack_require__(267),
+	    isArray = __webpack_require__(268);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33367,7 +33451,7 @@
 
 
 /***/ },
-/* 263 */
+/* 266 */
 /***/ function(module, exports) {
 
 	/**
@@ -33510,7 +33594,7 @@
 
 
 /***/ },
-/* 264 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/**
@@ -33759,7 +33843,7 @@
 
 
 /***/ },
-/* 265 */
+/* 268 */
 /***/ function(module, exports) {
 
 	/**
@@ -33945,7 +34029,7 @@
 
 
 /***/ },
-/* 266 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33956,9 +34040,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(267),
-	    isIterateeCall = __webpack_require__(268),
-	    restParam = __webpack_require__(269);
+	var bindCallback = __webpack_require__(270),
+	    isIterateeCall = __webpack_require__(271),
+	    restParam = __webpack_require__(272);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -34003,7 +34087,7 @@
 
 
 /***/ },
-/* 267 */
+/* 270 */
 /***/ function(module, exports) {
 
 	/**
@@ -34074,7 +34158,7 @@
 
 
 /***/ },
-/* 268 */
+/* 271 */
 /***/ function(module, exports) {
 
 	/**
@@ -34212,7 +34296,7 @@
 
 
 /***/ },
-/* 269 */
+/* 272 */
 /***/ function(module, exports) {
 
 	/**
@@ -34285,7 +34369,7 @@
 
 
 /***/ },
-/* 270 */
+/* 273 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34332,7 +34416,7 @@
 
 
 /***/ },
-/* 271 */
+/* 274 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34397,12 +34481,12 @@
 
 
 /***/ },
-/* 272 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LoginForm = __webpack_require__(273);
-	var Modal = __webpack_require__(252);
+	var LoginForm = __webpack_require__(276);
+	var Modal = __webpack_require__(255);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -34413,14 +34497,30 @@
 	    backgroundColor: 'rgba(0, 0, 0, 0.75)'
 	  },
 	  content: {
+	    position: 'absolute',
 	    top: '50%',
 	    left: '50%',
 	    right: 'auto',
 	    bottom: 'auto',
 	    marginRight: '-50%',
-	    transform: 'translate(-50%, -50%)'
+	    transform: 'translate(-50%, -50%)',
+	    border: '3px solid #000'
 	  }
 	};
+	
+	// content : {
+	//     position                   : 'absolute',
+	//     top                        : '40px',
+	//     left                       : '40px',
+	//     right                      : '40px',
+	//     bottom                     : '40px',
+	//     border                     : '1px solid #ccc',
+	//     background                 : '#fff',
+	//     overflow                   : 'auto',
+	//     WebkitOverflowScrolling    : 'touch',
+	//     borderRadius               : '4px',
+	//     outline                    : 'none',
+	//     padding                    : '20px'
 	
 	var LoginModal = React.createClass({
 	  displayName: 'LoginModal',
@@ -34462,11 +34562,12 @@
 	module.exports = LoginModal;
 
 /***/ },
-/* 273 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
+	var History = __webpack_require__(159).History;
 	
 	var LoginForm = React.createClass({
 	  displayName: 'LoginForm',
@@ -34477,8 +34578,8 @@
 	
 	  getInitialState: function () {
 	    return {
-	      username: "guest",
-	      password: "password"
+	      username: "",
+	      password: ""
 	    };
 	  },
 	
@@ -34488,7 +34589,7 @@
 	      { className: 'login-form' },
 	      React.createElement(
 	        'h1',
-	        null,
+	        { className: 'form-header' },
 	        'Log In To Hype Train'
 	      ),
 	      React.createElement(
@@ -34508,9 +34609,14 @@
 	        React.createElement('input', { onChange: this._updatePassword, type: 'password', value: this.state.password }),
 	        React.createElement(
 	          'button',
-	          null,
+	          { className: 'form-submit' },
 	          'Log in'
 	        )
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'guest', onClick: this._guestLogin },
+	        'Guest'
 	      )
 	    );
 	  },
@@ -34531,18 +34637,25 @@
 	
 	  _updatePassword: function (e) {
 	    this.setState({ password: e.currentTarget.value });
+	  },
+	
+	  _guestLogin: function () {
+	    var router = this.context.router;
+	    ApiUtil.login({ username: "guest", password: "password" }, function () {
+	      router.push("/tracks");
+	    });
 	  }
 	});
 	
 	module.exports = LoginForm;
 
 /***/ },
-/* 274 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
-	var SessionStore = __webpack_require__(244);
+	var SessionStore = __webpack_require__(246);
 	var Link = __webpack_require__(159).Link;
 	
 	var ProfileMenu = React.createClass({
@@ -34553,19 +34666,15 @@
 	    // debugger;
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'dropdown' },
+	      React.createElement(
+	        Link,
+	        { to: "/users/" + currentUser.id },
+	        'Me'
+	      ),
 	      React.createElement(
 	        'ul',
 	        { className: 'profile-list group' },
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: "/users/" + currentUser.id },
-	            'Me'
-	          )
-	        ),
 	        React.createElement(
 	          'li',
 	          null,
@@ -34635,100 +34744,6 @@
 	});
 	
 	module.exports = ProfileMenu;
-
-/***/ },
-/* 275 */
-/***/ function(module, exports) {
-
-	var UserConstants = {
-	  USERS_RECEIVED: "USERS_RECEIVED"
-	};
-	
-	module.exports = UserConstants;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(277);
-	var ApiUtil = __webpack_require__(240);
-	var SessionStore = __webpack_require__(244);
-	
-	var Profile = React.createClass({
-	  displayName: 'Profile',
-	
-	
-	  // getInitialState: function () {
-	  //   return { user: null };
-	  // },
-	  //
-	  // componentDidMount: function () {
-	  //   this.onChangeToken = UserStore.addListener(this._onChange);
-	  //   ApiUtil.fetchUser(this.props.params.id);
-	  // },
-	  //
-	  // componentWillUnmount: function () {
-	  //   this.onChangeToken.remove();
-	  // },
-	  //
-	  // componentWillReceiveProps: function (nextProps) {
-	  //   ApiUtil.fetchUser(nextProps.params.id);
-	  // },
-	
-	  render: function () {
-	    var currentUser = SessionStore.currentUser;
-	    return React.createElement(
-	      'div',
-	      null,
-	      'My Feed',
-	      currentUser.username
-	    );
-	  },
-	
-	  _onChange: function () {
-	    var user = UserStore.find(this.props.params.id);
-	    this.setState({ user: user });
-	  }
-	});
-	
-	module.exports = Profile;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(236);
-	var Store = __webpack_require__(218).Store;
-	var UserConstants = __webpack_require__(275);
-	
-	var _users = [];
-	var UserStore = new Store(AppDispatcher);
-	
-	var resetUsers = function (users) {
-	  _users = users.slice();
-	};
-	
-	UserStore.all = function () {
-	  return _users.slice();
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.ActionType) {
-	    case UserConstants.USERS_RECEIVED:
-	      var result = resetUsers(payload.users);
-	      UserStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	UserStore.find = function (user_id) {
-	  return _users.find(function (user) {
-	    return user.id === parseInt(user_id);
-	  });
-	};
-	
-	module.exports = UserStore;
 
 /***/ }
 /******/ ]);

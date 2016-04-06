@@ -19,7 +19,7 @@ var UserForm = React.createClass({
   render: function () {
     return (
       <div className="signup-form">
-        <h1>Sign Up For Hype Train</h1>
+        <h1 className="form-header">Sign Up For Hype Train</h1>
         <form onSubmit={this._handleSubmit}>
           <label htmlFor="email">Email</label>
           <input onChange={this._updateEmail} type="text" value={this.state.email}/>
@@ -30,7 +30,7 @@ var UserForm = React.createClass({
           <label htmlFor="password">Password</label>
           <input onChange={this._updatePassword} type="password" value={this.state.password}/>
 
-          <button>Submit</button>
+          <button className="form-submit">Submit</button>
         </form>
       </div>
     );

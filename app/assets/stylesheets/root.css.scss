@@ -28,6 +28,11 @@ ul {
 input, textarea {
   padding: 4px;
   border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input:focus {
+  box-shadow: 0 0 4px 2px #83c441;
 }
 
 button {
@@ -96,7 +101,7 @@ button {
   color: #e0e0e0;
   height: 33px;
   width: 100%;
-  line-height: 20px;
+  line-height: 25px;
   position: absolute;
   left: 0;
   z-index: 200;
@@ -121,19 +126,32 @@ button {
   float: left;
 }
 
-.profile-list {
-  border: 1px solid #222;
+.dropdown {
+  background: #222;
+  display: block;
+  position: relative;
 }
 
-.profile-list > a {
-  display: block;
+.profile-list {
+  border: 1px solid #222;
+  display: none;
 }
 
 .profile-list > li {
   background: #3d3c3a;
-  padding: 4px;
+  padding: 3px;
   border-bottom: 1px solid #222;
+  display: block;
 }
+
+.dropdown:hover .profile-list {
+  display: block;
+}
+
+.logout {
+  padding: 0;
+}
+
 
 .login-button, .signup-button {
   font-size: 14px;
@@ -273,12 +291,12 @@ button {
   width: 370px;
 }
 
-.sign-up-form {
-  height: 540px;
+.signup-form {
+  height: 392px;
   width: 340px;
 }
 
-.login-form > h1 {
+.form-header,  {
   background: #83c441;
   font-size: 18px;
   font-weight: 600;

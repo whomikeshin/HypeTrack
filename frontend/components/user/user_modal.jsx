@@ -11,12 +11,14 @@ var style = {
     backgroundColor   : 'rgba(0, 0, 0, 0.75)',
   },
   content : {
-    top               : '50%',
+    position          : 'absolute',
+    top               : '60%',
     left              : '50%',
     right             : 'auto',
     bottom            : 'auto',
     marginRight       : '-50%',
     transform         : 'translate(-50%, -50%)',
+    border            : '3px solid #000'
   }
 };
 

@@ -65,8 +65,6 @@ ApiUtil = {
       data: credentials,
       success: function (currentUser) {
         SessionActions.currentUserReceived(currentUser);
-      },
-      complete: function () {
         callback && callback();
       }
     });

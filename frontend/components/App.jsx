@@ -25,14 +25,12 @@ var App = React.createClass({
   },
 
   render: function () {
-    var sideMenu, welcomeMessage;
+    var sideMenu;
     if (this.state.currentUser) {
-      welcomeMessage = <h2>{this.state.currentUser.username}</h2>;
       sideMenu = <div className="profile-menu">
                     <ProfileMenu />
                   </div>;
     } else {
-      welcomeMessage = <h2>Sign In</h2>;
       sideMenu = <ul className="login-menu">
                     <li><UserModal/></li>
                     <li><LoginModal /></li>

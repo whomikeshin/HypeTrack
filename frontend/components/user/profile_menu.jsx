@@ -8,9 +8,9 @@ var ProfileMenu = React.createClass({
     var currentUser = SessionStore.currentUser();
     // debugger;
     return(
-      <div>
+      <div className="dropdown">
+        <Link to={"/users/" + currentUser.id}>Me</Link>
         <ul className="profile-list group">
-          <li><Link to={"/users/" + currentUser.id}>Me</Link></li>
           <li><a href="#">Feed</a></li>
           <li><a href="#">Favorites</a></li>
           <li><a href="#">Friends</a></li>
