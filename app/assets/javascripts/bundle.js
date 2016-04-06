@@ -57,8 +57,9 @@
 	var TrackForm = __webpack_require__(247);
 	var Profile = __webpack_require__(248);
 	var FavoriteIndex = __webpack_require__(278);
-	
+	var Post = __webpack_require__(280);
 	var App = __webpack_require__(250);
+	
 	var ApiUtil = __webpack_require__(240);
 	var Modal = __webpack_require__(255);
 	
@@ -72,7 +73,8 @@
 	    React.createElement(Route, { path: 'upload', component: TrackForm }),
 	    React.createElement(Route, { path: 'users/:id', component: Profile }),
 	    React.createElement(IndexRoute, { component: FavoriteIndex })
-	  )
+	  ),
+	  React.createElement(Route, { path: '/posts', component: Post })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -31858,13 +31860,6 @@
 	      users: users
 	    });
 	  }
-	
-	  // receiveSingleUser: function (user) {
-	  //   AppDispatcher.dispatch({
-	  //     actionType: UserConstants.SINGLE_USER_RECEIVED,
-	  //     user: user
-	  //   });
-	  // }
 	};
 	
 	module.exports = ApiActions;
@@ -32171,6 +32166,7 @@
 	var TrackIndexItem = __webpack_require__(245);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
+	var Loader = __webpack_require__(279);
 	
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -32207,11 +32203,7 @@
 	    var user = this.state.user;
 	
 	    if (!user) {
-	      return React.createElement(
-	        'p',
-	        null,
-	        'Loading user...'
-	      );
+	      return React.createElement(Loader, null);
 	    }
 	
 	    return React.createElement(
@@ -34915,6 +34907,159 @@
 	});
 	
 	module.exports = FavoriteIndex;
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Loader = React.createClass({
+	  displayName: "Loader",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "loader" },
+	      "Loading..."
+	    );
+	  }
+	});
+	
+	module.exports = Loader;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var PostStore = __webpack_require__(281);
+	var PostUtil = __webpack_require__(283);
+	var Loader = __webpack_require__(279);
+	
+	function _getAllPosts() {
+	  return PostStore.all();
+	}
+	
+	var Post = React.createClass({
+	  displayName: 'Post',
+	
+	  getInitialState: function () {
+	    return { posts: _getAllPosts() };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = PostStore.addListener(this._onChange);
+	    PostUtil.fetchPosts();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    var posts = _getAllPosts();
+	    this.setState({ posts: posts });
+	  },
+	
+	  render: function () {
+	    debugger;
+	    var posts = this.state.posts;
+	
+	    if (!posts) {
+	      return React.createElement(Loader, null);
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      posts
+	    );
+	  }
+	});
+	
+	module.exports = Post;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var PostConstants = __webpack_require__(282);
+	var _posts = [];
+	
+	var PostStore = new Store(AppDispatcher);
+	
+	var resetPosts = function (posts) {
+	  _posts = posts.slice();
+	};
+	
+	PostStore.all = function () {
+	  return _posts.slice();
+	};
+	
+	PostStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case PostConstants.POSTS_RECEIVED:
+	      resetPosts(payload.posts);
+	      PostStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = PostStore;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports) {
+
+	var PostConstants = {
+	  POSTS_RECEIVED: "POSTS_RECEIVED"
+	};
+	
+	module.exports = PostConstants;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var PostActions = __webpack_require__(284);
+	
+	PostUtil = {
+	  fetchPosts: function () {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'http://hypem.com/playlist/popular/3day/json/1/data.js',
+	      success: function (posts) {
+	        PostActions.rececivePosts(posts);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = PostUtil;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var PostConstants = __webpack_require__(282);
+	
+	var PostActions = {
+	  rececivePosts: function (posts) {
+	    AppDispatcher.dispatch({
+	      actionType: PostConstants.POSTS_RECEIVED,
+	      posts: posts
+	    });
+	  }
+	};
+	
+	module.exports = PostActions;
 
 /***/ }
 /******/ ]);

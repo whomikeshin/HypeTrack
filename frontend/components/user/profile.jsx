@@ -4,6 +4,7 @@ var SessionStore = require('../../stores/session');
 var TrackIndexItem = require('../track/index_item');
 var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
+var Loader = require('../loader');
 
 var Profile = React.createClass({
 
@@ -38,7 +39,7 @@ var Profile = React.createClass({
     var user = this.state.user;
 
     if(!user) {
-      return <p>Loading user...</p>;
+      return <Loader/>;
     }
 
     return (

@@ -11,8 +11,9 @@ var TrackIndex = require('./components/track/index');
 var TrackForm = require('./components/track/track_form');
 var Profile = require ('./components/user/profile');
 var FavoriteIndex = require('./components/track/favorite_index');
-
+var Post = require('./components/post');
 var App = require('./components/app');
+
 var ApiUtil = require('./util/api_util');
 var Modal = require("react-modal");
 
@@ -24,6 +25,8 @@ var router = (
       <Route path="users/:id" component={Profile}/>
         <IndexRoute component={FavoriteIndex}/>
     </Route>
+
+    <Route path="/posts" component={Post}/>
   </Router>
 );
 
