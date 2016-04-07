@@ -1,6 +1,6 @@
 html, body, div, header, nav, a, h1, h2,
 ul, li, main, section, figure, img, p, form,
-fieldset, label, input, textarea, button {
+fieldset, label, input, textarea, button, i {
   border: 0;
   margin: 0;
   padding: 0;
@@ -288,6 +288,16 @@ button {
 }
 
 .fav-div > button:hover {
+  color: #0063dc;
+}
+
+.play-button, .pause-button {
+  background: transparent;
+  color: #000;
+  line-height: 20px;
+}
+
+.play-button:hover, .pause-button:hover {
   color: #0063dc;
 }
 

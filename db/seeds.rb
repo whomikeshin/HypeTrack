@@ -81,26 +81,31 @@ Track.destroy_all
 mountain_at_my_gates = Track.create!(
   title: "Mountain At My Gates",
   artist: foals,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Foals+-+London+Thunder.mp3"
 )
 
 weight_in_gold = Track.create!(
   title: "Weight in Gold",
   artist: gallant,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Weight+In+Gold.mp3"
 )
 
 bourbon = Track.create!(
   title: "Bourbon",
   artist: gallant,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Bourbon.mp3"
 )
 
 come_to_la = Track.create!(
   title: "Come To LA",
   artist: pretty_sister,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Kanye+-+Fade.mp3"
 )
 
 young = Track.create!(
   title: "Young",
   artist: vallis_alps,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Foals+-+London+Thunder.mp3"
 )
 
 Playlist.destroy_all

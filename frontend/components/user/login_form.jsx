@@ -27,12 +27,11 @@ var LoginForm = React.createClass({
           <input onChange={this._updatePassword} type="password" value={this.state.password}/>
 
           <button className="form-submit">Log in</button>
-
-          <button className="guest" onClick={this._guestLogin}>
-            Guest Account
-          </button>
         </form>
 
+        <button className="guest" onClick={this._guestLogin}>
+          Guest Account
+        </button>
       </div>
     );
   },

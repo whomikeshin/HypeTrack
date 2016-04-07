@@ -5,6 +5,7 @@ var SessionStore = require('../../stores/session');
 var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
 var UserModal = require('../user/user_modal');
+var Player = require('../player');
 
 var IndexItem = React.createClass({
 
@@ -55,6 +56,7 @@ var IndexItem = React.createClass({
           <span className="fav-div">
             {track.favorite_count}
             {favoriteButton}
+            <Player track={this.props.track}/>
           </span>
 
         </section>

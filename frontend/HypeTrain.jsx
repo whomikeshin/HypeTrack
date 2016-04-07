@@ -25,8 +25,6 @@ var router = (
       <Route path="users/:id" component={Profile}/>
         <IndexRoute component={FavoriteIndex}/>
     </Route>
-
-    <Route path="/posts" component={Post}/>
   </Router>
 );
 

@@ -5,9 +5,11 @@ var _posts = [];
 
 var PostStore = new Store(AppDispatcher);
 
-
 var resetPosts = function (posts) {
-  _posts = posts.slice();
+  debugger;
+  for (var i = 0; i < Object.keys(posts).length - 1; i++) {
+    _posts[i] = posts[i];
+  }
 };
 
 PostStore.all = function () {

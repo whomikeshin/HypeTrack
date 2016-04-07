@@ -64,7 +64,6 @@ ApiUtil = {
       url: 'api/session',
       data: credentials,
       success: function (currentUser) {
-        debugger;
         SessionActions.currentUserReceived(currentUser);
         callback && callback();
       }
