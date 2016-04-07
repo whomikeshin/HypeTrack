@@ -23,12 +23,15 @@ var UserForm = React.createClass({
         <form onSubmit={this._handleSubmit}>
           <label htmlFor="email">Email</label>
           <input onChange={this._updateEmail} type="text" value={this.state.email}/>
+          <p className="signup-p">This address will be verified</p>
 
           <label htmlFor="username">Username</label>
           <input onChange={this._updateUsername} type="text" value={this.state.username}/>
+          <p className="signup-p">Letters, numbers and _ only, please.</p>
 
           <label htmlFor="password">Password</label>
           <input onChange={this._updatePassword} type="password" value={this.state.password}/>
+          <p className="signup-p">6 characters or more, be tricky!</p>
 
           <button className="form-submit">Submit</button>
         </form>

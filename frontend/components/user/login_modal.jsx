@@ -22,20 +22,6 @@ var style = {
   }
 };
 
-// content : {
-//     position                   : 'absolute',
-//     top                        : '40px',
-//     left                       : '40px',
-//     right                      : '40px',
-//     bottom                     : '40px',
-//     border                     : '1px solid #ccc',
-//     background                 : '#fff',
-//     overflow                   : 'auto',
-//     WebkitOverflowScrolling    : 'touch',
-//     borderRadius               : '4px',
-//     outline                    : 'none',
-//     padding                    : '20px'
-
 
 var LoginModal = React.createClass({
 
@@ -59,7 +45,7 @@ var LoginModal = React.createClass({
           isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}
           style={style}>
-            <LoginForm />
+            <LoginForm/>
         </Modal>
       </div>
     );

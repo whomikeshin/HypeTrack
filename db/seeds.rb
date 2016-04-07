@@ -201,3 +201,8 @@ TracksPlaylist.create!(
 )
 
 Favorite.destroy_all
+
+Favorite.create!(
+  user: guest,
+  track: mountain_at_my_gates
+)

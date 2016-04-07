@@ -44,7 +44,7 @@ var NewUserModal = React.createClass({
           isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}
           style={style}>
-          <NewUserForm />
+          <NewUserForm/>
         </Modal>
       </div>
     );

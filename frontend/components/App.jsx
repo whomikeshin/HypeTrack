@@ -42,9 +42,13 @@ var App = React.createClass({
         <header className="header">
           <nav className="header-nav group">
 
-            <h1 className="header-logo">
-              <Link to={"/tracks/"}>Hype Train</Link>
-            </h1>
+            <Link to={"/"}>
+              <div className="header-logo">
+                Hype Track
+                <img className="record"
+                  src="https://s3.amazonaws.com/hype-train-dev/seed-images/record.png"/>
+              </div>
+            </Link>
 
             <ul className="header-nav-list">
               <li><a href="#">Latest</a></li>

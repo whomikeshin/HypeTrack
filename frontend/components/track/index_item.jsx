@@ -4,6 +4,7 @@ var Link = require('react-router').Link;
 var SessionStore = require('../../stores/session');
 var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
+var UserModal = require('../user/user_modal');
 
 var IndexItem = React.createClass({
 

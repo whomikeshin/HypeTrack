@@ -37,8 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(router, root);
 });
 
-
-
 // function _requireLoggedIn(nextState, replace, callback) {
 //   if (!SessionStore.currentUserHasBeenFetched()) {
 //     ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);

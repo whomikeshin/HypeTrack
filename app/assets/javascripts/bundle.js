@@ -56,12 +56,12 @@
 	var TrackIndex = __webpack_require__(216);
 	var TrackForm = __webpack_require__(247);
 	var Profile = __webpack_require__(248);
-	var FavoriteIndex = __webpack_require__(278);
-	var Post = __webpack_require__(280);
-	var App = __webpack_require__(250);
+	var FavoriteIndex = __webpack_require__(251);
+	var Post = __webpack_require__(252);
+	var App = __webpack_require__(257);
 	
 	var ApiUtil = __webpack_require__(240);
-	var Modal = __webpack_require__(255);
+	var Modal = __webpack_require__(262);
 	
 	var router = React.createElement(
 	  Router,
@@ -31764,6 +31764,7 @@
 	      url: 'api/session',
 	      data: credentials,
 	      success: function (currentUser) {
+	        debugger;
 	        SessionActions.currentUserReceived(currentUser);
 	        callback && callback();
 	      }
@@ -31920,6 +31921,7 @@
 	var SessionStore = __webpack_require__(246);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
+	var UserModal = __webpack_require__(260);
 	
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
@@ -32166,7 +32168,7 @@
 	var TrackIndexItem = __webpack_require__(245);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
-	var Loader = __webpack_require__(279);
+	var Loader = __webpack_require__(250);
 	
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -32281,13 +32283,281 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	
+	var Loader = React.createClass({
+	  displayName: "Loader",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "loader" },
+	      "Loading..."
+	    );
+	  }
+	});
+	
+	module.exports = Loader;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var TrackStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(240);
+	var TrackIndexItem = __webpack_require__(245);
+	
+	function _getAllTracks() {
+	  return TrackStore.all();
+	}
+	
+	var FavoriteIndex = React.createClass({
+	  displayName: 'FavoriteIndex',
+	
+	  getInitialState: function () {
+	    return { tracks: _getAllTracks() };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = TrackStore.addListener(this._onChange);
+	    ApiUtil.fetchTracks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    var tracks = _getAllTracks();
+	    this.setState({ tracks: tracks });
+	  },
+	
+	  render: function () {
+	    var tracks = this.state.tracks;
+	
+	    return React.createElement(
+	      'main',
+	      { className: 'content' },
+	      React.createElement(
+	        'section',
+	        { className: 'playlist group' },
+	        React.createElement(
+	          'header',
+	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'playlist-title' },
+	            'Latest Blogged Music'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'playlist-menu' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'All'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Freshest'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Only Remixes'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'No Remixes'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Blogs in USA'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'tracks-list' },
+	          tracks.map(function (track) {
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	          })
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = FavoriteIndex;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var PostStore = __webpack_require__(253);
+	var PostUtil = __webpack_require__(255);
+	var Loader = __webpack_require__(250);
+	
+	function _getAllPosts() {
+	  return PostStore.all();
+	}
+	
+	var Post = React.createClass({
+	  displayName: 'Post',
+	
+	  getInitialState: function () {
+	    return { posts: _getAllPosts() };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = PostStore.addListener(this._onChange);
+	    PostUtil.fetchPosts();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    var posts = _getAllPosts();
+	    this.setState({ posts: posts });
+	  },
+	
+	  render: function () {
+	    debugger;
+	    var posts = this.state.posts;
+	
+	    if (!posts) {
+	      return React.createElement(Loader, null);
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      posts
+	    );
+	  }
+	});
+	
+	module.exports = Post;
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var PostConstants = __webpack_require__(254);
+	var _posts = [];
+	
+	var PostStore = new Store(AppDispatcher);
+	
+	var resetPosts = function (posts) {
+	  _posts = posts.slice();
+	};
+	
+	PostStore.all = function () {
+	  return _posts.slice();
+	};
+	
+	PostStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case PostConstants.POSTS_RECEIVED:
+	      resetPosts(payload.posts);
+	      PostStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = PostStore;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports) {
+
+	var PostConstants = {
+	  POSTS_RECEIVED: "POSTS_RECEIVED"
+	};
+	
+	module.exports = PostConstants;
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var PostActions = __webpack_require__(256);
+	
+	PostUtil = {
+	  fetchPosts: function () {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'http://hypem.com/playlist/popular/3day/json/1/data.js',
+	      success: function (posts) {
+	        PostActions.rececivePosts(posts);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = PostUtil;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var PostConstants = __webpack_require__(254);
+	
+	var PostActions = {
+	  rececivePosts: function (posts) {
+	    AppDispatcher.dispatch({
+	      actionType: PostConstants.POSTS_RECEIVED,
+	      posts: posts
+	    });
+	  }
+	};
+	
+	module.exports = PostActions;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
 	var SessionStore = __webpack_require__(246);
 	var ApiUtil = __webpack_require__(240);
-	var Player = __webpack_require__(251);
-	var UserModal = __webpack_require__(253);
-	var LoginModal = __webpack_require__(275);
-	var ProfileMenu = __webpack_require__(277);
+	var Player = __webpack_require__(258);
+	var UserModal = __webpack_require__(260);
+	var LoginModal = __webpack_require__(282);
+	var ProfileMenu = __webpack_require__(284);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -32342,12 +32612,14 @@
 	          'nav',
 	          { className: 'header-nav group' },
 	          React.createElement(
-	            'h1',
-	            { className: 'header-logo' },
+	            Link,
+	            { to: "/" },
 	            React.createElement(
-	              Link,
-	              { to: "/tracks/" },
-	              'Hype Train'
+	              'div',
+	              { className: 'header-logo' },
+	              'Hype Track',
+	              React.createElement('img', { className: 'record',
+	                src: 'https://s3.amazonaws.com/hype-train-dev/seed-images/record.png' })
 	            )
 	          ),
 	          React.createElement(
@@ -32413,11 +32685,11 @@
 	module.exports = App;
 
 /***/ },
-/* 251 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PlayerStore = __webpack_require__(252);
+	var PlayerStore = __webpack_require__(259);
 	var TrackStore = __webpack_require__(217);
 	
 	var Player = React.createClass({
@@ -32440,7 +32712,7 @@
 	module.exports = Player;
 
 /***/ },
-/* 252 */
+/* 259 */
 /***/ function(module, exports) {
 
 	// var Store = require('flux/utils').Store;
@@ -32452,12 +32724,12 @@
 	// module.exports = PlayerStore;
 
 /***/ },
-/* 253 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var NewUserForm = __webpack_require__(254);
-	var Modal = __webpack_require__(255);
+	var NewUserForm = __webpack_require__(261);
+	var Modal = __webpack_require__(262);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -32519,7 +32791,7 @@
 	module.exports = NewUserModal;
 
 /***/ },
-/* 254 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32561,17 +32833,32 @@
 	        ),
 	        React.createElement('input', { onChange: this._updateEmail, type: 'text', value: this.state.email }),
 	        React.createElement(
+	          'p',
+	          { className: 'signup-p' },
+	          'This address will be verified'
+	        ),
+	        React.createElement(
 	          'label',
 	          { htmlFor: 'username' },
 	          'Username'
 	        ),
 	        React.createElement('input', { onChange: this._updateUsername, type: 'text', value: this.state.username }),
 	        React.createElement(
+	          'p',
+	          { className: 'signup-p' },
+	          'Letters, numbers and _ only, please.'
+	        ),
+	        React.createElement(
 	          'label',
 	          { htmlFor: 'password' },
 	          'Password'
 	        ),
 	        React.createElement('input', { onChange: this._updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement(
+	          'p',
+	          { className: 'signup-p' },
+	          '6 characters or more, be tricky!'
+	        ),
 	        React.createElement(
 	          'button',
 	          { className: 'form-submit' },
@@ -32606,23 +32893,23 @@
 	module.exports = UserForm;
 
 /***/ },
-/* 255 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(256);
+	module.exports = __webpack_require__(263);
 	
 
 
 /***/ },
-/* 256 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(257);
-	var ModalPortal = React.createFactory(__webpack_require__(258));
-	var ariaAppHider = __webpack_require__(273);
-	var elementClass = __webpack_require__(274);
+	var ExecutionEnvironment = __webpack_require__(264);
+	var ModalPortal = React.createFactory(__webpack_require__(265));
+	var ariaAppHider = __webpack_require__(280);
+	var elementClass = __webpack_require__(281);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32701,7 +32988,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 257 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32746,14 +33033,14 @@
 
 
 /***/ },
-/* 258 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(259);
-	var scopeTab = __webpack_require__(261);
-	var Assign = __webpack_require__(262);
+	var focusManager = __webpack_require__(266);
+	var scopeTab = __webpack_require__(268);
+	var Assign = __webpack_require__(269);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32950,10 +33237,10 @@
 
 
 /***/ },
-/* 259 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(260);
+	var findTabbable = __webpack_require__(267);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -33024,7 +33311,7 @@
 
 
 /***/ },
-/* 260 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/*!
@@ -33080,10 +33367,10 @@
 
 
 /***/ },
-/* 261 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(260);
+	var findTabbable = __webpack_require__(267);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -33101,7 +33388,7 @@
 
 
 /***/ },
-/* 262 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33112,9 +33399,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(263),
-	    createAssigner = __webpack_require__(269),
-	    keys = __webpack_require__(265);
+	var baseAssign = __webpack_require__(270),
+	    createAssigner = __webpack_require__(276),
+	    keys = __webpack_require__(272);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -33187,7 +33474,7 @@
 
 
 /***/ },
-/* 263 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33198,8 +33485,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(264),
-	    keys = __webpack_require__(265);
+	var baseCopy = __webpack_require__(271),
+	    keys = __webpack_require__(272);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -33220,7 +33507,7 @@
 
 
 /***/ },
-/* 264 */
+/* 271 */
 /***/ function(module, exports) {
 
 	/**
@@ -33258,7 +33545,7 @@
 
 
 /***/ },
-/* 265 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33269,9 +33556,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(266),
-	    isArguments = __webpack_require__(267),
-	    isArray = __webpack_require__(268);
+	var getNative = __webpack_require__(273),
+	    isArguments = __webpack_require__(274),
+	    isArray = __webpack_require__(275);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33500,7 +33787,7 @@
 
 
 /***/ },
-/* 266 */
+/* 273 */
 /***/ function(module, exports) {
 
 	/**
@@ -33643,7 +33930,7 @@
 
 
 /***/ },
-/* 267 */
+/* 274 */
 /***/ function(module, exports) {
 
 	/**
@@ -33892,7 +34179,7 @@
 
 
 /***/ },
-/* 268 */
+/* 275 */
 /***/ function(module, exports) {
 
 	/**
@@ -34078,7 +34365,7 @@
 
 
 /***/ },
-/* 269 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34089,9 +34376,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(270),
-	    isIterateeCall = __webpack_require__(271),
-	    restParam = __webpack_require__(272);
+	var bindCallback = __webpack_require__(277),
+	    isIterateeCall = __webpack_require__(278),
+	    restParam = __webpack_require__(279);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -34136,7 +34423,7 @@
 
 
 /***/ },
-/* 270 */
+/* 277 */
 /***/ function(module, exports) {
 
 	/**
@@ -34207,7 +34494,7 @@
 
 
 /***/ },
-/* 271 */
+/* 278 */
 /***/ function(module, exports) {
 
 	/**
@@ -34345,7 +34632,7 @@
 
 
 /***/ },
-/* 272 */
+/* 279 */
 /***/ function(module, exports) {
 
 	/**
@@ -34418,7 +34705,7 @@
 
 
 /***/ },
-/* 273 */
+/* 280 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34465,7 +34752,7 @@
 
 
 /***/ },
-/* 274 */
+/* 281 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34530,12 +34817,12 @@
 
 
 /***/ },
-/* 275 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LoginForm = __webpack_require__(276);
-	var Modal = __webpack_require__(255);
+	var LoginForm = __webpack_require__(283);
+	var Modal = __webpack_require__(262);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -34556,20 +34843,6 @@
 	    border: '3px solid #000'
 	  }
 	};
-	
-	// content : {
-	//     position                   : 'absolute',
-	//     top                        : '40px',
-	//     left                       : '40px',
-	//     right                      : '40px',
-	//     bottom                     : '40px',
-	//     border                     : '1px solid #ccc',
-	//     background                 : '#fff',
-	//     overflow                   : 'auto',
-	//     WebkitOverflowScrolling    : 'touch',
-	//     borderRadius               : '4px',
-	//     outline                    : 'none',
-	//     padding                    : '20px'
 	
 	var LoginModal = React.createClass({
 	  displayName: 'LoginModal',
@@ -34611,7 +34884,7 @@
 	module.exports = LoginModal;
 
 /***/ },
-/* 276 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34660,12 +34933,12 @@
 	          'button',
 	          { className: 'form-submit' },
 	          'Log in'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'guest', onClick: this._guestLogin },
+	          'Guest Account'
 	        )
-	      ),
-	      React.createElement(
-	        'button',
-	        { className: 'guest', onClick: this._guestLogin },
-	        'Guest'
 	      )
 	    );
 	  },
@@ -34699,7 +34972,7 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 277 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34792,274 +35065,6 @@
 	});
 	
 	module.exports = ProfileMenu;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var TrackStore = __webpack_require__(217);
-	var ApiUtil = __webpack_require__(240);
-	var TrackIndexItem = __webpack_require__(245);
-	
-	function _getAllTracks() {
-	  return TrackStore.all();
-	}
-	
-	var FavoriteIndex = React.createClass({
-	  displayName: 'FavoriteIndex',
-	
-	  getInitialState: function () {
-	    return { tracks: _getAllTracks() };
-	  },
-	
-	  componentDidMount: function () {
-	    this.onChangeToken = TrackStore.addListener(this._onChange);
-	    ApiUtil.fetchTracks();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.onChangeToken.remove();
-	  },
-	
-	  _onChange: function () {
-	    var tracks = _getAllTracks();
-	    this.setState({ tracks: tracks });
-	  },
-	
-	  render: function () {
-	    var tracks = this.state.tracks;
-	
-	    return React.createElement(
-	      'main',
-	      { className: 'content' },
-	      React.createElement(
-	        'section',
-	        { className: 'playlist group' },
-	        React.createElement(
-	          'header',
-	          null,
-	          React.createElement(
-	            'h2',
-	            { className: 'playlist-title' },
-	            'Latest Blogged Music'
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'playlist-menu' },
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'All'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Freshest'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Only Remixes'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'No Remixes'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Blogs in USA'
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'ul',
-	          { className: 'tracks-list' },
-	          tracks.map(function (track) {
-	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
-	          })
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = FavoriteIndex;
-
-/***/ },
-/* 279 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var Loader = React.createClass({
-	  displayName: "Loader",
-	
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      { className: "loader" },
-	      "Loading..."
-	    );
-	  }
-	});
-	
-	module.exports = Loader;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var PostStore = __webpack_require__(281);
-	var PostUtil = __webpack_require__(283);
-	var Loader = __webpack_require__(279);
-	
-	function _getAllPosts() {
-	  return PostStore.all();
-	}
-	
-	var Post = React.createClass({
-	  displayName: 'Post',
-	
-	  getInitialState: function () {
-	    return { posts: _getAllPosts() };
-	  },
-	
-	  componentDidMount: function () {
-	    this.onChangeToken = PostStore.addListener(this._onChange);
-	    PostUtil.fetchPosts();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.onChangeToken.remove();
-	  },
-	
-	  _onChange: function () {
-	    var posts = _getAllPosts();
-	    this.setState({ posts: posts });
-	  },
-	
-	  render: function () {
-	    debugger;
-	    var posts = this.state.posts;
-	
-	    if (!posts) {
-	      return React.createElement(Loader, null);
-	    }
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      posts
-	    );
-	  }
-	});
-	
-	module.exports = Post;
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var AppDispatcher = __webpack_require__(236);
-	var PostConstants = __webpack_require__(282);
-	var _posts = [];
-	
-	var PostStore = new Store(AppDispatcher);
-	
-	var resetPosts = function (posts) {
-	  _posts = posts.slice();
-	};
-	
-	PostStore.all = function () {
-	  return _posts.slice();
-	};
-	
-	PostStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case PostConstants.POSTS_RECEIVED:
-	      resetPosts(payload.posts);
-	      PostStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = PostStore;
-
-/***/ },
-/* 282 */
-/***/ function(module, exports) {
-
-	var PostConstants = {
-	  POSTS_RECEIVED: "POSTS_RECEIVED"
-	};
-	
-	module.exports = PostConstants;
-
-/***/ },
-/* 283 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var PostActions = __webpack_require__(284);
-	
-	PostUtil = {
-	  fetchPosts: function () {
-	    $.ajax({
-	      type: 'GET',
-	      url: 'http://hypem.com/playlist/popular/3day/json/1/data.js',
-	      success: function (posts) {
-	        PostActions.rececivePosts(posts);
-	      },
-	      error: function (data) {
-	        console.log(data);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = PostUtil;
-
-/***/ },
-/* 284 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(236);
-	var PostConstants = __webpack_require__(282);
-	
-	var PostActions = {
-	  rececivePosts: function (posts) {
-	    AppDispatcher.dispatch({
-	      actionType: PostConstants.POSTS_RECEIVED,
-	      posts: posts
-	    });
-	  }
-	};
-	
-	module.exports = PostActions;
 
 /***/ }
 /******/ ]);

@@ -25,7 +25,7 @@ ul {
   list-style: none;
 }
 
-input, textarea {
+input {
   padding: 4px;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -79,6 +79,13 @@ button {
   color: #fff;
 }
 
+.header-logo > img {
+  max-height: 42px;
+  max-width: 42px;
+  float: right;
+  margin: 0 3px;
+}
+
 .header-nav-list {
   float: left;
 }
@@ -102,9 +109,6 @@ button {
   height: 33px;
   width: 100%;
   line-height: 25px;
-  position: absolute;
-  left: 0;
-  z-index: 200;
 }
 
 .player {
@@ -151,7 +155,6 @@ button {
 .logout {
   padding: 0;
 }
-
 
 .login-button, .signup-button {
   font-size: 14px;
@@ -308,7 +311,11 @@ button {
   width: 340px;
 }
 
-.form-header,  {
+.signup-p {
+  font-size: 12px;
+}
+
+.form-header, {
   background: #83c441;
   font-size: 18px;
   font-weight: 600;
@@ -322,10 +329,11 @@ label {
   display: block;
   font-weight: 600;
   font-size: 12px;
-  margin: 3px 0;
+  margin: 10px 0;
 }
 
 .login-form > input {
+  margin: 10px 0;
   display: block;
   background: #efefef;
   border: 1px solid #ccc;
@@ -333,6 +341,17 @@ label {
   font-size: 14px;
   line-height: 16px;
   color: #000;
+}
+
+.form-submit, .guest {
+  border-radius: 3px;
+  background: #efefef;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  color: #000;
+  font-weight: 600;
+  display: block;
+  margin: 5px 0;
 }
 
 /*/ Profile /*/
