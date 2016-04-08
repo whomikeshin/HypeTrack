@@ -8,7 +8,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 
 var TrackIndex = require('./components/track/index');
-var TrackForm = require('./components/track/track_form');
+// var TrackForm = require('./components/track/track_form');
 var Profile = require ('./components/user/profile');
 var FavoriteIndex = require('./components/track/favorite_index');
 var Post = require('./components/post');
@@ -21,7 +21,6 @@ var router = (
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <Route path="tracks" component={TrackIndex}/>
-      <Route path="upload" component={TrackForm}/>
       <Route path="users/:id" component={Profile}/>
         <IndexRoute component={FavoriteIndex}/>
     </Route>
@@ -50,3 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
 //     callback();
 //   }
 // }
+
+
+// <Route path="upload" component={TrackForm}/>

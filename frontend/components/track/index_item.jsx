@@ -1,17 +1,20 @@
 var React = require('react');
 var ReactRouter = require('react-router');
-var Link = require('react-router').Link;
+// var Link = require('react-router').Link;
 var SessionStore = require('../../stores/session');
-var TrackStore = require('../../stores/track');
+var PlayerStore = require('../../stores/player');
+// var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
 var UserModal = require('../user/user_modal');
 var Player = require('../player');
+var PlayerActions = require('../../actions/player_actions');
 
 var IndexItem = React.createClass({
 
   render: function () {
     var favoriteButton;
     var track = this.props.track;
+    PlayerActions.add(track);
     var currentUser = SessionStore.currentUser();
     if (currentUser) {
       favoriteButton = this._favorite();
@@ -60,8 +63,6 @@ var IndexItem = React.createClass({
           </span>
 
         </section>
-
-
       </li>
     );
   },
@@ -74,7 +75,7 @@ var IndexItem = React.createClass({
         <button
           className="unfavorite"
           onClick={this._unfavorTrack.bind(this, track.id)}>
-          <div className="heart">♥</div>
+          <div className="heart">&#9829;</div>
         </button>
       );
     } else {
@@ -82,7 +83,7 @@ var IndexItem = React.createClass({
         <button
           className="favorite"
           onClick={this._favorTrack.bind(this, track.id)}>
-          <div className="heart">♥</div>
+          <div className="heart">&#9829;</div>
         </button>
       );
     }
@@ -95,10 +96,10 @@ var IndexItem = React.createClass({
   _unfavorTrack: function (track_id) {
     ApiUtil.destroyFavorite(track_id);
   },
-
-  _onTrackChange: function () {
-    this.forceUpdate();
-  },
+  //
+  // _onTrackChange: function () {
+  //   this.forceUpdate();
+  // },
 });
 
 module.exports = IndexItem;

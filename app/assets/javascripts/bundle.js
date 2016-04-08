@@ -54,7 +54,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var TrackIndex = __webpack_require__(216);
-	var TrackForm = __webpack_require__(269);
+	// var TrackForm = require('./components/track/track_form');
 	var Profile = __webpack_require__(270);
 	var FavoriteIndex = __webpack_require__(273);
 	var Post = __webpack_require__(274);
@@ -70,7 +70,6 @@
 	    Route,
 	    { path: '/', component: App },
 	    React.createElement(Route, { path: 'tracks', component: TrackIndex }),
-	    React.createElement(Route, { path: 'upload', component: TrackForm }),
 	    React.createElement(Route, { path: 'users/:id', component: Profile }),
 	    React.createElement(IndexRoute, { component: FavoriteIndex })
 	  )
@@ -97,6 +96,8 @@
 	//     callback();
 	//   }
 	// }
+
+	// <Route path="upload" component={TrackForm}/>
 
 /***/ },
 /* 1 */
@@ -31915,12 +31916,14 @@
 
 	var React = __webpack_require__(1);
 	var ReactRouter = __webpack_require__(159);
-	var Link = __webpack_require__(159).Link;
+	// var Link = require('react-router').Link;
 	var SessionStore = __webpack_require__(246);
-	var TrackStore = __webpack_require__(217);
+	var PlayerStore = __webpack_require__(281);
+	// var TrackStore = require('../../stores/track');
 	var ApiUtil = __webpack_require__(240);
 	var UserModal = __webpack_require__(247);
 	var Player = __webpack_require__(280);
+	var PlayerActions = __webpack_require__(286);
 	
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
@@ -31929,6 +31932,7 @@
 	  render: function () {
 	    var favoriteButton;
 	    var track = this.props.track;
+	    PlayerActions.add(track);
 	    var currentUser = SessionStore.currentUser();
 	    if (currentUser) {
 	      favoriteButton = this._favorite();
@@ -32033,13 +32037,13 @@
 	
 	  _unfavorTrack: function (track_id) {
 	    ApiUtil.destroyFavorite(track_id);
-	  },
-	
-	  _onTrackChange: function () {
-	    this.forceUpdate();
 	  }
 	});
 	
+	//
+	// _onTrackChange: function () {
+	//   this.forceUpdate();
+	// },
 	module.exports = IndexItem;
 
 /***/ },
@@ -34176,82 +34180,7 @@
 
 
 /***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(240);
-	
-	var TrackForm = React.createClass({
-	  displayName: 'TrackForm',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      title: "",
-	      imageFile: null,
-	      imageUrl: null
-	    };
-	  },
-	
-	  updateTitle: function (e) {
-	    this.setState({ title: e.currentTarget.value });
-	  },
-	
-	  updateFile: function (e) {
-	    var file = e.currentTarget.files[0];
-	    var reader = new FileReader();
-	
-	    reader.onloadend = function () {
-	      var result = reader.result;
-	      this.setState({ imageFile: file, imageUrl: result });
-	    }.bind(this);
-	
-	    reader.readAsDataURL(file);
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var formData = new FormData();
-	    formData.append("track[title]", this.state.title);
-	    formData.append("post[image]", this.state.imageFile);
-	
-	    ApiUtil.createTrack(formData);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'label',
-	          null,
-	          'Title'
-	        ),
-	        React.createElement('input', { onChange: this.updateTitle, type: 'text', value: this.state.title }),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'label',
-	          null,
-	          'Image'
-	        ),
-	        React.createElement('input', { onChnage: this.updateFile, type: 'file' }),
-	        React.createElement(
-	          'button',
-	          null,
-	          'Save Track'
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = TrackForm;
-
-/***/ },
+/* 269 */,
 /* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -34655,6 +34584,7 @@
 	var UserModal = __webpack_require__(247);
 	var LoginModal = __webpack_require__(282);
 	var ProfileMenu = __webpack_require__(284);
+	var NavPlayer = __webpack_require__(285);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -34760,8 +34690,8 @@
 	          { className: 'player group' },
 	          React.createElement(
 	            'div',
-	            null,
-	            'Player'
+	            { className: 'player-controls' },
+	            React.createElement(NavPlayer, null)
 	          ),
 	          React.createElement(
 	            'div',
@@ -34790,49 +34720,62 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
+	var PlayerStore = __webpack_require__(281);
+	var PlayerActions = __webpack_require__(286);
 	
 	var Player = React.createClass({
 	  displayName: 'Player',
 	
 	  getInitialState: function () {
 	    return {
-	      audio: this.props.track.audio_file_name,
+	      // track: this.props.track,
 	      isPlaying: false
 	    };
 	  },
 	
 	  componentDidMount: function () {
-	    var audioDOM = this.refs.audioHTML;
+	    // var audioDOM = this.refs.audioHTML;
+	    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
 	  },
 	
-	  toggle: function (e) {
+	  componentWillUnmount: function () {
+	    this.onPlayerChangeToken.remove();
+	  },
+	
+	  render: function () {
+	    var trackButton = this._trackButton();
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement('audio', { src: this.props.track.audio_file_name, ref: 'audioHTML' }),
+	      trackButton
+	    );
+	  },
+	
+	  _onPlayerChange: function () {
+	    var track = this.props.track;
+	    currentTrack = PlayerStore.currentTrack();
+	    if (track.id === currentTrack.id) {
+	      this.setState({ isPlaying: PlayerStore.playStatus() });
+	    }
+	  },
+	
+	  _toggle: function (e) {
 	    e.preventDefault();
-	    var audioDOM = this.refs.audioHTML;
-	    var audio = this.state.audio;
+	    // var audioDOM = this.refs.audioHTML;
+	    // var audio = this.state.audio;
 	    var isPlaying = this.state.isPlaying;
 	
 	    this.setState({ isPlaying: !isPlaying });
 	
 	    if (isPlaying) {
-	      return audioDOM.pause();
+	      PlayerActions.pause();
+	      // return audioDOM.pause();
 	    }
-	    return audioDOM.play();
-	  },
-	
-	  render: function () {
-	    var trackButton = this._trackButton();
-	    var audioSource = this.state.audio;
-	
-	    if (!audioSource) {
-	      return React.createElement(Loader, null);
-	    }
-	    return React.createElement(
-	      'div',
-	      { className: 'playa playa' },
-	      React.createElement('audio', { src: audioSource, ref: 'audioHTML' }),
-	      trackButton
-	    );
+	    PlayerActions.receiveCurrentTrack(this.props.track);
+	    PlayerActions.play();
+	    // return audioDOM.play();
 	  },
 	
 	  _trackButton: function () {
@@ -34842,7 +34785,7 @@
 	        'button',
 	        {
 	          className: 'pause-button',
-	          onClick: this.toggle },
+	          onClick: this._toggle },
 	        '❚❚'
 	      );
 	    } else {
@@ -34850,7 +34793,7 @@
 	        'button',
 	        {
 	          className: 'play-button',
-	          onClick: this.toggle },
+	          onClick: this._toggle },
 	        '►'
 	      );
 	    }
@@ -34858,9 +34801,84 @@
 	});
 	
 	module.exports = Player;
+	
+	// getInitialState: function () {
+	//   return {
+	//     audio: this.props.track.audio_file_name,
+	//     isPlaying: false,
+	//   };
+	// },
+
+	// render: function () {
+	//   var trackButton = this._trackButton();
+	//   var audioSource = this.state.audio;
+	//
+	//   if(!audioSource) {
+	//     return <Loader/>;
+	//   }
+	//   return (
+	//     <div className="playa playa">
+	//       <audio src={audioSource} ref="audioHTML"></audio>
+	//       {trackButton}
+	//     </div>
+	//   );
+	// },
 
 /***/ },
-/* 281 */,
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var PlayerConstants = __webpack_require__(287);
+	
+	var _currentTrack;
+	var _playStatus;
+	var _loadedTracks = [];
+	
+	var PlayerStore = new Store(AppDispatcher);
+	
+	PlayerStore.addTrack = function (track) {
+	  _loadedTracks.push(track);
+	};
+	
+	PlayerStore.all = function () {
+	  return _loadedTracks.slice();
+	};
+	
+	PlayerStore.currentTrack = function () {
+	  return _currentTrack;
+	};
+	
+	PlayerStore.playStatus = function () {
+	  return _playStatus;
+	};
+	
+	PlayerStore.__onDispatch = function (payload) {
+	  debugger;
+	  switch (payload.actionType) {
+	    case PlayerConstants.CURRENT_TRACK_RECEIVED:
+	      _currentTrack = payload.track;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.PLAYED:
+	      _playStatus = true;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.PAUSED:
+	      _playStatus = false;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.ADD:
+	      addTrack(payload.track);
+	      PlayerStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = PlayerStore;
+
+/***/ },
 /* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35109,6 +35127,148 @@
 	});
 	
 	module.exports = ProfileMenu;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var PlayerStore = __webpack_require__(281);
+	var PlayerActions = __webpack_require__(286);
+	var Loader = __webpack_require__(272);
+	var TrackStore = __webpack_require__(217);
+	
+	var audioTags = [];
+	
+	function _getLoadedTracks() {
+	  return PlayerStore.all();
+	}
+	
+	var NavPlayer = React.createClass({
+	  displayName: 'NavPlayer',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      currentTrack: null,
+	      loadedTracks: _getLoadedTracks()
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    // var audioTags = document.getElementsByTagName('audio');
+	    // this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
+	    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onPlayerChangeToken.remove();
+	  },
+	
+	  render: function () {
+	    var i = 0;
+	    var track = this.state.currentTrack;
+	    debugger;
+	    var loadedTracks = _getLoadedTracks();
+	    if (track) {
+	      return React.createElement('audio', { src: track.audio_file_name, ref: 'audioHTML', controls: true });
+	    }
+	
+	    if (loadedTracks.length === 0) {
+	      return React.createElement(Loader, null);
+	    } else {
+	      return React.createElement('audio', { src: loadedTracks[i].audio_file_name, ref: 'audioHTML', controls: true });
+	    }
+	  },
+	
+	  // _onTrackChange: function () {
+	  //   debugger
+	  //   var audioTags = document.getElementsByTagName('audio');
+	  // },
+	
+	  _onPlayerChange: function () {
+	    debugger;
+	    var audioDOM = this.refs.audioHTML;
+	
+	    var loadedTracks = _getLoadedTracks();
+	    this.setState({
+	      currentTrack: PlayerStore.currentTrack(),
+	      loadedTracks: loadedTracks
+	    });
+	
+	    var isPlaying = PlayerStore.playStatus();
+	
+	    if (isPlaying) {
+	      audioDOM.play();
+	    }
+	    // else {
+	    //   return audioDOM.paused();
+	    // }
+	  }
+	});
+	
+	module.exports = NavPlayer;
+	
+	// render: function () {
+	//   var track = this.state.currentTrack;
+	//
+	//   if(!track) {
+	//     return <Loader/>;
+	//   }
+	//   return (
+	//     <audio src={track.audio_file_name} ref="audioHTML" controls>
+	//     </audio>
+	//   );
+	// },
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var PlayerConstants = __webpack_require__(287);
+	
+	var PlayerActions = {
+	  receiveCurrentTrack: function (track) {
+	    AppDispatcher.dispatch({
+	      actionType: PlayerConstants.CURRENT_TRACK_RECEIVED,
+	      track: track
+	    });
+	  },
+	
+	  play: function () {
+	    AppDispatcher.dispatch({
+	      actionType: PlayerConstants.PLAYED
+	    });
+	  },
+	
+	  pause: function () {
+	    AppDispatcher.dispatch({
+	      actionType: PlayerConstants.PAUSED
+	    });
+	  },
+	
+	  add: function (track) {
+	    AppDispatcher.dispatch({
+	      actionType: PlayerConstants.ADD
+	    });
+	  }
+	};
+	
+	module.exports = PlayerActions;
+
+/***/ },
+/* 287 */
+/***/ function(module, exports) {
+
+	var PlayerConstants = {
+	  CURRENT_TRACK_RECEIVED: "CURRENT_TRACK_RECEIVED",
+	  PLAYED: "PLAYED",
+	  PAUSED: "PAUSED",
+	  ADD: "ADD"
+	};
+	
+	module.exports = PlayerConstants;
 
 /***/ }
 /******/ ]);
