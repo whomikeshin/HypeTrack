@@ -55,13 +55,13 @@
 	
 	var TrackIndex = __webpack_require__(216);
 	// var TrackForm = require('./components/track/track_form');
-	var Profile = __webpack_require__(270);
-	var FavoriteIndex = __webpack_require__(273);
-	var Post = __webpack_require__(274);
-	var App = __webpack_require__(279);
+	var Profile = __webpack_require__(273);
+	var FavoriteIndex = __webpack_require__(276);
+	var Post = __webpack_require__(277);
+	var App = __webpack_require__(282);
 	
 	var ApiUtil = __webpack_require__(240);
-	var Modal = __webpack_require__(249);
+	var Modal = __webpack_require__(251);
 	
 	var router = React.createElement(
 	  Router,
@@ -31918,12 +31918,12 @@
 	var ReactRouter = __webpack_require__(159);
 	// var Link = require('react-router').Link;
 	var SessionStore = __webpack_require__(246);
-	var PlayerStore = __webpack_require__(281);
+	var PlayerStore = __webpack_require__(247);
 	// var TrackStore = require('../../stores/track');
 	var ApiUtil = __webpack_require__(240);
-	var UserModal = __webpack_require__(247);
-	var Player = __webpack_require__(280);
-	var PlayerActions = __webpack_require__(286);
+	var UserModal = __webpack_require__(249);
+	var Player = __webpack_require__(271);
+	var PlayerActions = __webpack_require__(272);
 	
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
@@ -31932,7 +31932,7 @@
 	  render: function () {
 	    var favoriteButton;
 	    var track = this.props.track;
-	    PlayerActions.add(track);
+	    // PlayerActions.add(track);
 	    var currentUser = SessionStore.currentUser();
 	    if (currentUser) {
 	      favoriteButton = this._favorite();
@@ -32037,13 +32037,13 @@
 	
 	  _unfavorTrack: function (track_id) {
 	    ApiUtil.destroyFavorite(track_id);
+	  },
+	
+	  _onTrackChange: function () {
+	    this.forceUpdate();
 	  }
 	});
 	
-	//
-	// _onTrackChange: function () {
-	//   this.forceUpdate();
-	// },
 	module.exports = IndexItem;
 
 /***/ },
@@ -32090,9 +32090,76 @@
 /* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var PlayerConstants = __webpack_require__(248);
+	
+	var _currentTrack;
+	var _playStatus;
+	var _loadedTracks = [];
+	
+	var PlayerStore = new Store(AppDispatcher);
+	
+	PlayerStore.addTrack = function (track) {
+	  _loadedTracks.push(track);
+	};
+	
+	PlayerStore.all = function () {
+	  return _loadedTracks.slice();
+	};
+	
+	PlayerStore.currentTrack = function () {
+	  return _currentTrack;
+	};
+	
+	PlayerStore.playStatus = function () {
+	  return _playStatus;
+	};
+	
+	PlayerStore.__onDispatch = function (payload) {
+	  debugger;
+	  switch (payload.actionType) {
+	    case PlayerConstants.CURRENT_TRACK_RECEIVED:
+	      _currentTrack = payload.track;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.PLAYED:
+	      _playStatus = true;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.PAUSED:
+	      _playStatus = false;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.ADD:
+	      addTrack(payload.track);
+	      PlayerStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = PlayerStore;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports) {
+
+	var PlayerConstants = {
+	  CURRENT_TRACK_RECEIVED: "CURRENT_TRACK_RECEIVED",
+	  PLAYED: "PLAYED",
+	  PAUSED: "PAUSED",
+	  ADD: "ADD"
+	};
+	
+	module.exports = PlayerConstants;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
-	var NewUserForm = __webpack_require__(248);
-	var Modal = __webpack_require__(249);
+	var NewUserForm = __webpack_require__(250);
+	var Modal = __webpack_require__(251);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -32154,7 +32221,7 @@
 	module.exports = NewUserModal;
 
 /***/ },
-/* 248 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32256,23 +32323,23 @@
 	module.exports = UserForm;
 
 /***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(250);
+	module.exports = __webpack_require__(252);
 	
 
 
 /***/ },
-/* 250 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(251);
-	var ModalPortal = React.createFactory(__webpack_require__(252));
-	var ariaAppHider = __webpack_require__(267);
-	var elementClass = __webpack_require__(268);
+	var ExecutionEnvironment = __webpack_require__(253);
+	var ModalPortal = React.createFactory(__webpack_require__(254));
+	var ariaAppHider = __webpack_require__(269);
+	var elementClass = __webpack_require__(270);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32351,7 +32418,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32396,14 +32463,14 @@
 
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(253);
-	var scopeTab = __webpack_require__(255);
-	var Assign = __webpack_require__(256);
+	var focusManager = __webpack_require__(255);
+	var scopeTab = __webpack_require__(257);
+	var Assign = __webpack_require__(258);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32600,10 +32667,10 @@
 
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(254);
+	var findTabbable = __webpack_require__(256);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32674,7 +32741,7 @@
 
 
 /***/ },
-/* 254 */
+/* 256 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32730,10 +32797,10 @@
 
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(254);
+	var findTabbable = __webpack_require__(256);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32751,7 +32818,7 @@
 
 
 /***/ },
-/* 256 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32762,9 +32829,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(257),
-	    createAssigner = __webpack_require__(263),
-	    keys = __webpack_require__(259);
+	var baseAssign = __webpack_require__(259),
+	    createAssigner = __webpack_require__(265),
+	    keys = __webpack_require__(261);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -32837,7 +32904,7 @@
 
 
 /***/ },
-/* 257 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32848,8 +32915,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(258),
-	    keys = __webpack_require__(259);
+	var baseCopy = __webpack_require__(260),
+	    keys = __webpack_require__(261);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -32870,7 +32937,7 @@
 
 
 /***/ },
-/* 258 */
+/* 260 */
 /***/ function(module, exports) {
 
 	/**
@@ -32908,7 +32975,7 @@
 
 
 /***/ },
-/* 259 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32919,9 +32986,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(260),
-	    isArguments = __webpack_require__(261),
-	    isArray = __webpack_require__(262);
+	var getNative = __webpack_require__(262),
+	    isArguments = __webpack_require__(263),
+	    isArray = __webpack_require__(264);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33150,7 +33217,7 @@
 
 
 /***/ },
-/* 260 */
+/* 262 */
 /***/ function(module, exports) {
 
 	/**
@@ -33293,7 +33360,7 @@
 
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -33542,7 +33609,7 @@
 
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports) {
 
 	/**
@@ -33728,7 +33795,7 @@
 
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33739,9 +33806,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(264),
-	    isIterateeCall = __webpack_require__(265),
-	    restParam = __webpack_require__(266);
+	var bindCallback = __webpack_require__(266),
+	    isIterateeCall = __webpack_require__(267),
+	    restParam = __webpack_require__(268);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -33786,7 +33853,7 @@
 
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports) {
 
 	/**
@@ -33857,7 +33924,7 @@
 
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/**
@@ -33995,7 +34062,7 @@
 
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports) {
 
 	/**
@@ -34068,7 +34135,7 @@
 
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34115,7 +34182,7 @@
 
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34180,17 +34247,161 @@
 
 
 /***/ },
-/* 269 */,
-/* 270 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(271);
+	var PlayerStore = __webpack_require__(247);
+	var PlayerActions = __webpack_require__(272);
+	
+	var Player = React.createClass({
+	  displayName: 'Player',
+	
+	  getInitialState: function () {
+	    return {
+	      // track: this.props.track,
+	      isPlaying: false
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    // var audioDOM = this.refs.audioHTML;
+	    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onPlayerChangeToken.remove();
+	  },
+	
+	  render: function () {
+	    var trackButton = this._trackButton();
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement('audio', { src: this.props.track.audio_file_name, ref: 'audioHTML' }),
+	      trackButton
+	    );
+	  },
+	
+	  _onPlayerChange: function () {
+	    var track = this.props.track;
+	    currentTrack = PlayerStore.currentTrack();
+	    if (track.id === currentTrack.id) {
+	      this.setState({ isPlaying: PlayerStore.playStatus() });
+	    }
+	  },
+	
+	  _toggle: function (e) {
+	    e.preventDefault();
+	    // var audioDOM = this.refs.audioHTML;
+	    // var audio = this.state.audio;
+	    var isPlaying = this.state.isPlaying;
+	
+	    this.setState({ isPlaying: !isPlaying });
+	
+	    if (isPlaying) {
+	      PlayerActions.pause();
+	      // return audioDOM.pause();
+	    }
+	    PlayerActions.receiveCurrentTrack(this.props.track);
+	    PlayerActions.play();
+	    // return audioDOM.play();
+	  },
+	
+	  _trackButton: function () {
+	    var isPlaying = this.state.isPlaying;
+	    if (isPlaying) {
+	      return React.createElement(
+	        'button',
+	        {
+	          className: 'pause-button',
+	          onClick: this._toggle },
+	        '❚❚'
+	      );
+	    } else {
+	      return React.createElement(
+	        'button',
+	        {
+	          className: 'play-button',
+	          onClick: this._toggle },
+	        '►'
+	      );
+	    }
+	  }
+	});
+	
+	module.exports = Player;
+	
+	// getInitialState: function () {
+	//   return {
+	//     audio: this.props.track.audio_file_name,
+	//     isPlaying: false,
+	//   };
+	// },
+
+	// render: function () {
+	//   var trackButton = this._trackButton();
+	//   var audioSource = this.state.audio;
+	//
+	//   if(!audioSource) {
+	//     return <Loader/>;
+	//   }
+	//   return (
+	//     <div className="playa playa">
+	//       <audio src={audioSource} ref="audioHTML"></audio>
+	//       {trackButton}
+	//     </div>
+	//   );
+	// },
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var PlayerConstants = __webpack_require__(248);
+	
+	var PlayerActions = {
+	  receiveCurrentTrack: function (track) {
+	    AppDispatcher.dispatch({
+	      actionType: PlayerConstants.CURRENT_TRACK_RECEIVED,
+	      track: track
+	    });
+	  },
+	
+	  play: function () {
+	    AppDispatcher.dispatch({
+	      actionType: PlayerConstants.PLAYED
+	    });
+	  },
+	
+	  pause: function () {
+	    AppDispatcher.dispatch({
+	      actionType: PlayerConstants.PAUSED
+	    });
+	  },
+	
+	  add: function (track) {
+	    AppDispatcher.dispatch({
+	      actionType: PlayerConstants.ADD
+	    });
+	  }
+	};
+	
+	module.exports = PlayerActions;
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(274);
 	var SessionStore = __webpack_require__(246);
 	var TrackIndexItem = __webpack_require__(245);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
-	var Loader = __webpack_require__(272);
+	var Loader = __webpack_require__(275);
 	
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -34251,6 +34462,73 @@
 	          )
 	        ),
 	        React.createElement(
+	          'header',
+	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'playlist-title' },
+	            'My Favorite Tracks'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'playlist-menu' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Feed'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Favorites'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Up'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Down'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Weird'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Listening History'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
 	          'ul',
 	          { className: 'tracks-list' },
 	          user.favorite_tracks.map(function (track) {
@@ -34265,7 +34543,7 @@
 	module.exports = Profile;
 
 /***/ },
-/* 271 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(236);
@@ -34301,7 +34579,7 @@
 	module.exports = UserStore;
 
 /***/ },
-/* 272 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34321,7 +34599,7 @@
 	module.exports = Loader;
 
 /***/ },
-/* 273 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34436,13 +34714,13 @@
 	module.exports = FavoriteIndex;
 
 /***/ },
-/* 274 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PostStore = __webpack_require__(275);
-	var PostUtil = __webpack_require__(277);
-	var Loader = __webpack_require__(272);
+	var PostStore = __webpack_require__(278);
+	var PostUtil = __webpack_require__(280);
+	var Loader = __webpack_require__(275);
 	
 	function _getAllPosts() {
 	  return PostStore.all();
@@ -34488,12 +34766,12 @@
 	module.exports = Post;
 
 /***/ },
-/* 275 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
 	var AppDispatcher = __webpack_require__(236);
-	var PostConstants = __webpack_require__(276);
+	var PostConstants = __webpack_require__(279);
 	var _posts = [];
 	
 	var PostStore = new Store(AppDispatcher);
@@ -34521,7 +34799,7 @@
 	module.exports = PostStore;
 
 /***/ },
-/* 276 */
+/* 279 */
 /***/ function(module, exports) {
 
 	var PostConstants = {
@@ -34531,10 +34809,10 @@
 	module.exports = PostConstants;
 
 /***/ },
-/* 277 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var PostActions = __webpack_require__(278);
+	var PostActions = __webpack_require__(281);
 	
 	PostUtil = {
 	  fetchPosts: function () {
@@ -34555,11 +34833,11 @@
 	module.exports = PostUtil;
 
 /***/ },
-/* 278 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(236);
-	var PostConstants = __webpack_require__(276);
+	var PostConstants = __webpack_require__(279);
 	
 	var PostActions = {
 	  rececivePosts: function (posts) {
@@ -34573,18 +34851,18 @@
 	module.exports = PostActions;
 
 /***/ },
-/* 279 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
 	var SessionStore = __webpack_require__(246);
 	var ApiUtil = __webpack_require__(240);
-	var Player = __webpack_require__(280);
-	var UserModal = __webpack_require__(247);
-	var LoginModal = __webpack_require__(282);
-	var ProfileMenu = __webpack_require__(284);
-	var NavPlayer = __webpack_require__(285);
+	var Player = __webpack_require__(271);
+	var UserModal = __webpack_require__(249);
+	var LoginModal = __webpack_require__(283);
+	var ProfileMenu = __webpack_require__(285);
+	var NavPlayer = __webpack_require__(286);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -34716,175 +34994,12 @@
 	module.exports = App;
 
 /***/ },
-/* 280 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PlayerStore = __webpack_require__(281);
-	var PlayerActions = __webpack_require__(286);
-	
-	var Player = React.createClass({
-	  displayName: 'Player',
-	
-	  getInitialState: function () {
-	    return {
-	      // track: this.props.track,
-	      isPlaying: false
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    // var audioDOM = this.refs.audioHTML;
-	    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.onPlayerChangeToken.remove();
-	  },
-	
-	  render: function () {
-	    var trackButton = this._trackButton();
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement('audio', { src: this.props.track.audio_file_name, ref: 'audioHTML' }),
-	      trackButton
-	    );
-	  },
-	
-	  _onPlayerChange: function () {
-	    var track = this.props.track;
-	    currentTrack = PlayerStore.currentTrack();
-	    if (track.id === currentTrack.id) {
-	      this.setState({ isPlaying: PlayerStore.playStatus() });
-	    }
-	  },
-	
-	  _toggle: function (e) {
-	    e.preventDefault();
-	    // var audioDOM = this.refs.audioHTML;
-	    // var audio = this.state.audio;
-	    var isPlaying = this.state.isPlaying;
-	
-	    this.setState({ isPlaying: !isPlaying });
-	
-	    if (isPlaying) {
-	      PlayerActions.pause();
-	      // return audioDOM.pause();
-	    }
-	    PlayerActions.receiveCurrentTrack(this.props.track);
-	    PlayerActions.play();
-	    // return audioDOM.play();
-	  },
-	
-	  _trackButton: function () {
-	    var isPlaying = this.state.isPlaying;
-	    if (isPlaying) {
-	      return React.createElement(
-	        'button',
-	        {
-	          className: 'pause-button',
-	          onClick: this._toggle },
-	        '❚❚'
-	      );
-	    } else {
-	      return React.createElement(
-	        'button',
-	        {
-	          className: 'play-button',
-	          onClick: this._toggle },
-	        '►'
-	      );
-	    }
-	  }
-	});
-	
-	module.exports = Player;
-	
-	// getInitialState: function () {
-	//   return {
-	//     audio: this.props.track.audio_file_name,
-	//     isPlaying: false,
-	//   };
-	// },
-
-	// render: function () {
-	//   var trackButton = this._trackButton();
-	//   var audioSource = this.state.audio;
-	//
-	//   if(!audioSource) {
-	//     return <Loader/>;
-	//   }
-	//   return (
-	//     <div className="playa playa">
-	//       <audio src={audioSource} ref="audioHTML"></audio>
-	//       {trackButton}
-	//     </div>
-	//   );
-	// },
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var AppDispatcher = __webpack_require__(236);
-	var PlayerConstants = __webpack_require__(287);
-	
-	var _currentTrack;
-	var _playStatus;
-	var _loadedTracks = [];
-	
-	var PlayerStore = new Store(AppDispatcher);
-	
-	PlayerStore.addTrack = function (track) {
-	  _loadedTracks.push(track);
-	};
-	
-	PlayerStore.all = function () {
-	  return _loadedTracks.slice();
-	};
-	
-	PlayerStore.currentTrack = function () {
-	  return _currentTrack;
-	};
-	
-	PlayerStore.playStatus = function () {
-	  return _playStatus;
-	};
-	
-	PlayerStore.__onDispatch = function (payload) {
-	  debugger;
-	  switch (payload.actionType) {
-	    case PlayerConstants.CURRENT_TRACK_RECEIVED:
-	      _currentTrack = payload.track;
-	      PlayerStore.__emitChange();
-	      break;
-	    case PlayerConstants.PLAYED:
-	      _playStatus = true;
-	      PlayerStore.__emitChange();
-	      break;
-	    case PlayerConstants.PAUSED:
-	      _playStatus = false;
-	      PlayerStore.__emitChange();
-	      break;
-	    case PlayerConstants.ADD:
-	      addTrack(payload.track);
-	      PlayerStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = PlayerStore;
-
-/***/ },
-/* 282 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var LoginForm = __webpack_require__(283);
-	var Modal = __webpack_require__(249);
+	var LoginForm = __webpack_require__(284);
+	var Modal = __webpack_require__(251);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -34946,7 +35061,7 @@
 	module.exports = LoginModal;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35034,7 +35149,7 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35129,13 +35244,13 @@
 	module.exports = ProfileMenu;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PlayerStore = __webpack_require__(281);
-	var PlayerActions = __webpack_require__(286);
-	var Loader = __webpack_require__(272);
+	var PlayerStore = __webpack_require__(247);
+	var PlayerActions = __webpack_require__(272);
+	var Loader = __webpack_require__(275);
 	var TrackStore = __webpack_require__(217);
 	
 	var audioTags = [];
@@ -35220,55 +35335,6 @@
 	//     </audio>
 	//   );
 	// },
-
-/***/ },
-/* 286 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(236);
-	var PlayerConstants = __webpack_require__(287);
-	
-	var PlayerActions = {
-	  receiveCurrentTrack: function (track) {
-	    AppDispatcher.dispatch({
-	      actionType: PlayerConstants.CURRENT_TRACK_RECEIVED,
-	      track: track
-	    });
-	  },
-	
-	  play: function () {
-	    AppDispatcher.dispatch({
-	      actionType: PlayerConstants.PLAYED
-	    });
-	  },
-	
-	  pause: function () {
-	    AppDispatcher.dispatch({
-	      actionType: PlayerConstants.PAUSED
-	    });
-	  },
-	
-	  add: function (track) {
-	    AppDispatcher.dispatch({
-	      actionType: PlayerConstants.ADD
-	    });
-	  }
-	};
-	
-	module.exports = PlayerActions;
-
-/***/ },
-/* 287 */
-/***/ function(module, exports) {
-
-	var PlayerConstants = {
-	  CURRENT_TRACK_RECEIVED: "CURRENT_TRACK_RECEIVED",
-	  PLAYED: "PLAYED",
-	  PAUSED: "PAUSED",
-	  ADD: "ADD"
-	};
-	
-	module.exports = PlayerConstants;
 
 /***/ }
 /******/ ]);

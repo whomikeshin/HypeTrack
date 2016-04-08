@@ -14,7 +14,7 @@ var IndexItem = React.createClass({
   render: function () {
     var favoriteButton;
     var track = this.props.track;
-    PlayerActions.add(track);
+    // PlayerActions.add(track);
     var currentUser = SessionStore.currentUser();
     if (currentUser) {
       favoriteButton = this._favorite();
@@ -96,10 +96,10 @@ var IndexItem = React.createClass({
   _unfavorTrack: function (track_id) {
     ApiUtil.destroyFavorite(track_id);
   },
-  //
-  // _onTrackChange: function () {
-  //   this.forceUpdate();
-  // },
+
+  _onTrackChange: function () {
+    this.forceUpdate();
+  },
 });
 
 module.exports = IndexItem;

@@ -52,6 +52,18 @@ var Profile = React.createClass({
             <h2 className="profile-name">{user.username}</h2>
           </header>
 
+          <header>
+            <h2 className="playlist-title">My Favorite Tracks</h2>
+            <ul className="playlist-menu">
+              <li><a href="#">Feed</a></li>
+              <li><a href="#">Favorites</a></li>
+              <li><a href="#">Up</a></li>
+              <li><a href="#">Down</a></li>
+              <li><a href="#">Weird</a></li>
+              <li><a href="#">Listening History</a></li>
+            </ul>
+          </header>
+
           <ul className="tracks-list">
             {user.favorite_tracks.map(function (track) {
               return <TrackIndexItem key={track.id} track={track} />;
