@@ -23,8 +23,7 @@ var Player = React.createClass({
     var trackButton = this._trackButton();
 
     return (
-      <div>
-        <audio src={this.props.track.audio_file_name} ref="audioHTML"></audio>
+      <div className="track-button">
         {trackButton}
       </div>
     );
@@ -101,3 +100,5 @@ module.exports = Player;
 //     </div>
 //   );
 // },
+
+// <audio src={this.props.track.audio_file_name} ref="audioHTML"></audio>

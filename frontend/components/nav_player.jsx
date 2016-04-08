@@ -1,13 +1,20 @@
 var React = require('react');
 var PlayerStore = require('../stores/player');
-var PlayerActions = require('../actions/player_actions');
+// var PlayerActions = require('../actions/player_actions');
 var Loader = require('./loader');
 var TrackStore = require('../stores/track');
+var NavControls = require('./nav_controls');
 
-var audioTags = [];
+function _getCurrentTrack () {
+  return PlayerStore.currentTrack();
+}
 
-function _getLoadedTracks () {
-  return PlayerStore.all();
+function _getAllTracks () {
+  return TrackStore.all();
+}
+
+function _isPlaying () {
+  return PlayerStore.playStatus();
 }
 
 var NavPlayer = React.createClass({
@@ -15,69 +22,84 @@ var NavPlayer = React.createClass({
   getInitialState: function () {
     return {
       currentTrack: null,
-      loadedTracks: _getLoadedTracks()
+      loadedTracks: _getAllTracks(),
+      playStatus: _isPlaying()
     };
   },
 
   componentDidMount: function () {
     // var audioTags = document.getElementsByTagName('audio');
-    // this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
+    // var audioDOM = this.refs.audioHTML;
+    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+    // ApiUtil.fetchTracks();
   },
 
   componentWillUnmount: function () {
     this.onPlayerChangeToken.remove();
+    this.onTrackChangeToken.remove();
   },
 
   render: function () {
     var i = 0;
     var track = this.state.currentTrack;
-    debugger
-    var loadedTracks = _getLoadedTracks ();
-    if (track) {
-      return (
-        <audio src={track.audio_file_name} ref="audioHTML" controls>
-        </audio>
-      );
-    }
+    var loadedTracks = this.state.loadedTracks;
+    var playStatus = this.state.playStatus;
 
-    if (loadedTracks.length === 0) {
-      return <Loader/>;
+    if (!track) {
+      return <NavControls/>;
     } else {
       return (
-        <audio src={loadedTracks[i].audio_file_name} ref="audioHTML" controls>
-        </audio>
+      <div>
+        <div>
+          <audio src={track.audio_file_name} controls buffered>
+          </audio>
+        </div>
+
+        <div className="current-track">
+          {track.title} - {track.artist_name}
+        </div>
+      </div>
       );
     }
   },
 
-  // _onTrackChange: function () {
-  //   debugger
-  //   var audioTags = document.getElementsByTagName('audio');
-  // },
+  _onTrackChange: function () {
+
+    var loadedTracks = _getAllTracks();
+    this.setState({ loadedTracks: loadedTracks });
+  },
 
   _onPlayerChange: function () {
-    debugger;
-    var audioDOM = this.refs.audioHTML;
+    // var audioDOM = this.refs.audioHTML;
+    var currentTrack = _getCurrentTrack();
+    var loadedTracks = _getAllTracks();
+    var playStatus = _isPlaying();
 
-    var loadedTracks = _getLoadedTracks();
     this.setState({
-      currentTrack: PlayerStore.currentTrack(),
-      loadedTracks: loadedTracks
+      currentTrack: currentTrack,
+      loadedTracks: loadedTracks,
+      playStatus: playStatus
     });
 
-    var isPlaying = PlayerStore.playStatus();
-
-    if (isPlaying) {
-      audioDOM.play();
-    }
-    // else {
-    //   return audioDOM.paused();
+    // var audio = document.getElementsByTagName('audio');
+    // if (this.state.playStatus) {
+    //   audio[0].play();
+    // } else {
+    //   audio[0].pause();
     // }
-  },
+  }
 });
 
+
 module.exports = NavPlayer;
+
+// if (track) {
+//   return (
+//     <audio src={track.audio_file_name} className="current" controls>
+//     </audio>
+//   );
+// }
 
 // render: function () {
 //   var track = this.state.currentTrack;

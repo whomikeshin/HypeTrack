@@ -47,7 +47,7 @@ var Profile = React.createClass({
         <section className="playlist group">
           <header className="profile-header group">
             <figure className="profile-image">
-              <img src={"https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg"}/>
+              <img src={user.thumb_url}/>
             </figure>
             <h2 className="profile-name">{user.username}</h2>
           </header>

@@ -14,7 +14,6 @@ var IndexItem = React.createClass({
   render: function () {
     var favoriteButton;
     var track = this.props.track;
-    // PlayerActions.add(track);
     var currentUser = SessionStore.currentUser();
     if (currentUser) {
       favoriteButton = this._favorite();

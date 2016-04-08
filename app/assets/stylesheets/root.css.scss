@@ -122,6 +122,20 @@ button {
   width: 728px;
 }
 
+.nav-controls {
+  display: block;
+  float: left
+}
+
+.nav-controls > li {
+  float: left;
+  margin: 3px 7px 0;
+}
+
+.nav-controls > li:hover {
+  color: #0063dc;
+}
+
 .side-menu {
   float: right;
 }
@@ -159,6 +173,12 @@ button {
 .login-button, .signup-button {
   font-size: 14px;
   margin-left: 5px;
+}
+
+.current-track {
+  position: absolute;
+  left: 350px;
+  top: 2px;
 }
 
 /* Track Index */
@@ -291,6 +311,11 @@ button {
   color: #0063dc;
 }
 
+.track-button {
+  float: right;
+  margin-left: 5px;
+}
+
 .play-button, .pause-button {
   background: transparent;
   color: #000;
@@ -367,6 +392,8 @@ label {
 /*/ Profile /*/
 
 .profile-header {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
   width: 728px;
   height: 100px;
   margin-top: 50px;
@@ -374,14 +401,18 @@ label {
 
 .profile-image > img {
   border: 1px solid #555;
-  max-height: 80px;
-  max-width: 80px;
+  max-height: 100px;
+  max-width: 100px;
   float: left;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .profile-header > h2 {
   color: #222;
-  font-size: 18px;
-  font-weight: 600px;
+  font-size: 20px;
+  font-weight: 700px;
+}
+
+.loader {
+  display: none;
 }

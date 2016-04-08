@@ -4,21 +4,24 @@ me = User.create!(
   email: "mike@hotmail.com",
   username: "mike",
   password: "password",
-  activation_token: 1
+  activation_token: 1,
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg"
 )
 
 guest = User.create!(
   email: "guest@hotmail.com",
   username: "guest",
   password: "password",
-  activation_token: 2
+  activation_token: 2,
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg"
 )
 
 yeezus = User.create!(
   email: "kanye@hotmail.com",
   username: "yeezus",
   password: "password",
-  activation_token: 3
+  activation_token: 3,
+  thumb_url: "http://static03.mediaite.com/rr/up/2016/01/giphy.gif"
 )
 
 Artist.destroy_all
@@ -81,7 +84,7 @@ Track.destroy_all
 mountain_at_my_gates = Track.create!(
   title: "Mountain At My Gates",
   artist: foals,
-  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Foals+-+London+Thunder.mp3"
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/02-foals-mountain_at_my_gates.mp3"
 )
 
 weight_in_gold = Track.create!(
@@ -106,6 +109,12 @@ young = Track.create!(
   title: "Young",
   artist: vallis_alps,
   audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Foals+-+London+Thunder.mp3"
+)
+
+i_love_kanye = Track.create!(
+  title: "I Love Kanye",
+  artist: kanye,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/09+I+Love+Kanye.mp3"
 )
 
 Playlist.destroy_all
@@ -176,7 +185,7 @@ Post.create!(
   blog_id: musicgeeks.id,
   post_date: Time.now,
   post_url: "https://www.musicgeeks.co/pretty-sister/",
-  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg"
+  thumb_url: "https://pbs.twimg.com/profile_images/710905057500274688/J0H4UzQ9.jpg"
 )
 
 Post.create!(
@@ -186,6 +195,15 @@ Post.create!(
   post_date: Time.now,
   post_url: "http://www.stereofox.com/vallis-alps-young/",
   thumb_url: "http://www.stereofox.com/images/22848/resized/22863.jpg"
+)
+
+Post.create!(
+  track: i_love_kanye,
+  track_info: "Finally, after a protracted and often chaotic roll-out, the new Kanye West album is here.",
+  blog_id: pitchfork.id,
+  post_date: Time.now,
+  post_url: "http://pitchfork.com/reviews/albums/21542-the-life-of-pablo/",
+  thumb_url: "http://cdn4.pitchfork.com/albums/22851/homepage_large.1192269b.jpg"
 )
 
 TracksPlaylist.destroy_all
@@ -208,6 +226,6 @@ TracksPlaylist.create!(
 Favorite.destroy_all
 
 Favorite.create!(
-  user: guest,
-  track: mountain_at_my_gates
+  user: yeezus,
+  track: i_love_kanye
 )

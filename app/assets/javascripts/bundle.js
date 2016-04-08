@@ -31932,7 +31932,6 @@
 	  render: function () {
 	    var favoriteButton;
 	    var track = this.props.track;
-	    // PlayerActions.add(track);
 	    var currentUser = SessionStore.currentUser();
 	    if (currentUser) {
 	      favoriteButton = this._favorite();
@@ -32095,7 +32094,7 @@
 	var PlayerConstants = __webpack_require__(248);
 	
 	var _currentTrack;
-	var _playStatus;
+	var _playStatus = false;
 	var _loadedTracks = [];
 	
 	var PlayerStore = new Store(AppDispatcher);
@@ -32117,7 +32116,6 @@
 	};
 	
 	PlayerStore.__onDispatch = function (payload) {
-	  debugger;
 	  switch (payload.actionType) {
 	    case PlayerConstants.CURRENT_TRACK_RECEIVED:
 	      _currentTrack = payload.track;
@@ -34278,8 +34276,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
-	      React.createElement('audio', { src: this.props.track.audio_file_name, ref: 'audioHTML' }),
+	      { className: 'track-button' },
 	      trackButton
 	    );
 	  },
@@ -34354,6 +34351,8 @@
 	//     </div>
 	//   );
 	// },
+
+	// <audio src={this.props.track.audio_file_name} ref="audioHTML"></audio>
 
 /***/ },
 /* 272 */
@@ -34453,7 +34452,7 @@
 	          React.createElement(
 	            'figure',
 	            { className: 'profile-image' },
-	            React.createElement('img', { src: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg" })
+	            React.createElement('img', { src: user.thumb_url })
 	          ),
 	          React.createElement(
 	            'h2',
@@ -35140,7 +35139,7 @@
 	
 	  _guestLogin: function () {
 	    var router = this.context.router;
-	    ApiUtil.login({ username: "guest", password: "password" }, function () {
+	    ApiUtil.login({ username: "yeezus", password: "password" }, function () {
 	      router.push("/tracks");
 	    });
 	  }
@@ -35249,14 +35248,21 @@
 
 	var React = __webpack_require__(1);
 	var PlayerStore = __webpack_require__(247);
-	var PlayerActions = __webpack_require__(272);
+	// var PlayerActions = require('../actions/player_actions');
 	var Loader = __webpack_require__(275);
 	var TrackStore = __webpack_require__(217);
+	var NavControls = __webpack_require__(287);
 	
-	var audioTags = [];
+	function _getCurrentTrack() {
+	  return PlayerStore.currentTrack();
+	}
 	
-	function _getLoadedTracks() {
-	  return PlayerStore.all();
+	function _getAllTracks() {
+	  return TrackStore.all();
+	}
+	
+	function _isPlaying() {
+	  return PlayerStore.playStatus();
 	}
 	
 	var NavPlayer = React.createClass({
@@ -35266,64 +35272,88 @@
 	  getInitialState: function () {
 	    return {
 	      currentTrack: null,
-	      loadedTracks: _getLoadedTracks()
+	      loadedTracks: _getAllTracks(),
+	      playStatus: _isPlaying()
 	    };
 	  },
 	
 	  componentDidMount: function () {
 	    // var audioTags = document.getElementsByTagName('audio');
-	    // this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
+	    // var audioDOM = this.refs.audioHTML;
+	    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
 	    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+	    // ApiUtil.fetchTracks();
 	  },
 	
 	  componentWillUnmount: function () {
 	    this.onPlayerChangeToken.remove();
+	    this.onTrackChangeToken.remove();
 	  },
 	
 	  render: function () {
 	    var i = 0;
 	    var track = this.state.currentTrack;
-	    debugger;
-	    var loadedTracks = _getLoadedTracks();
-	    if (track) {
-	      return React.createElement('audio', { src: track.audio_file_name, ref: 'audioHTML', controls: true });
-	    }
+	    var loadedTracks = this.state.loadedTracks;
+	    var playStatus = this.state.playStatus;
 	
-	    if (loadedTracks.length === 0) {
-	      return React.createElement(Loader, null);
+	    if (!track) {
+	      return React.createElement(NavControls, null);
 	    } else {
-	      return React.createElement('audio', { src: loadedTracks[i].audio_file_name, ref: 'audioHTML', controls: true });
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement('audio', { src: track.audio_file_name, controls: true, buffered: true })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'current-track' },
+	          track.title,
+	          ' - ',
+	          track.artist_name
+	        )
+	      );
 	    }
 	  },
 	
-	  // _onTrackChange: function () {
-	  //   debugger
-	  //   var audioTags = document.getElementsByTagName('audio');
-	  // },
+	  _onTrackChange: function () {
+	
+	    var loadedTracks = _getAllTracks();
+	    this.setState({ loadedTracks: loadedTracks });
+	  },
 	
 	  _onPlayerChange: function () {
-	    debugger;
-	    var audioDOM = this.refs.audioHTML;
+	    // var audioDOM = this.refs.audioHTML;
+	    var currentTrack = _getCurrentTrack();
+	    var loadedTracks = _getAllTracks();
+	    var playStatus = _isPlaying();
 	
-	    var loadedTracks = _getLoadedTracks();
 	    this.setState({
-	      currentTrack: PlayerStore.currentTrack(),
-	      loadedTracks: loadedTracks
+	      currentTrack: currentTrack,
+	      loadedTracks: loadedTracks,
+	      playStatus: playStatus
 	    });
 	
-	    var isPlaying = PlayerStore.playStatus();
-	
-	    if (isPlaying) {
-	      audioDOM.play();
-	    }
-	    // else {
-	    //   return audioDOM.paused();
+	    // var audio = document.getElementsByTagName('audio');
+	    // if (this.state.playStatus) {
+	    //   audio[0].play();
+	    // } else {
+	    //   audio[0].pause();
 	    // }
 	  }
 	});
 	
 	module.exports = NavPlayer;
 	
+	// if (track) {
+	//   return (
+	//     <audio src={track.audio_file_name} className="current" controls>
+	//     </audio>
+	//   );
+	// }
+
 	// render: function () {
 	//   var track = this.state.currentTrack;
 	//
@@ -35335,6 +35365,76 @@
 	//     </audio>
 	//   );
 	// },
+
+/***/ },
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var PlayerStore = __webpack_require__(247);
+	
+	// function _isPlaying () {
+	//   return PlayerStore.playStatus();
+	// }
+	
+	var NavControls = React.createClass({
+	  displayName: 'NavControls',
+	
+	  // getInitialState: function () {
+	  //   return {
+	  //     playStatus: _isPlaying()
+	  //   };
+	  // },
+	  //
+	  // componentDidMount: function () {
+	  //   this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+	  // },
+	  //
+	  // componentWillUnmount: function () {
+	  //   this.onPlayerChangeToken.remove();
+	  // },
+	
+	  render: function () {
+	    return React.createElement(
+	      'ul',
+	      { className: 'nav-controls' },
+	      React.createElement(
+	        'li',
+	        null,
+	        '|◄◄'
+	      ),
+	      React.createElement(
+	        'li',
+	        null,
+	        '▶'
+	      ),
+	      React.createElement(
+	        'li',
+	        null,
+	        '♥'
+	      ),
+	      React.createElement(
+	        'li',
+	        null,
+	        '►►|'
+	      )
+	    );
+	  }
+	
+	});
+	
+	// _onPlayerChange: function () {
+	//   debugger
+	//   audio = document.getElementsByTagName('audio');
+	//   this.setState({
+	//     playStatus: _isPlaying()
+	//   });
+	//
+	//   if (this.state.playStatus) {
+	//     audio[0].play();
+	//   }
+	// }
+	module.exports = NavControls;
 
 /***/ }
 /******/ ]);

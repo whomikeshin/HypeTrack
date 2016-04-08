@@ -3,7 +3,7 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var PlayerConstants = require('../constants/player_constants');
 
 var _currentTrack;
-var _playStatus;
+var _playStatus = false;
 var _loadedTracks = [];
 
 var PlayerStore = new Store(AppDispatcher);
@@ -25,7 +25,6 @@ PlayerStore.playStatus = function () {
 };
 
 PlayerStore.__onDispatch = function (payload) {
-  debugger
   switch(payload.actionType) {
     case PlayerConstants.CURRENT_TRACK_RECEIVED:
       _currentTrack = payload.track;
