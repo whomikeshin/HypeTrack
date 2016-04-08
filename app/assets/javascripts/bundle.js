@@ -34282,6 +34282,7 @@
 	  },
 	
 	  _onPlayerChange: function () {
+	    debugger;
 	    var track = this.props.track;
 	    currentTrack = PlayerStore.currentTrack();
 	    if (track.id === currentTrack.id) {
@@ -34290,23 +34291,26 @@
 	  },
 	
 	  _toggle: function (e) {
+	    debugger;
 	    e.preventDefault();
 	    // var audioDOM = this.refs.audioHTML;
 	    // var audio = this.state.audio;
 	    var isPlaying = this.state.isPlaying;
 	
-	    this.setState({ isPlaying: !isPlaying });
+	    // this.setState({ isPlaying: !isPlaying });
 	
 	    if (isPlaying) {
 	      PlayerActions.pause();
 	      // return audioDOM.pause();
-	    }
-	    PlayerActions.receiveCurrentTrack(this.props.track);
-	    PlayerActions.play();
-	    // return audioDOM.play();
+	    } else {
+	        PlayerActions.receiveCurrentTrack(this.props.track);
+	        PlayerActions.play();
+	        // return audioDOM.play();
+	      }
 	  },
 	
 	  _trackButton: function () {
+	    debugger;
 	    var isPlaying = this.state.isPlaying;
 	    if (isPlaying) {
 	      return React.createElement(
