@@ -5,7 +5,7 @@ var SessionStore = require('../../stores/session');
 var PlayerStore = require('../../stores/player');
 // var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
-var UserModal = require('../user/user_modal');
+var FavLoginModal = require('../user/fav_modal');
 var Player = require('./play_pause');
 var PlayerActions = require('../../actions/player_actions');
 
@@ -17,6 +17,8 @@ var IndexItem = React.createClass({
     var currentUser = SessionStore.currentUser();
     if (currentUser) {
       favoriteButton = this._favorite();
+    } else {
+      favoriteButton = <div><FavLoginModal/></div>;
     }
 
     return (

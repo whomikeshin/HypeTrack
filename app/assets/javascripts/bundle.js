@@ -31921,7 +31921,7 @@
 	var PlayerStore = __webpack_require__(247);
 	// var TrackStore = require('../../stores/track');
 	var ApiUtil = __webpack_require__(240);
-	var UserModal = __webpack_require__(249);
+	var FavLoginModal = __webpack_require__(289);
 	var Player = __webpack_require__(271);
 	var PlayerActions = __webpack_require__(272);
 	
@@ -31935,6 +31935,12 @@
 	    var currentUser = SessionStore.currentUser();
 	    if (currentUser) {
 	      favoriteButton = this._favorite();
+	    } else {
+	      favoriteButton = React.createElement(
+	        'div',
+	        null,
+	        React.createElement(FavLoginModal, null)
+	      );
 	    }
 	
 	    return React.createElement(
@@ -34850,7 +34856,6 @@
 	  },
 	
 	  render: function () {
-	    debugger;
 	    var sideMenu;
 	    if (this.state.currentUser) {
 	      sideMenu = React.createElement(
@@ -35274,7 +35279,7 @@
 	        React.createElement(
 	          'div',
 	          null,
-	          React.createElement('audio', { src: track.audio_file_name, controls: true, autoplay: true })
+	          React.createElement('audio', { src: track.audio_file_name, controls: true })
 	        ),
 	        React.createElement(
 	          'div',
@@ -35404,6 +35409,105 @@
 	//   }
 	// }
 	module.exports = NavControls;
+
+/***/ },
+/* 288 */,
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Modal = __webpack_require__(251);
+	var LoginModal = __webpack_require__(283);
+	var UserModal = __webpack_require__(249);
+	
+	var style = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+	  },
+	  content: {
+	    position: 'absolute',
+	    top: '50%',
+	    left: '50%',
+	    right: 'auto',
+	    bottom: 'auto',
+	    marginRight: '-50%',
+	    transform: 'translate(-50%, -50%)',
+	    border: '3px solid #000'
+	  }
+	};
+	
+	var accountForm = React.createElement(
+	  'div',
+	  { className: 'account-form' },
+	  React.createElement(
+	    'h1',
+	    { className: 'form-header' },
+	    'You Need an Account'
+	  ),
+	  React.createElement(
+	    'form',
+	    null,
+	    React.createElement(
+	      'p',
+	      { className: 'acc-p' },
+	      'A free account lets you favorite tracks and create your own music stream with your favorite artists, blogs & friends.'
+	    ),
+	    React.createElement(
+	      'div',
+	      null,
+	      React.createElement(UserModal, null)
+	    ),
+	    React.createElement(
+	      'div',
+	      null,
+	      React.createElement(LoginModal, null)
+	    )
+	  )
+	);
+	
+	var FavModal = React.createClass({
+	  displayName: 'FavModal',
+	
+	
+	  getInitialState: function () {
+	    return { modalOpen: false };
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ modalOpen: false });
+	  },
+	
+	  openModal: function () {
+	    this.setState({ modalOpen: true });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'fav-div' },
+	      React.createElement(
+	        'button',
+	        { className: 'fav-modal', onClick: this.openModal },
+	        '♥'
+	      ),
+	      React.createElement(
+	        Modal,
+	        {
+	          isOpen: this.state.modalOpen,
+	          onRequestClose: this.closeModal,
+	          style: style },
+	        accountForm
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = FavModal;
 
 /***/ }
 /******/ ]);

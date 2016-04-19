@@ -24,7 +24,6 @@ var App = React.createClass({
   },
 
   render: function () {
-    debugger
     var sideMenu;
     if (this.state.currentUser) {
       sideMenu = <div className="profile-menu">

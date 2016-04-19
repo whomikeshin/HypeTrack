@@ -334,6 +334,9 @@ button {
   color: #ed2024;
 }
 
+.fav-modal {
+  color: #b3b3b3;
+}
 /*/ Forms /*/
 
 .login-form {
@@ -346,8 +349,17 @@ button {
   width: 340px;
 }
 
-.signup-p {
+.account-form {
+  height: 250px;
+  width: 360px;
+}
+
+.signup-p, .acc-p {
   font-size: 12px;
+}
+
+.acc-p {
+  margin-top: 10px;
 }
 
 .form-header, {
