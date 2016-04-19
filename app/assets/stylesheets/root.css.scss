@@ -297,10 +297,12 @@ button {
 }
 
 .fav-div {
+  width: 80px;
   font-size: 20px;
   color: #b3b3b3;
   position: absolute;
   right: 0;
+  top: 0;
 }
 
 .fav-div > button {
@@ -311,18 +313,16 @@ button {
   color: #0063dc;
 }
 
-.track-button {
-  float: right;
-  margin-left: 5px;
-}
-
 .play-button, .pause-button {
   background: transparent;
   color: #000;
   line-height: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
-.play-button:hover, .pause-button:hover {
+.play-button:hover, .pause-button:hover, .fav-modal:hover {
   color: #0063dc;
 }
 
@@ -335,7 +335,14 @@ button {
 }
 
 .fav-modal {
+  background: transparent;
   color: #b3b3b3;
+}
+
+.favorite, .unfavorite, .fav-modal {
+  position: absolute;
+  top: -7px;
+  right: 35px;
 }
 /*/ Forms /*/
 

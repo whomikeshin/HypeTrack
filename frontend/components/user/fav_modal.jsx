@@ -56,7 +56,7 @@ var FavModal = React.createClass({
 
   render: function() {
     return(
-      <div className="fav-div">
+      <div>
         <button className="fav-modal" onClick={this.openModal}>&#9829;</button>
         <Modal
           isOpen={this.state.modalOpen}
