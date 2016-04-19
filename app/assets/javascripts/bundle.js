@@ -34252,18 +34252,16 @@
 	var PlayerStore = __webpack_require__(247);
 	var PlayerActions = __webpack_require__(272);
 	
-	var Player = React.createClass({
-	  displayName: 'Player',
+	var PlayPause = React.createClass({
+	  displayName: 'PlayPause',
 	
 	  getInitialState: function () {
 	    return {
-	      // track: this.props.track,
 	      isPlaying: false
 	    };
 	  },
 	
 	  componentDidMount: function () {
-	    // var audioDOM = this.refs.audioHTML;
 	    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
 	  },
 	
@@ -34282,7 +34280,6 @@
 	  },
 	
 	  _onPlayerChange: function () {
-	    debugger;
 	    var track = this.props.track;
 	    currentTrack = PlayerStore.currentTrack();
 	    if (track.id === currentTrack.id) {
@@ -34291,26 +34288,18 @@
 	  },
 	
 	  _toggle: function (e) {
-	    debugger;
 	    e.preventDefault();
-	    // var audioDOM = this.refs.audioHTML;
-	    // var audio = this.state.audio;
 	    var isPlaying = this.state.isPlaying;
-	
-	    // this.setState({ isPlaying: !isPlaying });
 	
 	    if (isPlaying) {
 	      PlayerActions.pause();
-	      // return audioDOM.pause();
 	    } else {
-	        PlayerActions.receiveCurrentTrack(this.props.track);
-	        PlayerActions.play();
-	        // return audioDOM.play();
-	      }
+	      PlayerActions.receiveCurrentTrack(this.props.track);
+	      PlayerActions.play();
+	    }
 	  },
 	
 	  _trackButton: function () {
-	    debugger;
 	    var isPlaying = this.state.isPlaying;
 	    if (isPlaying) {
 	      return React.createElement(
@@ -34332,31 +34321,7 @@
 	  }
 	});
 	
-	module.exports = Player;
-	
-	// getInitialState: function () {
-	//   return {
-	//     audio: this.props.track.audio_file_name,
-	//     isPlaying: false,
-	//   };
-	// },
-
-	// render: function () {
-	//   var trackButton = this._trackButton();
-	//   var audioSource = this.state.audio;
-	//
-	//   if(!audioSource) {
-	//     return <Loader/>;
-	//   }
-	//   return (
-	//     <div className="playa playa">
-	//       <audio src={audioSource} ref="audioHTML"></audio>
-	//       {trackButton}
-	//     </div>
-	//   );
-	// },
-
-	// <audio src={this.props.track.audio_file_name} ref="audioHTML"></audio>
+	module.exports = PlayPause;
 
 /***/ },
 /* 272 */
@@ -34861,7 +34826,6 @@
 	var Link = __webpack_require__(159).Link;
 	var SessionStore = __webpack_require__(246);
 	var ApiUtil = __webpack_require__(240);
-	var Player = __webpack_require__(271);
 	var UserModal = __webpack_require__(249);
 	var LoginModal = __webpack_require__(283);
 	var ProfileMenu = __webpack_require__(285);
@@ -34886,6 +34850,7 @@
 	  },
 	
 	  render: function () {
+	    debugger;
 	    var sideMenu;
 	    if (this.state.currentUser) {
 	      sideMenu = React.createElement(
@@ -35309,7 +35274,7 @@
 	        React.createElement(
 	          'div',
 	          null,
-	          React.createElement('audio', { src: track.audio_file_name, controls: true, buffered: true })
+	          React.createElement('audio', { src: track.audio_file_name, controls: true, autoplay: true })
 	        ),
 	        React.createElement(
 	          'div',

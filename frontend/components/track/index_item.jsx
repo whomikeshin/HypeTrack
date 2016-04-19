@@ -6,7 +6,7 @@ var PlayerStore = require('../../stores/player');
 // var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
 var UserModal = require('../user/user_modal');
-var Player = require('../player');
+var Player = require('./play_pause');
 var PlayerActions = require('../../actions/player_actions');
 
 var IndexItem = React.createClass({

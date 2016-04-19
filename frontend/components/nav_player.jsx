@@ -52,7 +52,7 @@ var NavPlayer = React.createClass({
       return (
       <div>
         <div>
-          <audio src={track.audio_file_name} controls buffered>
+          <audio src={track.audio_file_name} controls autoplay>
           </audio>
         </div>
 

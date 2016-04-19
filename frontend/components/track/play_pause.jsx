@@ -1,17 +1,15 @@
 var React = require('react');
-var PlayerStore = require('../stores/player');
-var PlayerActions = require('../actions/player_actions');
+var PlayerStore = require('../../stores/player');
+var PlayerActions = require('../../actions/player_actions');
 
-var Player = React.createClass({
+var PlayPause = React.createClass({
   getInitialState: function () {
     return {
-      // track: this.props.track,
       isPlaying: false,
     };
   },
 
   componentDidMount: function () {
-    // var audioDOM = this.refs.audioHTML;
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
   },
 
@@ -30,7 +28,6 @@ var Player = React.createClass({
   },
 
   _onPlayerChange: function () {
-    debugger
     var track = this.props.track;
     currentTrack = PlayerStore.currentTrack();
     if (track.id === currentTrack.id) {
@@ -39,26 +36,18 @@ var Player = React.createClass({
   },
 
   _toggle: function(e) {
-    debugger
     e.preventDefault();
-    // var audioDOM = this.refs.audioHTML;
-    // var audio = this.state.audio;
     var isPlaying = this.state.isPlaying;
-
-    // this.setState({ isPlaying: !isPlaying });
 
     if (isPlaying) {
       PlayerActions.pause();
-      // return audioDOM.pause();
     } else {
       PlayerActions.receiveCurrentTrack(this.props.track);
       PlayerActions.play();
-    // return audioDOM.play();
     }
   },
 
   _trackButton: function () {
-    debugger;
     var isPlaying = this.state.isPlaying;
     if (isPlaying) {
       return (
@@ -80,29 +69,4 @@ var Player = React.createClass({
   }
 });
 
-module.exports = Player;
-
-// getInitialState: function () {
-//   return {
-//     audio: this.props.track.audio_file_name,
-//     isPlaying: false,
-//   };
-// },
-
-
-// render: function () {
-//   var trackButton = this._trackButton();
-//   var audioSource = this.state.audio;
-//
-//   if(!audioSource) {
-//     return <Loader/>;
-//   }
-//   return (
-//     <div className="playa playa">
-//       <audio src={audioSource} ref="audioHTML"></audio>
-//       {trackButton}
-//     </div>
-//   );
-// },
-
-// <audio src={this.props.track.audio_file_name} ref="audioHTML"></audio>
+module.exports = PlayPause;
