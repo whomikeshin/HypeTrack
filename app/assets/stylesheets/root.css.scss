@@ -341,7 +341,7 @@ button {
 
 .favorite, .unfavorite, .fav-modal {
   position: absolute;
-  top: -7px;
+  top: 0;
   right: 35px;
 }
 /*/ Forms /*/
@@ -433,5 +433,7 @@ label {
 }
 
 .loader {
-  display: none;
+  display: block;
+  width: 20px;
+  height: 20px;
 }

@@ -57,7 +57,10 @@ var FavModal = React.createClass({
   render: function() {
     return(
       <div>
-        <button className="fav-modal" onClick={this.openModal}>&#9829;</button>
+        <button className="fav-modal"
+          onClick={this.openModal}>
+          <i className="fa fa-heart"></i>        
+        </button>
         <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}

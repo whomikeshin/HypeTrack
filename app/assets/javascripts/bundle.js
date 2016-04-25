@@ -24901,6 +24901,9 @@
 	  return _tracks.slice();
 	};
 	
+	//remove
+	//update
+	
 	TrackStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case TrackConstants.TRACKS_RECEIVED:
@@ -32017,8 +32020,8 @@
 	          onClick: this._unfavorTrack.bind(this, track.id) },
 	        React.createElement(
 	          'div',
-	          { className: 'heart' },
-	          '♥'
+	          null,
+	          React.createElement('i', { className: 'fa fa-heart' })
 	        )
 	      );
 	    } else {
@@ -32029,8 +32032,8 @@
 	          onClick: this._favorTrack.bind(this, track.id) },
 	        React.createElement(
 	          'div',
-	          { className: 'heart' },
-	          '♥'
+	          null,
+	          React.createElement('i', { className: 'fa fa-heart' })
 	        )
 	      );
 	    }
@@ -32098,6 +32101,8 @@
 	var Store = __webpack_require__(218).Store;
 	var AppDispatcher = __webpack_require__(236);
 	var PlayerConstants = __webpack_require__(248);
+	var TrackStore = __webpack_require__(217);
+	// var Cache = require('../lib/cache');
 	
 	var _currentTrack;
 	var _playStatus = false;
@@ -32238,8 +32243,9 @@
 	      null,
 	      React.createElement(
 	        'button',
-	        { className: 'fav-modal', onClick: this.openModal },
-	        '♥'
+	        { className: 'fav-modal',
+	          onClick: this.openModal },
+	        React.createElement('i', { className: 'fa fa-heart' })
 	      ),
 	      React.createElement(
 	        Modal,
@@ -34543,6 +34549,8 @@
 	    currentTrack = PlayerStore.currentTrack();
 	    if (track.id === currentTrack.id) {
 	      this.setState({ isPlaying: PlayerStore.playStatus() });
+	    } else {
+	      this.setState({ isPlaying: false });
 	    }
 	  },
 	
@@ -34566,7 +34574,7 @@
 	        {
 	          className: 'pause-button',
 	          onClick: this._toggle },
-	        '❚❚'
+	        React.createElement('i', { className: 'fa fa-pause' })
 	      );
 	    } else {
 	      return React.createElement(
@@ -34574,7 +34582,7 @@
 	        {
 	          className: 'play-button',
 	          onClick: this._toggle },
-	        '►'
+	        React.createElement('i', { className: 'fa fa-play' })
 	      );
 	    }
 	  }
@@ -34812,13 +34820,14 @@
 	var React = __webpack_require__(1);
 	
 	var Loader = React.createClass({
-	  displayName: "Loader",
+	  displayName: 'Loader',
+	
 	
 	  render: function () {
 	    return React.createElement(
-	      "div",
-	      { className: "loader" },
-	      "Loading..."
+	      'div',
+	      { className: 'loader' },
+	      React.createElement('img', { src: 'http://sierrafire.cr.usgs.gov/images/loading.gif' })
 	    );
 	  }
 	});
@@ -35089,6 +35098,7 @@
 	var LoginModal = __webpack_require__(270);
 	var ProfileMenu = __webpack_require__(286);
 	var NavPlayer = __webpack_require__(287);
+	var NavControls = __webpack_require__(288);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -35195,7 +35205,8 @@
 	          React.createElement(
 	            'div',
 	            { className: 'player-controls' },
-	            React.createElement(NavPlayer, null)
+	            React.createElement(NavPlayer, null),
+	            React.createElement(NavControls, null)
 	          ),
 	          React.createElement(
 	            'div',
@@ -35364,12 +35375,12 @@
 	
 	  render: function () {
 	    var i = 0;
-	    var track = this.state.currentTrack;
 	    var loadedTracks = this.state.loadedTracks;
+	    var track = this.state.currentTrack || loadedTracks[0];
 	    var playStatus = this.state.playStatus;
 	
 	    if (!track) {
-	      return React.createElement(NavControls, null);
+	      return React.createElement(Loader, null);
 	    } else {
 	      return React.createElement(
 	        'div',
@@ -35377,7 +35388,7 @@
 	        React.createElement(
 	          'div',
 	          null,
-	          React.createElement('audio', { src: track.audio_file_name, controls: true })
+	          React.createElement('audio', { src: track.audio_file_name })
 	        ),
 	        React.createElement(
 	          'div',
@@ -35391,13 +35402,11 @@
 	  },
 	
 	  _onTrackChange: function () {
-	
 	    var loadedTracks = _getAllTracks();
 	    this.setState({ loadedTracks: loadedTracks });
 	  },
 	
 	  _onPlayerChange: function () {
-	    // var audioDOM = this.refs.audioHTML;
 	    var currentTrack = _getCurrentTrack();
 	    var loadedTracks = _getAllTracks();
 	    var playStatus = _isPlaying();
@@ -35407,36 +35416,10 @@
 	      loadedTracks: loadedTracks,
 	      playStatus: playStatus
 	    });
-	
-	    // var audio = document.getElementsByTagName('audio');
-	    // if (this.state.playStatus) {
-	    //   audio[0].play();
-	    // } else {
-	    //   audio[0].pause();
-	    // }
 	  }
 	});
 	
 	module.exports = NavPlayer;
-	
-	// if (track) {
-	//   return (
-	//     <audio src={track.audio_file_name} className="current" controls>
-	//     </audio>
-	//   );
-	// }
-
-	// render: function () {
-	//   var track = this.state.currentTrack;
-	//
-	//   if(!track) {
-	//     return <Loader/>;
-	//   }
-	//   return (
-	//     <audio src={track.audio_file_name} ref="audioHTML" controls>
-	//     </audio>
-	//   );
-	// },
 
 /***/ },
 /* 288 */
@@ -35445,26 +35428,26 @@
 	var React = __webpack_require__(1);
 	var PlayerStore = __webpack_require__(247);
 	
-	// function _isPlaying () {
-	//   return PlayerStore.playStatus();
-	// }
+	function _isPlaying() {
+	  return PlayerStore.playStatus();
+	}
 	
 	var NavControls = React.createClass({
 	  displayName: 'NavControls',
 	
-	  // getInitialState: function () {
-	  //   return {
-	  //     playStatus: _isPlaying()
-	  //   };
-	  // },
-	  //
-	  // componentDidMount: function () {
-	  //   this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
-	  // },
-	  //
-	  // componentWillUnmount: function () {
-	  //   this.onPlayerChangeToken.remove();
-	  // },
+	  getInitialState: function () {
+	    return {
+	      playStatus: _isPlaying()
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onPlayerChangeToken.remove();
+	  },
 	
 	  render: function () {
 	    return React.createElement(
@@ -35473,39 +35456,41 @@
 	      React.createElement(
 	        'li',
 	        null,
-	        '|◄◄'
+	        React.createElement('i', { className: 'fa fa-fast-backward' })
 	      ),
 	      React.createElement(
 	        'li',
 	        null,
-	        '▶'
+	        React.createElement('i', { className: 'fa fa-play' })
 	      ),
 	      React.createElement(
 	        'li',
 	        null,
-	        '♥'
+	        React.createElement('i', { className: 'fa fa-heart' })
 	      ),
 	      React.createElement(
 	        'li',
 	        null,
-	        '►►|'
+	        React.createElement('i', { className: 'fa fa-fast-forward' })
 	      )
 	    );
-	  }
+	  },
 	
+	  _onPlayerChange: function () {
+	    audio = document.getElementsByTagName('audio');
+	    this.setState({
+	      playStatus: _isPlaying()
+	    });
+	
+	    //Player Store lags behind
+	    if (!this.state.playStatus) {
+	      audio[0].play();
+	    } else {
+	      audio[0].pause();
+	    }
+	  }
 	});
 	
-	// _onPlayerChange: function () {
-	//   debugger
-	//   audio = document.getElementsByTagName('audio');
-	//   this.setState({
-	//     playStatus: _isPlaying()
-	//   });
-	//
-	//   if (this.state.playStatus) {
-	//     audio[0].play();
-	//   }
-	// }
 	module.exports = NavControls;
 
 /***/ }

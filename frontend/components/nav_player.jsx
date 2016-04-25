@@ -42,17 +42,17 @@ var NavPlayer = React.createClass({
 
   render: function () {
     var i = 0;
-    var track = this.state.currentTrack;
     var loadedTracks = this.state.loadedTracks;
+    var track = this.state.currentTrack || loadedTracks[0];
     var playStatus = this.state.playStatus;
 
     if (!track) {
-      return <NavControls/>;
+      return <Loader/>;
     } else {
       return (
       <div>
         <div>
-          <audio src={track.audio_file_name} controls>
+          <audio src={track.audio_file_name}>
           </audio>
         </div>
 
@@ -65,13 +65,11 @@ var NavPlayer = React.createClass({
   },
 
   _onTrackChange: function () {
-
     var loadedTracks = _getAllTracks();
     this.setState({ loadedTracks: loadedTracks });
   },
 
   _onPlayerChange: function () {
-    // var audioDOM = this.refs.audioHTML;
     var currentTrack = _getCurrentTrack();
     var loadedTracks = _getAllTracks();
     var playStatus = _isPlaying();
@@ -81,34 +79,8 @@ var NavPlayer = React.createClass({
       loadedTracks: loadedTracks,
       playStatus: playStatus
     });
-
-    // var audio = document.getElementsByTagName('audio');
-    // if (this.state.playStatus) {
-    //   audio[0].play();
-    // } else {
-    //   audio[0].pause();
-    // }
   }
 });
 
 
 module.exports = NavPlayer;
-
-// if (track) {
-//   return (
-//     <audio src={track.audio_file_name} className="current" controls>
-//     </audio>
-//   );
-// }
-
-// render: function () {
-//   var track = this.state.currentTrack;
-//
-//   if(!track) {
-//     return <Loader/>;
-//   }
-//   return (
-//     <audio src={track.audio_file_name} ref="audioHTML" controls>
-//     </audio>
-//   );
-// },

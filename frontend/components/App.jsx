@@ -6,6 +6,7 @@ var UserModal = require('./user/user_modal');
 var LoginModal = require('./user/login_modal');
 var ProfileMenu = require('./user/profile_menu');
 var NavPlayer = require('./nav_player');
+var NavControls = require('./nav_controls');
 
 var App = React.createClass({
   contextTypes: {
@@ -63,6 +64,7 @@ var App = React.createClass({
           <div className="player group">
             <div className="player-controls">
               <NavPlayer/>
+              <NavControls/>
             </div>
 
             <div className="side-menu group">

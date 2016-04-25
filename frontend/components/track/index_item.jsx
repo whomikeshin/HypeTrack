@@ -76,7 +76,7 @@ var IndexItem = React.createClass({
         <button
           className="unfavorite"
           onClick={this._unfavorTrack.bind(this, track.id)}>
-          <div className="heart">&#9829;</div>
+          <div><i className="fa fa-heart"></i></div>
         </button>
       );
     } else {
@@ -84,7 +84,7 @@ var IndexItem = React.createClass({
         <button
           className="favorite"
           onClick={this._favorTrack.bind(this, track.id)}>
-          <div className="heart">&#9829;</div>
+          <div><i className="fa fa-heart"></i></div>
         </button>
       );
     }

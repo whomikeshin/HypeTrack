@@ -32,6 +32,8 @@ var PlayPause = React.createClass({
     currentTrack = PlayerStore.currentTrack();
     if (track.id === currentTrack.id) {
       this.setState({ isPlaying: PlayerStore.playStatus() });
+    } else {
+      this.setState({ isPlaying: false});
     }
   },
 
@@ -54,7 +56,7 @@ var PlayPause = React.createClass({
         <button
           className="pause-button"
           onClick={this._toggle}>
-          &#10074;&#10074;
+          <i className="fa fa-pause"></i>
         </button>
       );
     } else {
@@ -62,7 +64,7 @@ var PlayPause = React.createClass({
         <button
           className="play-button"
           onClick={this._toggle}>
-          &#9658;
+          <i className="fa fa-play"></i>
         </button>
       );
     }
