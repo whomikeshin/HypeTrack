@@ -6,7 +6,6 @@ var _posts = [];
 var PostStore = new Store(AppDispatcher);
 
 var resetPosts = function (posts) {
-  debugger;
   for (var i = 0; i < Object.keys(posts).length - 1; i++) {
     _posts[i] = posts[i];
   }

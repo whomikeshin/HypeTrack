@@ -119,7 +119,32 @@ ApiUtil = {
         console.log(data);
       }
     });
-  }
+  },
+
+  fetchUserTracks: function (userId) {
+    $.ajax({
+      url: "api/users/" + userId + "/tracks",
+      success: function (tracks) {
+        ApiActions.receiveTracks(tracks);
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  },
+
+  fetchArtist: function (artist_id) {
+    $.ajax({
+      type: 'GET',
+      url: 'api/artists/' + artist_id,
+      success: function (artist) {
+        ApiActions.receiveArtists([artist]);
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  },
 };
 
 module.exports = ApiUtil;

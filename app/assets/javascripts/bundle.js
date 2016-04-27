@@ -54,11 +54,11 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var TrackIndex = __webpack_require__(216);
-	// var TrackForm = require('./components/track/track_form');
 	var Profile = __webpack_require__(276);
 	var FavoriteIndex = __webpack_require__(279);
 	var Post = __webpack_require__(280);
 	var App = __webpack_require__(285);
+	var Artist = __webpack_require__(289);
 	
 	var ApiUtil = __webpack_require__(240);
 	var Modal = __webpack_require__(250);
@@ -72,7 +72,8 @@
 	    React.createElement(Route, { path: 'tracks', component: TrackIndex }),
 	    React.createElement(Route, { path: 'users/:id', component: Profile }),
 	    React.createElement(IndexRoute, { component: FavoriteIndex })
-	  )
+	  ),
+	  React.createElement(Route, { path: '/artists/:id', component: Artist })
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
@@ -98,6 +99,7 @@
 	// }
 
 	// <Route path="upload" component={TrackForm}/>
+	// <Route path="tracks" component={TrackIndex}>
 
 /***/ },
 /* 1 */
@@ -24916,7 +24918,6 @@
 	          _tracks[i] = payload.track;
 	        }
 	      }
-	      // _tracks[payload.track.id] = payload.track;
 	      TrackStore.__emitChange();
 	      break;
 	  }
@@ -31822,6 +31823,31 @@
 	        console.log(data);
 	      }
 	    });
+	  },
+	
+	  fetchUserTracks: function (userId) {
+	    $.ajax({
+	      url: "api/users/" + userId + "/tracks",
+	      success: function (tracks) {
+	        ApiActions.receiveTracks(tracks);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  },
+	
+	  fetchArtist: function (artist_id) {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/artists/' + artist_id,
+	      success: function (artist) {
+	        ApiActions.receiveArtists([artist]);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
 	  }
 	};
 	
@@ -31834,6 +31860,7 @@
 	var AppDispatcher = __webpack_require__(236);
 	var TrackConstants = __webpack_require__(239);
 	var UserConstants = __webpack_require__(242);
+	var ArtistConstants = __webpack_require__(291);
 	
 	var ApiActions = {
 	  receiveTracks: function (tracks) {
@@ -31861,6 +31888,13 @@
 	    AppDispatcher.dispatch({
 	      actionType: UserConstants.USERS_RECEIVED,
 	      users: users
+	    });
+	  },
+	
+	  receiveArtists: function (artists) {
+	    AppDispatcher.dispatch({
+	      actionType: ArtistConstants.ARTISTS_RECEIVED,
+	      artists: artists
 	    });
 	  }
 	};
@@ -31918,11 +31952,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var Link = __webpack_require__(159).Link;
 	var ReactRouter = __webpack_require__(159);
-	// var Link = require('react-router').Link;
 	var SessionStore = __webpack_require__(246);
 	var PlayerStore = __webpack_require__(247);
-	// var TrackStore = require('../../stores/track');
 	var ApiUtil = __webpack_require__(240);
 	var FavLoginModal = __webpack_require__(249);
 	var Player = __webpack_require__(274);
@@ -31935,6 +31968,7 @@
 	  render: function () {
 	    var favoriteButton;
 	    var track = this.props.track;
+	    debugger;
 	    var currentUser = SessionStore.currentUser();
 	    if (currentUser) {
 	      favoriteButton = this._favorite();
@@ -31960,10 +31994,15 @@
 	        React.createElement(
 	          'div',
 	          { className: 'track-artist' },
-	          track.artist_name
+	          React.createElement(
+	            Link,
+	            {
+	              to: "/artists/" + track.artist.id },
+	            track.artist_name
+	          )
 	        ),
 	        React.createElement(
-	          'p',
+	          'span',
 	          { className: 'track-dash' },
 	          ' - '
 	        ),
@@ -32157,7 +32196,9 @@
 	  CURRENT_TRACK_RECEIVED: "CURRENT_TRACK_RECEIVED",
 	  PLAYED: "PLAYED",
 	  PAUSED: "PAUSED",
-	  ADD: "ADD"
+	  ADD: "ADD",
+	  NEXT: "NEXT",
+	  BACK: "BACK"
 	};
 	
 	module.exports = PlayerConstants;
@@ -34670,6 +34711,7 @@
 	  },
 	
 	  render: function () {
+	    debugger;
 	    var user = this.state.user;
 	
 	    if (!user) {
@@ -34691,9 +34733,23 @@
 	            React.createElement('img', { src: user.thumb_url })
 	          ),
 	          React.createElement(
-	            'h2',
+	            'h1',
 	            { className: 'profile-name' },
 	            user.username
+	          ),
+	          React.createElement(
+	            'h2',
+	            null,
+	            'Joined on April 12, 2016'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'profile-stats' },
+	            React.createElement(
+	              'li',
+	              null,
+	              user.favorite_tracks.length
+	            )
 	          )
 	        ),
 	        React.createElement(
@@ -34842,6 +34898,7 @@
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
 	var TrackIndexItem = __webpack_require__(245);
+	var Loader = __webpack_require__(278);
 	
 	function _getAllTracks() {
 	  return TrackStore.all();
@@ -34870,7 +34927,6 @@
 	
 	  render: function () {
 	    var tracks = this.state.tracks;
-	
 	    return React.createElement(
 	      'main',
 	      { className: 'content' },
@@ -34948,6 +35004,99 @@
 	});
 	
 	module.exports = FavoriteIndex;
+	
+	//
+	// function _getAllTracks () {
+	//   return TrackStore.all();
+	// }
+	//
+	// var FavoriteIndex = React.createClass({
+	//   getInitialState: function () {
+	//     return { tracks: _getAllTracks() };
+	//   },
+	//
+	//   componentDidMount: function () {
+	//     this.onChangeToken = TrackStore.addListener(this._onChange);
+	//     ApiUtil.fetchTracks();
+	//   },
+	//
+	//   componentWillUnmount: function () {
+	//     this.onChangeToken.remove();
+	//   },
+	//
+	//   _onChange: function () {
+	//     var tracks = _getAllTracks();
+	//     this.setState({ tracks: tracks });
+	//   },
+	//
+	//   render: function () {
+	//     var tracks = this.state.tracks;
+	//     return (
+	//       <main className="content">
+	//         <section className="playlist group">
+	//
+	//           <header>
+	//             <h2 className="playlist-title">Latest Blogged Music</h2>
+	//             <ul className="playlist-menu">
+	//               <li><a href="#">All</a></li>
+	//               <li><a href="#">Freshest</a></li>
+	//               <li><a href="#">Only Remixes</a></li>
+	//               <li><a href="#">No Remixes</a></li>
+	//               <li><a href="#">Blogs in USA</a></li>
+	//             </ul>
+	//           </header>
+	//
+	//           <ul className="tracks-list">
+	//             {tracks.map(function (track) {
+	//               return <TrackIndexItem key={track.id} track={track} />;
+	//             })}
+	//           </ul>
+	//         </section>
+	//       </main>
+	//     );
+	//   }
+	// });
+
+	// var FavoriteIndex = React.createClass({
+	//   getInitialState: function () {
+	//     debugger
+	//     return ({ tracks: null });
+	//   },
+	//
+	//   componentDidMount: function () {
+	//     this.onChangeToken = TrackStore.addListener(this._onChange);
+	//     ApiUtil.fetchUserTracks(this.props.params.id);
+	//   },
+	//
+	//   componentWillUnmount: function () {
+	//     this.onChangeToken.remove();
+	//   },
+	//
+	//   componentWillReceiveProps: function (newProps) {
+	//     this.setState({ tracks: null });
+	//
+	//     TrackUtil.fetchUserTracks(newProps.params.id);
+	//   },
+	//
+	//   render: function () {
+	//     var tracks = this.state.tracks;
+	//
+	//     if (tracks === null) {
+	//       return <Loader />;
+	//     }
+	//     return (
+	//       <ul className="tracks-list">
+	//         {tracks.map(function (track) {
+	//           return <TrackIndexItem key={track.id} track={track} />;
+	//         })}
+	//       </ul>
+	//     );
+	//   },
+	//
+	//   _onChange: function () {
+	//     this.setState({ tracks: TrackStore.all()});
+	//   }
+	// });
 
 /***/ },
 /* 280 */
@@ -35013,7 +35162,6 @@
 	var PostStore = new Store(AppDispatcher);
 	
 	var resetPosts = function (posts) {
-	  debugger;
 	  for (var i = 0; i < Object.keys(posts).length - 1; i++) {
 	    _posts[i] = posts[i];
 	  }
@@ -35244,13 +35392,20 @@
 	
 	  render: function () {
 	    var currentUser = SessionStore.currentUser();
+	    var imgSource = currentUser.thumb_url || "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg";
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'dropdown' },
 	      React.createElement(
-	        Link,
-	        { to: "/users/" + currentUser.id },
+	        'a',
+	        { href: '#' },
 	        'Me'
+	      ),
+	      React.createElement(
+	        'figure',
+	        { className: 'profile-image-small' },
+	        React.createElement('img', { src: imgSource })
 	      ),
 	      React.createElement(
 	        'ul',
@@ -35268,8 +35423,8 @@
 	          'li',
 	          null,
 	          React.createElement(
-	            'a',
-	            { href: '#' },
+	            Link,
+	            { to: "/users/" + currentUser.id },
 	            'Favorites'
 	          )
 	        ),
@@ -35361,11 +35516,8 @@
 	  },
 	
 	  componentDidMount: function () {
-	    // var audioTags = document.getElementsByTagName('audio');
-	    // var audioDOM = this.refs.audioHTML;
 	    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
 	    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
-	    // ApiUtil.fetchTracks();
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35374,7 +35526,6 @@
 	  },
 	
 	  render: function () {
-	    var i = 0;
 	    var loadedTracks = this.state.loadedTracks;
 	    var track = this.state.currentTrack || loadedTracks[0];
 	    var playStatus = this.state.playStatus;
@@ -35395,7 +35546,16 @@
 	          { className: 'current-track' },
 	          track.title,
 	          ' - ',
-	          track.artist_name
+	          track.artist_name + " ",
+	          React.createElement(
+	            'a',
+	            { href: track.posts[0].post_url },
+	            React.createElement(
+	              'small',
+	              null,
+	              'Read Post →'
+	            )
+	          )
 	        )
 	      );
 	    }
@@ -35427,9 +35587,22 @@
 
 	var React = __webpack_require__(1);
 	var PlayerStore = __webpack_require__(247);
+	var TrackStore = __webpack_require__(217);
+	var PlayerActions = __webpack_require__(275);
 	
 	function _isPlaying() {
 	  return PlayerStore.playStatus();
+	}
+	
+	function _findTrackIdx() {
+	  var tracks = TrackStore.all();
+	  var current = PlayerStore.currentTrack();
+	
+	  for (var i = 0; i < tracks.length; i++) {
+	    if (tracks[i] === current) {
+	      return i;
+	    }
+	  }
 	}
 	
 	var NavControls = React.createClass({
@@ -35450,6 +35623,7 @@
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'ul',
 	      { className: 'nav-controls' },
@@ -35476,6 +35650,40 @@
 	    );
 	  },
 	
+	  _changeTrack: function (change) {
+	    var currentIdx = _findTrackIdx();
+	    var tracks = TrackStore.all();
+	
+	    var updateTrack = tracks[currentIdx + change];
+	
+	    PlayerActions.receiveCurrentTrack(updateTrack);
+	    PlayerActions.play();
+	  },
+	
+	  _forward: function () {
+	    return React.createElement(
+	      'button',
+	      {
+	        className: 'forward',
+	        onClick: this._changeTrack(1) },
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement('i', { className: 'fa fa-fast-forward' })
+	      )
+	    );
+	  },
+	
+	  // _backward: function () {
+	  //   return (
+	  //     <button
+	  //       className="backward"
+	  //       onClick={this._changeTrack()}>
+	  //       <div><i className="fa fa-fast-backward"></i></div>
+	  //     </button>
+	  //   );
+	  // },
+	
 	  _onPlayerChange: function () {
 	    audio = document.getElementsByTagName('audio');
 	    this.setState({
@@ -35492,6 +35700,142 @@
 	});
 	
 	module.exports = NavControls;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var ApiUtil = __webpack_require__(240);
+	var Loader = __webpack_require__(278);
+	var ArtistStore = __webpack_require__(290);
+	var TrackIndexItem = __webpack_require__(245);
+	
+	var Artist = React.createClass({
+	  displayName: 'Artist',
+	
+	
+	  getInitialState: function () {
+	    return { artist: null };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = ArtistStore.addListener(this._onChange);
+	    ApiUtil.fetchArtist(this.props.params.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ artist: ArtistStore.find(this.props.params.id) });
+	  },
+	
+	  render: function () {
+	    var artist = this.state.artist;
+	
+	    if (!artist) {
+	      return React.createElement(Loader, null);
+	    }
+	
+	    return React.createElement(
+	      'main',
+	      { className: 'content' },
+	      React.createElement(
+	        'section',
+	        { className: 'playlist group' },
+	        React.createElement(
+	          'header',
+	          { className: 'profile-header group' },
+	          React.createElement(
+	            'figure',
+	            { className: 'profile-image' },
+	            React.createElement('img', { src: artist.tracks[0].posts[0].thumb_url })
+	          ),
+	          React.createElement(
+	            'h1',
+	            { className: 'profile-name' },
+	            artist.name
+	          )
+	        ),
+	        React.createElement(
+	          'header',
+	          null,
+	          React.createElement(
+	            'ul',
+	            { className: 'playlist-menu' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Newest First↓'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'tracks-list' },
+	          artist.tracks.map(function (track) {
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	          })
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Artist;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var ArtistConstants = __webpack_require__(291);
+	
+	var _artists = [];
+	var ArtistStore = new Store(AppDispatcher);
+	
+	var resetArtists = function (artists) {
+	  _artists = artists.slice();
+	};
+	
+	ArtistStore.all = function () {
+	  return _artists.slice();
+	};
+	
+	ArtistStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ArtistConstants.ARTISTS_RECEIVED:
+	      resetArtists(payload.artists);
+	      ArtistStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	ArtistStore.find = function (artist_id) {
+	  return _artists.find(function (artist) {
+	    return artist.id === parseInt(artist_id);
+	  });
+	};
+	
+	module.exports = ArtistStore;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports) {
+
+	var ArtistConstants = {
+	  ARTISTS_RECEIVED: "ARTISTS_RECEIVED",
+	  SINGLE_ARTIST_RECEIVED: "SINGLE_ARTIST_RECEIVED"
+	};
+	
+	module.exports = ArtistConstants;
 
 /***/ }
 /******/ ]);

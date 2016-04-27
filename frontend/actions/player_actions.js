@@ -25,7 +25,7 @@ var PlayerActions = {
     AppDispatcher.dispatch({
       actionType: PlayerConstants.ADD,
     });
-  }
+  },
 };
 
 module.exports = PlayerActions;

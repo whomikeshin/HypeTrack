@@ -1,9 +1,8 @@
 var React = require('react');
+var Link = require('react-router').Link;
 var ReactRouter = require('react-router');
-// var Link = require('react-router').Link;
 var SessionStore = require('../../stores/session');
 var PlayerStore = require('../../stores/player');
-// var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
 var FavLoginModal = require('../user/fav_modal');
 var Player = require('./play_pause');
@@ -14,6 +13,7 @@ var IndexItem = React.createClass({
   render: function () {
     var favoriteButton;
     var track = this.props.track;
+    debugger
     var currentUser = SessionStore.currentUser();
     if (currentUser) {
       favoriteButton = this._favorite();
@@ -31,10 +31,12 @@ var IndexItem = React.createClass({
           </div>
 
           <div className="track-artist">
-            {track.artist_name}
+            <Link
+              to={"/artists/" + track.artist.id}>{track.artist_name}
+            </Link>
           </div>
 
-          <p className="track-dash"> - </p>
+          <span className="track-dash"> - </span>
 
           <div className="track-name">
             {track.title}

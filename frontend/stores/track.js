@@ -28,7 +28,6 @@ TrackStore.__onDispatch = function (payload) {
           _tracks[i] = payload.track;
         }
       }
-      // _tracks[payload.track.id] = payload.track;
       TrackStore.__emitChange();
       break;
   }

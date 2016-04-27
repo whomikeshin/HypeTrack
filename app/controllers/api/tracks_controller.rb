@@ -41,6 +41,16 @@ class Api::TracksController < ApplicationController
     end
   end
 
+
+  def favorite
+    user = User.find(params[:user_id])
+    @tracks =
+      user.favorite_tracks
+        .order(updated_at: :desc)
+
+    render :index
+  end
+
   private
   def track_params
     params.require(:track).permit(:title, :artist)

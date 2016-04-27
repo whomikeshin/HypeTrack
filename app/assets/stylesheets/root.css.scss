@@ -1,6 +1,6 @@
 html, body, div, header, nav, a, h1, h2,
 ul, li, main, section, figure, img, p, form,
-fieldset, label, input, textarea, button, i {
+fieldset, label, input, textarea, button, i, link {
   border: 0;
   margin: 0;
   padding: 0;
@@ -21,7 +21,7 @@ body {
   color: #222;
 }
 
-ul {
+li {
   list-style: none;
 }
 
@@ -146,24 +146,38 @@ button {
 
 .dropdown {
   background: #222;
-  display: block;
-  position: relative;
+  width: 80px;
+  height: 30px;
+  margin-top: 3px;
+}
+
+.profile-image-small > img {
+  border: 1px solid #555;
+  max-height: 25px;
+  max-width: 25px;
+  position: absolute;
+  top: 4px;
+  right: 20px;
 }
 
 .profile-list {
   border: 1px solid #222;
   display: none;
+  position: absolute;
+  right: 0;
+  top: 32px;
+}
+.dropdown:hover .profile-list {
+  display: block;
 }
 
 .profile-list > li {
   background: #3d3c3a;
   padding: 3px;
   border-bottom: 1px solid #222;
-  display: block;
-}
-
-.dropdown:hover .profile-list {
-  display: block;
+  text-align: right;
+  font-size: 12px;
+  width: 80px;
 }
 
 .logout {
@@ -178,7 +192,7 @@ button {
 .current-track {
   position: absolute;
   left: 350px;
-  top: 2px;
+  top: 3px;
 }
 
 /* Track Index */
@@ -238,6 +252,7 @@ button {
   display: block;
   padding: 22px 0 15px 0;
   border-bottom: 1px solid #999;
+  width: 728px;
 }
 
 .track-detail-container {
@@ -426,10 +441,20 @@ label {
   margin-right: 10px;
 }
 
-.profile-header > h2 {
+.profile-header > h1 {
   color: #222;
   font-size: 20px;
   font-weight: 700px;
+}
+
+.profile-header > h2 {
+  color: #222;
+  font-size: 16px;
+  font-weight: 500px;
+}
+
+.profile-header > li {
+  font-size: 20px;
 }
 
 .loader {

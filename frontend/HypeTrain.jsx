@@ -8,11 +8,11 @@ var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 
 var TrackIndex = require('./components/track/index');
-// var TrackForm = require('./components/track/track_form');
 var Profile = require ('./components/user/profile');
 var FavoriteIndex = require('./components/track/favorite_index');
 var Post = require('./components/post');
 var App = require('./components/app');
+var Artist = require('./components/artist');
 
 var ApiUtil = require('./util/api_util');
 var Modal = require("react-modal");
@@ -24,6 +24,8 @@ var router = (
       <Route path="users/:id" component={Profile}/>
         <IndexRoute component={FavoriteIndex}/>
     </Route>
+
+    <Route path="/artists/:id" component={Artist}/>
   </Router>
 );
 
@@ -52,3 +54,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // <Route path="upload" component={TrackForm}/>
+// <Route path="tracks" component={TrackIndex}>

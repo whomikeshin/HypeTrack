@@ -6,12 +6,17 @@ var Link = require('react-router').Link;
 var ProfileMenu = React.createClass({
   render: function() {
     var currentUser = SessionStore.currentUser();
+    var imgSource = currentUser.thumb_url ||
+      "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg";
+
     return(
       <div className="dropdown">
-        <Link to={"/users/" + currentUser.id}>Me</Link>
-        <ul className="profile-list group">
+        <a href="#">Me</a>
+        <figure className="profile-image-small"><img src={imgSource}/></figure>
+
+      <ul className="profile-list group">
           <li><a href="#">Feed</a></li>
-          <li><a href="#">Favorites</a></li>
+          <li><Link to={"/users/" + currentUser.id}>Favorites</Link></li>
           <li><a href="#">Friends</a></li>
           <li><a href="#">Find Friends</a></li>
           <li><a href="#">Find Blogs</a></li>

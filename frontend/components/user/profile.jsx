@@ -36,6 +36,7 @@ var Profile = React.createClass({
   },
 
   render: function () {
+    debugger;
     var user = this.state.user;
 
     if(!user) {
@@ -49,7 +50,11 @@ var Profile = React.createClass({
             <figure className="profile-image">
               <img src={user.thumb_url}/>
             </figure>
-            <h2 className="profile-name">{user.username}</h2>
+            <h1 className="profile-name">{user.username}</h1>
+            <h2>Joined on April 12, 2016</h2>
+            <ul className="profile-stats">
+              <li>{user.favorite_tracks.length}</li>
+            </ul>
           </header>
 
           <header>
@@ -63,7 +68,6 @@ var Profile = React.createClass({
               <li><a href="#">Listening History</a></li>
             </ul>
           </header>
-
           <ul className="tracks-list">
             {user.favorite_tracks.map(function (track) {
               return <TrackIndexItem key={track.id} track={track} />;

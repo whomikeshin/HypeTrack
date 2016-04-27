@@ -5,6 +5,7 @@ var Loader = require('./loader');
 var TrackStore = require('../stores/track');
 var NavControls = require('./nav_controls');
 
+
 function _getCurrentTrack () {
   return PlayerStore.currentTrack();
 }
@@ -28,11 +29,8 @@ var NavPlayer = React.createClass({
   },
 
   componentDidMount: function () {
-    // var audioTags = document.getElementsByTagName('audio');
-    // var audioDOM = this.refs.audioHTML;
     this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
-    // ApiUtil.fetchTracks();
   },
 
   componentWillUnmount: function () {
@@ -41,7 +39,6 @@ var NavPlayer = React.createClass({
   },
 
   render: function () {
-    var i = 0;
     var loadedTracks = this.state.loadedTracks;
     var track = this.state.currentTrack || loadedTracks[0];
     var playStatus = this.state.playStatus;
@@ -57,7 +54,8 @@ var NavPlayer = React.createClass({
         </div>
 
         <div className="current-track">
-          {track.title} - {track.artist_name}
+          {track.title} - {track.artist_name + " "}
+          <a href={track.posts[0].post_url}><small>Read Post →</small></a>
         </div>
       </div>
       );

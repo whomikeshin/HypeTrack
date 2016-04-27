@@ -1,4 +1,4 @@
-class ArtistsController < ApplicationController
+class Api::ArtistsController < ApplicationController
   def create
     @artist = Artist.new(artist_params)
     if @artist.save
@@ -17,6 +17,10 @@ class ArtistsController < ApplicationController
     else
       render json: ["Artist does not exist"], status: 422
     end
+  end
+
+  def show
+    @artist = Artist.find(params[:id])
   end
 
   private
