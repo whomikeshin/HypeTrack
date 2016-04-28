@@ -145,6 +145,19 @@ ApiUtil = {
       }
     });
   },
+
+  fetchBlog: function (blog_id) {
+    $.ajax({
+      type: 'GET',
+      url: 'api/blogs/' + blog_id,
+      success: function (blog) {
+        ApiActions.receiveBlogs([blog]);
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  },
 };
 
 module.exports = ApiUtil;

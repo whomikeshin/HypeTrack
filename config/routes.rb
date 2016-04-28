@@ -15,5 +15,7 @@ Rails.application.routes.draw do
     resources :posts, only: [:create, :destroy, :index]
 
     resources :artists, only: [:create, :show, :destroy]
+
+    resources :blogs, only: [:create, :show, :destroy]
   end
 end

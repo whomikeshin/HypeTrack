@@ -1,18 +1,18 @@
 var React = require('react');
 var ApiUtil = require('../util/api_util');
 var Loader = require('./loader');
-var ArtistStore = require('../stores/artist');
+var BlogStore = require('../stores/blog');
 var TrackIndexItem = require('./track/index_item');
 
-var Artist = React.createClass({
+var Blog = React.createClass({
 
   getInitialState: function () {
-    return { artist: null };
+    return { blog: null };
   },
 
   componentDidMount: function () {
-    this.onChangeToken = ArtistStore.addListener(this._onChange);
-    ApiUtil.fetchArtist(this.props.params.id);
+    this.onChangeToken = BlogStore.addListener(this._onChange);
+    ApiUtil.fetchBlog(this.props.params.id);
   },
 
   componentWillUnmount: function () {
@@ -20,13 +20,13 @@ var Artist = React.createClass({
   },
 
   _onChange: function () {
-    this.setState({ artist: ArtistStore.find(this.props.params.id) });
+    this.setState({ blog: BlogStore.find(this.props.params.id) });
   },
 
   render: function () {
-    var artist = this.state.artist;
+    var blog = this.state.blog;
 
-    if(!artist) {
+    if(!blog) {
       return <Loader/>;
     }
 
@@ -34,19 +34,21 @@ var Artist = React.createClass({
       <main className="content">
         <section className="playlist group">
           <header className="profile-header group">
-            <figure className="profile-image">
-              <img src={artist.tracks[0].posts[0].thumb_url}/>
+            <figure className="profile-image-blog">
+              <img src="http://cdn.someoddpilot.com/wp-content/uploads/2012/03/pitchfork1.1.png"/>
             </figure>
-            <h1 className="profile-name">{artist.name}</h1>
           </header>
 
           <header>
+            <h2 className="playlist-title">
+              Latest Posts From <a href="#">{blog.name}</a>
+            </h2>
             <ul className="playlist-menu alt">
               <li><a href="#">Newest First↓</a></li>
             </ul>
           </header>
           <ul className="tracks-list">
-            {artist.tracks.map(function (track) {
+            {blog.tracks.map(function (track) {
               return <TrackIndexItem key={track.id} track={track} />;
             })}
           </ul>
@@ -56,4 +58,4 @@ var Artist = React.createClass({
   }
 });
 
-module.exports = Artist;
+module.exports = Blog;

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160408165624) do
+ActiveRecord::Schema.define(version: 20160427231645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,10 +25,12 @@ ActiveRecord::Schema.define(version: 20160408165624) do
   add_index "artists", ["name"], name: "index_artists_on_name", unique: true, using: :btree
 
   create_table "blogs", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "url",        null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",        null: false
+    t.string   "url",         null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "thumb_url"
+    t.string   "twitter_url"
   end
 
   add_index "blogs", ["name"], name: "index_blogs_on_name", unique: true, using: :btree

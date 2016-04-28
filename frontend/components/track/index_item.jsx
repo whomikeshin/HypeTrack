@@ -13,7 +13,7 @@ var IndexItem = React.createClass({
   render: function () {
     var favoriteButton;
     var track = this.props.track;
-    debugger
+
     var currentUser = SessionStore.currentUser();
     if (currentUser) {
       favoriteButton = this._favorite();
@@ -48,7 +48,9 @@ var IndexItem = React.createClass({
             </div>
 
             <div className="track-blog-name">
-              {track.blogs[0].name}
+              <Link
+                to={"/blogs/" + track.blogs[0].id}>{track.blogs[0].name}
+              </Link>
             </div>
 
             <p className="track-post-info">

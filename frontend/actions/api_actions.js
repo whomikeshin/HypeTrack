@@ -2,6 +2,7 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var TrackConstants = require('../constants/track_constants');
 var UserConstants = require('../constants/user_constants');
 var ArtistConstants = require('../constants/artist_constants');
+var BlogConstants = require('../constants/blog_constants');
 
 
 var ApiActions = {
@@ -37,6 +38,13 @@ var ApiActions = {
     AppDispatcher.dispatch({
       actionType: ArtistConstants.ARTISTS_RECEIVED,
       artists: artists
+    });
+  },
+
+  receiveBlogs: function (blogs) {
+    AppDispatcher.dispatch({
+      actionType: BlogConstants.BLOGS_RECEIVED,
+      blogs: blogs
     });
   }
 };
