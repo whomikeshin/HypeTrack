@@ -3,6 +3,7 @@ var ApiUtil = require('../util/api_util');
 var Loader = require('./loader');
 var BlogStore = require('../stores/blog');
 var TrackIndexItem = require('./track/index_item');
+var Link = require('react-router').Link;
 
 var Blog = React.createClass({
 
@@ -34,14 +35,41 @@ var Blog = React.createClass({
       <main className="content">
         <section className="playlist group">
           <header className="profile-header group">
-            <figure className="profile-image-blog">
-              <img src="http://cdn.someoddpilot.com/wp-content/uploads/2012/03/pitchfork1.1.png"/>
+            <figure className="profile-image blog">
+              <img src={blog.thumb_url}/>
             </figure>
+            <ul className="blog-menu">
+
+              <li>
+                <i className="fa fa-plus"></i>
+                <p className="blog-text">Follow</p>
+              </li>
+
+              <li>
+                {blog.track_count}
+                <p className="blog-text">Tracks</p>
+              </li>
+
+              <li>
+                {blog.follower_count}
+                <p className="blog-text">Followers</p>
+              </li>
+
+              <li>
+                <Link
+                  to={blog.twitter_url}>
+                  <img className="twitter" src="https://g.twimg.com/Twitter_logo_blue.png"/>
+                </Link>
+                <p className="blog-text">Twitter</p>
+              </li>
+
+
+            </ul>
           </header>
 
           <header>
-            <h2 className="playlist-title">
-              Latest Posts From <a href="#">{blog.name}</a>
+            <h2 className="playlist-title blog">
+              Latest Posts From <a href={blog.url} className="blog-url">{blog.name}</a>
             </h2>
             <ul className="playlist-menu alt">
               <li><a href="#">Newest First↓</a></li>

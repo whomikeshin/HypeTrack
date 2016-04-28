@@ -37,10 +37,12 @@ var Artist = React.createClass({
             <figure className="profile-image">
               <img src={artist.tracks[0].posts[0].thumb_url}/>
             </figure>
-            <h1 className="profile-name">{artist.name}</h1>
           </header>
 
           <header>
+            <h2 className="playlist-title">
+              Search Results for {artist.name}
+            </h2>
             <ul className="playlist-menu alt">
               <li><a href="#">Newest First↓</a></li>
             </ul>

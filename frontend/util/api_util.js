@@ -32,10 +32,10 @@ ApiUtil = {
     });
   },
 
-  createFavorite: function (track_id, success) {
+  createFavorite: function (trackId, success) {
     $.ajax({
       type: 'POST',
-      url: 'api/tracks/' + track_id + '/favorite',
+      url: 'api/tracks/' + trackId + '/favorite',
       success: function (track) {
         ApiActions.receiveSingleTrack(track);
       },
@@ -45,12 +45,38 @@ ApiUtil = {
     });
   },
 
-  destroyFavorite: function (track_id, success) {
+  destroyFavorite: function (trackId, success) {
     $.ajax({
       type: 'DELETE',
-      url: 'api/tracks/' + track_id + '/favorite',
+      url: 'api/tracks/' + trackId + '/favorite',
       success: function (track) {
         ApiActions.receiveSingleTrack(track);
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  },
+
+  createFollow: function (blogId, success) {
+    $.ajax({
+      url: "api/blogs/" + blogId + "/follow",
+      method: 'POST',
+      success: function (blog) {
+        ApiActions.receiveSingleBlog(blog);
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+  },
+
+  destroyFollow: function (blogId, success) {
+    $.ajax({
+      url: "/api/blogs/" + blogId + "/follow",
+      method: 'DELETE',
+      success: function (blog) {
+        ApiActions.receiveSingleBlog(blog);
       },
       error: function (data) {
         console.log(data);

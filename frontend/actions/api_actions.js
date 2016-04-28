@@ -46,6 +46,13 @@ var ApiActions = {
       actionType: BlogConstants.BLOGS_RECEIVED,
       blogs: blogs
     });
+  },
+
+  receiveSingleBlog: function (blog) {
+    AppDispatcher.dispatch({
+      actionType: BlogConstants.SINGLE_BLOG_RECEIVED,
+      blog: blog
+    });
   }
 };
 

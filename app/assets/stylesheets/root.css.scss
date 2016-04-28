@@ -217,10 +217,10 @@ button {
   display: block;
 }
 
-.playlist-title.alt2 {
+.playlist-title.blog {
   font-size: 29px;
-  margin: 55px 0 25px;
-  display: inline-block;
+  margin: 25px 0;
+  display: block;
 }
 
 .playlist-menu {
@@ -272,6 +272,11 @@ button {
   border-right: 1px solid #999;
 }
 
+.blog-url {
+  color: #0063dc;
+  font-weight: 600px;
+}
+
 /* Track Index Item */
 
 .track {
@@ -319,6 +324,7 @@ button {
   float: left;
   color: #0063dc;
   font-size: 13px;
+  position: relative;
 }
 
 .track-post > div:hover {
@@ -346,6 +352,10 @@ button {
   top: 0;
 }
 
+.fav-div > p {
+  margin-top: 2px;
+}
+
 .fav-div > button {
   background: transparent;
 }
@@ -365,6 +375,17 @@ button {
 
 .play-button:hover, .pause-button:hover, .fav-modal:hover {
   color: #0063dc;
+}
+
+.follow, .unfollow {
+  background: transparent;
+  color: #0063dc;
+  font-weight: 600;
+}
+
+.follow:hover, .unfollow:hover {
+  text-decoration: none;
+  color: #b3b3b3;
 }
 
 .favorite {
@@ -467,10 +488,10 @@ label {
   margin-right: 10px;
 }
 
-.profile-image-blog > img {
+.profile-image.blog > img {
   border: 1px solid #555;
-  max-height: 240px;
-  max-width: 320px;
+  max-height: 200px;
+  max-width: 250px;
   float: left;
   margin-right: 10px;
 }
@@ -495,4 +516,44 @@ label {
   display: block;
   width: 20px;
   height: 20px;
+}
+
+// *Blog //
+.blog-menu > li {
+  display: block;
+  border: 1px solid #222;
+  width: 80px;
+  height: 60px;
+  margin: 0 5px 0 0;
+  text-align: center;
+  float: left;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.blog-text {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.twitter {
+  max-width: 25px;
+  max-height: 25px;
+}
+
+.modal-links {
+  float: left;
+  margin: 0 0 5px;
+}
+
+.profile-menu > li {
+  display: block;
+  border: 1px solid #222;
+  width: 80px;
+  height: 60px;
+  margin: 0 5px 0 0;
+  text-align: center;
+  float: right;
+  font-weight: 600;
+  font-size: 24px;
 }

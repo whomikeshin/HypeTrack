@@ -22,8 +22,8 @@ var router = (
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <Route path="tracks" component={TrackIndex}/>
-      <Route path="/artists/:id" component={Artist}/>
-      <Route path="/blogs/:id" component={Blog}/>
+      <Route path="artists/:id" component={Artist}/>
+      <Route path="blogs/:id" component={Blog}/>
       <Route path="users/:id" component={Profile}/>
         <IndexRoute component={FavoriteIndex}/>
     </Route>

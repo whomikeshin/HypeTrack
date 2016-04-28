@@ -71,8 +71,8 @@
 	    Route,
 	    { path: '/', component: App },
 	    React.createElement(Route, { path: 'tracks', component: TrackIndex }),
-	    React.createElement(Route, { path: '/artists/:id', component: Artist }),
-	    React.createElement(Route, { path: '/blogs/:id', component: Blog }),
+	    React.createElement(Route, { path: 'artists/:id', component: Artist }),
+	    React.createElement(Route, { path: 'blogs/:id', component: Blog }),
 	    React.createElement(Route, { path: 'users/:id', component: Profile }),
 	    React.createElement(IndexRoute, { component: FavoriteIndex })
 	  )
@@ -24777,6 +24777,7 @@
 
 	var React = __webpack_require__(1);
 	var TrackStore = __webpack_require__(217);
+	var BlogStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
 	var TrackIndexItem = __webpack_require__(247);
 	
@@ -24788,19 +24789,21 @@
 	  displayName: 'Index',
 	
 	  getInitialState: function () {
-	    return { tracks: _getAllTracks() };
+	    return {
+	      tracks: _getAllTracks()
+	    };
 	  },
 	
 	  componentDidMount: function () {
-	    this.onChangeToken = TrackStore.addListener(this._onChange);
+	    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
 	    ApiUtil.fetchTracks();
 	  },
 	
 	  componentWillUnmount: function () {
-	    this.onChangeToken.remove();
+	    this.onTrackChangeToken.remove();
 	  },
 	
-	  _onChange: function () {
+	  _onTrackChange: function () {
 	    var tracks = _getAllTracks();
 	    this.setState({ tracks: tracks });
 	  },
@@ -24876,7 +24879,7 @@
 	          'ul',
 	          { className: 'tracks-list' },
 	          tracks.map(function (track) {
-	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track, blog: track.blogs[0] });
 	          })
 	        )
 	      )
@@ -24904,9 +24907,6 @@
 	TrackStore.all = function () {
 	  return _tracks.slice();
 	};
-	
-	//remove
-	//update
 	
 	TrackStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
@@ -31738,10 +31738,10 @@
 	    });
 	  },
 	
-	  createFavorite: function (track_id, success) {
+	  createFavorite: function (trackId, success) {
 	    $.ajax({
 	      type: 'POST',
-	      url: 'api/tracks/' + track_id + '/favorite',
+	      url: 'api/tracks/' + trackId + '/favorite',
 	      success: function (track) {
 	        ApiActions.receiveSingleTrack(track);
 	      },
@@ -31751,12 +31751,38 @@
 	    });
 	  },
 	
-	  destroyFavorite: function (track_id, success) {
+	  destroyFavorite: function (trackId, success) {
 	    $.ajax({
 	      type: 'DELETE',
-	      url: 'api/tracks/' + track_id + '/favorite',
+	      url: 'api/tracks/' + trackId + '/favorite',
 	      success: function (track) {
 	        ApiActions.receiveSingleTrack(track);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  },
+	
+	  createFollow: function (blogId, success) {
+	    $.ajax({
+	      url: "api/blogs/" + blogId + "/follow",
+	      method: 'POST',
+	      success: function (blog) {
+	        ApiActions.receiveSingleBlog(blog);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  },
+	
+	  destroyFollow: function (blogId, success) {
+	    $.ajax({
+	      url: "/api/blogs/" + blogId + "/follow",
+	      method: 'DELETE',
+	      success: function (blog) {
+	        ApiActions.receiveSingleBlog(blog);
 	      },
 	      error: function (data) {
 	        console.log(data);
@@ -31919,6 +31945,13 @@
 	      actionType: BlogConstants.BLOGS_RECEIVED,
 	      blogs: blogs
 	    });
+	  },
+	
+	  receiveSingleBlog: function (blog) {
+	    AppDispatcher.dispatch({
+	      actionType: BlogConstants.SINGLE_BLOG_RECEIVED,
+	      blog: blog
+	    });
 	  }
 	};
 	
@@ -32000,7 +32033,7 @@
 	var Link = __webpack_require__(159).Link;
 	var ReactRouter = __webpack_require__(159);
 	var SessionStore = __webpack_require__(248);
-	var PlayerStore = __webpack_require__(249);
+	var BlogStore = __webpack_require__(294);
 	var ApiUtil = __webpack_require__(240);
 	var FavLoginModal = __webpack_require__(251);
 	var Player = __webpack_require__(276);
@@ -32012,11 +32045,13 @@
 	
 	  render: function () {
 	    var favoriteButton;
+	    var followButton;
 	    var track = this.props.track;
 	
 	    var currentUser = SessionStore.currentUser();
 	    if (currentUser) {
 	      favoriteButton = this._favorite();
+	      followButton = this._follow();
 	    } else {
 	      favoriteButton = React.createElement(
 	        'div',
@@ -32077,6 +32112,11 @@
 	            )
 	          ),
 	          React.createElement(
+	            'span',
+	            { className: 'follow-button' },
+	            followButton
+	          ),
+	          React.createElement(
 	            'p',
 	            { className: 'track-post-info' },
 	            track.posts[0].track_info.slice(0, 200).concat("...")
@@ -32090,7 +32130,11 @@
 	        React.createElement(
 	          'span',
 	          { className: 'fav-div' },
-	          track.favorite_count,
+	          React.createElement(
+	            'p',
+	            null,
+	            track.favorite_count
+	          ),
 	          favoriteButton,
 	          React.createElement(Player, { track: this.props.track })
 	        )
@@ -32128,17 +32172,56 @@
 	    }
 	  },
 	
-	  _favorTrack: function (track_id) {
-	    ApiUtil.createFavorite(track_id);
+	  _follow: function () {
+	    var blog = this.props.track.blogs[0];
+	    var currentUser = SessionStore.currentUser();
+	    if (currentUser.blog_follows.includes(blog.id)) {
+	      return React.createElement(
+	        'button',
+	        {
+	          className: 'unfollow',
+	          onClick: this._unfollowBlog.bind(this, blog.id) },
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement('i', { className: 'fa fa-minus' })
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'button',
+	        {
+	          className: 'follow',
+	          onClick: this._followBlog.bind(this, blog.id) },
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement('i', { className: 'fa fa-plus' })
+	        )
+	      );
+	    }
 	  },
 	
-	  _unfavorTrack: function (track_id) {
-	    ApiUtil.destroyFavorite(track_id);
+	  _favorTrack: function (trackId) {
+	    ApiUtil.createFavorite(trackId);
 	  },
 	
-	  _onTrackChange: function () {
+	  _unfavorTrack: function (trackId) {
+	    ApiUtil.destroyFavorite(trackId);
+	  },
+	
+	  _onBlogChange: function () {
 	    this.forceUpdate();
+	  },
+	
+	  _followBlog: function (blogId) {
+	    ApiUtil.createFollow(blogId);
+	  },
+	
+	  _unfollowBlog: function (blogId) {
+	    ApiUtil.destroyFollow(blogId);
 	  }
+	
 	});
 	
 	module.exports = IndexItem;
@@ -32299,16 +32382,10 @@
 	      { className: 'acc-p' },
 	      'A free account lets you favorite tracks and create your own music stream with your favorite artists, blogs & friends.'
 	    ),
-	    React.createElement(
-	      'div',
-	      null,
-	      React.createElement(UserModal, null)
-	    ),
-	    React.createElement(
-	      'div',
-	      null,
-	      React.createElement(LoginModal, null)
-	    )
+	    React.createElement('br', null),
+	    React.createElement(UserModal, null),
+	    React.createElement('br', null),
+	    React.createElement(LoginModal, null)
 	  )
 	);
 	
@@ -34790,15 +34867,44 @@
 	          React.createElement(
 	            'h2',
 	            null,
-	            'Joined on April 12, 2016'
+	            React.createElement(
+	              'small',
+	              null,
+	              'Joined on April 12, 2016'
+	            )
 	          ),
 	          React.createElement(
 	            'ul',
-	            { className: 'profile-stats' },
+	            { className: 'profile-menu' },
 	            React.createElement(
 	              'li',
 	              null,
-	              user.favorite_tracks.length
+	              '0',
+	              React.createElement(
+	                'p',
+	                { className: 'blog-text' },
+	                'Friends'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              user.blog_follows.length,
+	              React.createElement(
+	                'p',
+	                { className: 'blog-text' },
+	                'Blogs'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              user.favorite_tracks.length,
+	              React.createElement(
+	                'p',
+	                { className: 'blog-text' },
+	                'Favorites'
+	              )
 	            )
 	          )
 	        ),
@@ -35802,16 +35908,17 @@
 	            'figure',
 	            { className: 'profile-image' },
 	            React.createElement('img', { src: artist.tracks[0].posts[0].thumb_url })
-	          ),
-	          React.createElement(
-	            'h1',
-	            { className: 'profile-name' },
-	            artist.name
 	          )
 	        ),
 	        React.createElement(
 	          'header',
 	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'playlist-title' },
+	            'Search Results for ',
+	            artist.name
+	          ),
 	          React.createElement(
 	            'ul',
 	            { className: 'playlist-menu alt' },
@@ -35885,6 +35992,7 @@
 	var Loader = __webpack_require__(280);
 	var BlogStore = __webpack_require__(294);
 	var TrackIndexItem = __webpack_require__(247);
+	var Link = __webpack_require__(159).Link;
 	
 	var Blog = React.createClass({
 	  displayName: 'Blog',
@@ -35925,8 +36033,57 @@
 	          { className: 'profile-header group' },
 	          React.createElement(
 	            'figure',
-	            { className: 'profile-image-blog' },
-	            React.createElement('img', { src: 'http://cdn.someoddpilot.com/wp-content/uploads/2012/03/pitchfork1.1.png' })
+	            { className: 'profile-image blog' },
+	            React.createElement('img', { src: blog.thumb_url })
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'blog-menu' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement('i', { className: 'fa fa-plus' }),
+	              React.createElement(
+	                'p',
+	                { className: 'blog-text' },
+	                'Follow'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              blog.track_count,
+	              React.createElement(
+	                'p',
+	                { className: 'blog-text' },
+	                'Tracks'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              blog.follower_count,
+	              React.createElement(
+	                'p',
+	                { className: 'blog-text' },
+	                'Followers'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                {
+	                  to: blog.twitter_url },
+	                React.createElement('img', { className: 'twitter', src: 'https://g.twimg.com/Twitter_logo_blue.png' })
+	              ),
+	              React.createElement(
+	                'p',
+	                { className: 'blog-text' },
+	                'Twitter'
+	              )
+	            )
 	          )
 	        ),
 	        React.createElement(
@@ -35934,11 +36091,11 @@
 	          null,
 	          React.createElement(
 	            'h2',
-	            { className: 'playlist-title' },
+	            { className: 'playlist-title blog' },
 	            'Latest Posts From ',
 	            React.createElement(
 	              'a',
-	              { href: '#' },
+	              { href: blog.url, className: 'blog-url' },
 	              blog.name
 	            )
 	          ),
@@ -35993,6 +36150,14 @@
 	  switch (payload.actionType) {
 	    case BlogConstants.BLOGS_RECEIVED:
 	      resetBlogs(payload.blogs);
+	      BlogStore.__emitChange();
+	      break;
+	    case BlogConstants.SINGLE_BLOG_RECEIVED:
+	      for (var i = 0; i < _blogs.length; i++) {
+	        if (_blogs[i].id === payload.blog.id) {
+	          _blogs[i] = payload.blog;
+	        }
+	      }
 	      BlogStore.__emitChange();
 	      break;
 	  }

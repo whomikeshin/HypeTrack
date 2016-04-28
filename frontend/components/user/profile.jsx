@@ -51,10 +51,23 @@ var Profile = React.createClass({
               <img src={user.thumb_url}/>
             </figure>
             <h1 className="profile-name">{user.username}</h1>
-            <h2>Joined on April 12, 2016</h2>
-            <ul className="profile-stats">
-              <li>{user.favorite_tracks.length}</li>
+            <h2><small>Joined on April 12, 2016</small></h2>
+
+            <ul className="profile-menu">
+              <li>
+                0
+                <p className="blog-text">Friends</p>
+              </li>
+              <li>
+                {user.blog_follows.length}
+                <p className="blog-text">Blogs</p>
+              </li>
+              <li>
+                {user.favorite_tracks.length}
+                <p className="blog-text">Favorites</p>
+              </li>
             </ul>
+
           </header>
 
           <header>

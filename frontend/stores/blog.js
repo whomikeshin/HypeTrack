@@ -19,6 +19,14 @@ BlogStore.__onDispatch = function (payload) {
       resetBlogs(payload.blogs);
       BlogStore.__emitChange();
       break;
+    case BlogConstants.SINGLE_BLOG_RECEIVED:
+      for (var i = 0; i < _blogs.length; i++ ) {
+        if (_blogs[i].id === payload.blog.id) {
+          _blogs[i] = payload.blog;
+        }
+      }
+      BlogStore.__emitChange();
+      break;
   }
 };
 

@@ -2,7 +2,7 @@ var React = require('react');
 var Link = require('react-router').Link;
 var ReactRouter = require('react-router');
 var SessionStore = require('../../stores/session');
-var PlayerStore = require('../../stores/player');
+var BlogStore = require('../../stores/blog');
 var ApiUtil = require('../../util/api_util');
 var FavLoginModal = require('../user/fav_modal');
 var Player = require('./play_pause');
@@ -12,11 +12,13 @@ var IndexItem = React.createClass({
 
   render: function () {
     var favoriteButton;
+    var followButton;
     var track = this.props.track;
 
     var currentUser = SessionStore.currentUser();
     if (currentUser) {
       favoriteButton = this._favorite();
+      followButton = this._follow();
     } else {
       favoriteButton = <div><FavLoginModal/></div>;
     }
@@ -53,6 +55,10 @@ var IndexItem = React.createClass({
               </Link>
             </div>
 
+            <span className="follow-button">
+              {followButton}
+            </span>
+
             <p className="track-post-info">
               {track.posts[0].track_info.slice(0, 200).concat("...")}
             </p>
@@ -62,7 +68,7 @@ var IndexItem = React.createClass({
           </section>
 
           <span className="fav-div">
-            {track.favorite_count}
+            <p>{track.favorite_count}</p>
             {favoriteButton}
             <Player track={this.props.track}/>
           </span>
@@ -94,17 +100,48 @@ var IndexItem = React.createClass({
     }
   },
 
-  _favorTrack: function (track_id) {
-    ApiUtil.createFavorite(track_id);
+  _follow: function () {
+    var blog = this.props.track.blogs[0];
+    var currentUser = SessionStore.currentUser();
+    if (currentUser.blog_follows.includes(blog.id)) {
+      return (
+        <button
+          className="unfollow"
+          onClick={this._unfollowBlog.bind(this, blog.id)}>
+          <div><i className="fa fa-minus"></i></div>
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="follow"
+          onClick={this._followBlog.bind(this, blog.id)}>
+          <div><i className="fa fa-plus"></i></div>
+        </button>
+      );
+    }
   },
 
-  _unfavorTrack: function (track_id) {
-    ApiUtil.destroyFavorite(track_id);
+  _favorTrack: function (trackId) {
+    ApiUtil.createFavorite(trackId);
   },
 
-  _onTrackChange: function () {
+  _unfavorTrack: function (trackId) {
+    ApiUtil.destroyFavorite(trackId);
+  },
+
+  _onBlogChange: function () {
     this.forceUpdate();
   },
+
+  _followBlog: function (blogId) {
+    ApiUtil.createFollow(blogId);
+  },
+
+  _unfollowBlog: function (blogId) {
+    ApiUtil.destroyFollow(blogId);
+  }
+
 });
 
 module.exports = IndexItem;

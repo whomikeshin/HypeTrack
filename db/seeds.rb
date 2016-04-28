@@ -51,32 +51,44 @@ Blog.destroy_all
 
 pitchfork = Blog.create!(
   name: "Pitchfork",
-  url: "http://pitchfork.com/"
+  url: "http://pitchfork.com/",
+  thumb_url: "http://logonoid.com/images/pitchfork-logo.png",
+  twitter_url: "https://twitter.com/pitchfork"
 )
 
 the_fader = Blog.create!(
   name: "The Fader",
-  url: "http://www.thefader.com/"
+  url: "http://www.thefader.com/",
+  thumb_url: "http://cdn.shopify.com/s/files/1/0949/8758/t/2/assets/logo.png?10484645586965365266",
+  twitter_url: "https://twitter.com/thefader"
 )
 
 stereogum = Blog.create!(
   name: "Stereogum",
-  url: "http://www.stereogum.com/"
+  url: "http://www.stereogum.com/",
+  thumb_url: "http://lillyhiatt.com/wp-content/uploads/2015/03/logo.png",
+  twitter_url: "https://twitter.com/stereogum"
 )
 
 musicgeeks = Blog.create!(
   name: "Musicgeeks",
-  url: "https://www.musicgeeks.co/"
+  url: "https://www.musicgeeks.co/",
+  thumb_url: "http://newbornstartups.com/wp-content/uploads/2015/04/MGlogo500.png",
+  twitter_url: "https://twitter.com/dshan",
 )
 
 stereofox = Blog.create!(
   name: "Stereofox",
-  url: "http://www.stereofox.com/"
+  url: "http://www.stereofox.com/",
+  thumb_url: "http://himynameisivo.com/wp-content/uploads/2014/08/Stereofox-Ivo-Dimchev-project-370x241.jpg",
+  twitter_url: "https://twitter.com/wearestereofox"
 )
 
 dancing_astronaut = Blog.create!(
   name: "Dancing Astronaut",
-  url: "http://www.dancingastronaut.com/"
+  url: "http://www.dancingastronaut.com/",
+  thumb_url: "http://www.cr2records.com/img/blogs/image/original/da-head-logo-102.jpg",
+  twitter_url: "https://twitter.com/dancingastro"
 )
 
 Track.destroy_all
@@ -228,4 +240,11 @@ Favorite.destroy_all
 Favorite.create!(
   user: yeezus,
   track: i_love_kanye
+)
+
+Follow.destroy_all
+
+Follow.create!(
+  user: me,
+  blog: stereofox
 )

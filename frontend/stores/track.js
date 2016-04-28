@@ -13,9 +13,6 @@ TrackStore.all = function () {
   return _tracks.slice();
 };
 
-//remove
-//update
-
 TrackStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case TrackConstants.TRACKS_RECEIVED:

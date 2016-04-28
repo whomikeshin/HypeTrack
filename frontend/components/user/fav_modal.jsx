@@ -34,8 +34,10 @@ var accountForm = <div className="account-form">
                         artists, blogs & friends.
                       </p>
 
-                      <div><UserModal/></div>
-                      <div><LoginModal/></div>
+                      <br/>
+                      <UserModal/>
+                      <br/>
+                      <LoginModal/>
                     </form>
                   </div>;
 
@@ -59,7 +61,7 @@ var FavModal = React.createClass({
       <div>
         <button className="fav-modal"
           onClick={this.openModal}>
-          <i className="fa fa-heart"></i>        
+          <i className="fa fa-heart"></i>
         </button>
         <Modal
           isOpen={this.state.modalOpen}

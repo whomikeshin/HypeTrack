@@ -1,5 +1,6 @@
 var React = require('react');
 var TrackStore = require('../../stores/track');
+var BlogStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
 var TrackIndexItem = require('./index_item');
 
@@ -9,19 +10,21 @@ function _getAllTracks () {
 
 var Index = React.createClass({
   getInitialState: function () {
-    return { tracks: _getAllTracks() };
+    return {
+      tracks: _getAllTracks()
+    };
   },
 
   componentDidMount: function () {
-    this.onChangeToken = TrackStore.addListener(this._onChange);
+    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
     ApiUtil.fetchTracks();
   },
 
   componentWillUnmount: function () {
-    this.onChangeToken.remove();
+    this.onTrackChangeToken.remove();
   },
 
-  _onChange: function () {
+  _onTrackChange: function () {
     var tracks = _getAllTracks();
     this.setState({ tracks: tracks });
   },
@@ -46,7 +49,7 @@ var Index = React.createClass({
 
           <ul className="tracks-list">
             {tracks.map(function (track) {
-              return <TrackIndexItem key={track.id} track={track}/>;
+              return <TrackIndexItem key={track.id} track={track} blog={track.blogs[0]}/>;
             })}
           </ul>
         </section>

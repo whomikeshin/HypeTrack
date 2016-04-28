@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   validates :username, :email, :password_digest, :session_token, :activation_token, presence: true
   # add in activation_token
 
+  has_many :follows, dependent: :destroy
+  has_many :blog_follows, through: :follows, source: :blog
+  has_many :artist_follows, through: :follows, source: :artist
 
   has_many :favorites, dependent: :destroy
   has_many :favorite_tracks, through: :favorites, source: :track
