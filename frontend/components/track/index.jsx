@@ -49,7 +49,7 @@ var Index = React.createClass({
 
           <ul className="tracks-list">
             {tracks.map(function (track) {
-              return <TrackIndexItem key={track.id} track={track} blog={track.blogs[0]}/>;
+              return <TrackIndexItem key={track.id} track={track}/>;
             })}
           </ul>
         </section>

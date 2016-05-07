@@ -25,6 +25,7 @@ var App = React.createClass({
   },
 
   render: function () {
+    debugger
     var sideMenu;
     if (this.state.currentUser) {
       sideMenu = <div className="profile-menu">
@@ -72,7 +73,6 @@ var App = React.createClass({
             </div>
           </div>
         </nav>
-        
         {this.props.children}
       </div>
     );

@@ -54,15 +54,15 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var TrackIndex = __webpack_require__(216);
-	var Profile = __webpack_require__(278);
-	var FavoriteIndex = __webpack_require__(281);
-	var Post = __webpack_require__(282);
-	var App = __webpack_require__(287);
-	var Artist = __webpack_require__(291);
-	var Blog = __webpack_require__(293);
+	var Profile = __webpack_require__(279);
+	var FavoriteIndex = __webpack_require__(282);
+	var Post = __webpack_require__(283);
+	var App = __webpack_require__(288);
+	var Artist = __webpack_require__(292);
+	var Blog = __webpack_require__(294);
 	
 	var ApiUtil = __webpack_require__(240);
-	var Modal = __webpack_require__(252);
+	var Modal = __webpack_require__(251);
 	
 	var router = React.createElement(
 	  Router,
@@ -24879,7 +24879,7 @@
 	          'ul',
 	          { className: 'tracks-list' },
 	          tracks.map(function (track) {
-	            return React.createElement(TrackIndexItem, { key: track.id, track: track, blog: track.blogs[0] });
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
 	          })
 	        )
 	      )
@@ -32033,11 +32033,11 @@
 	var Link = __webpack_require__(159).Link;
 	var ReactRouter = __webpack_require__(159);
 	var SessionStore = __webpack_require__(248);
-	var BlogStore = __webpack_require__(294);
+	var BlogStore = __webpack_require__(249);
 	var ApiUtil = __webpack_require__(240);
-	var FavLoginModal = __webpack_require__(251);
-	var Player = __webpack_require__(276);
-	var PlayerActions = __webpack_require__(277);
+	var FavLoginModal = __webpack_require__(250);
+	var Player = __webpack_require__(275);
+	var PlayerActions = __webpack_require__(278);
 	
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
@@ -32272,78 +32272,52 @@
 
 	var Store = __webpack_require__(218).Store;
 	var AppDispatcher = __webpack_require__(236);
-	var PlayerConstants = __webpack_require__(250);
-	var TrackStore = __webpack_require__(217);
-	// var Cache = require('../lib/cache');
+	var BlogConstants = __webpack_require__(244);
 	
-	var _currentTrack;
-	var _playStatus = false;
-	var _loadedTracks = [];
+	var _blogs = [];
+	var BlogStore = new Store(AppDispatcher);
 	
-	var PlayerStore = new Store(AppDispatcher);
-	
-	PlayerStore.addTrack = function (track) {
-	  _loadedTracks.push(track);
+	var resetBlogs = function (blogs) {
+	  _blogs = blogs.slice();
 	};
 	
-	PlayerStore.all = function () {
-	  return _loadedTracks.slice();
+	BlogStore.all = function () {
+	  return _blogs.slice();
 	};
 	
-	PlayerStore.currentTrack = function () {
-	  return _currentTrack;
-	};
-	
-	PlayerStore.playStatus = function () {
-	  return _playStatus;
-	};
-	
-	PlayerStore.__onDispatch = function (payload) {
+	BlogStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
-	    case PlayerConstants.CURRENT_TRACK_RECEIVED:
-	      _currentTrack = payload.track;
-	      PlayerStore.__emitChange();
+	    case BlogConstants.BLOGS_RECEIVED:
+	      resetBlogs(payload.blogs);
+	      BlogStore.__emitChange();
 	      break;
-	    case PlayerConstants.PLAYED:
-	      _playStatus = true;
-	      PlayerStore.__emitChange();
-	      break;
-	    case PlayerConstants.PAUSED:
-	      _playStatus = false;
-	      PlayerStore.__emitChange();
-	      break;
-	    case PlayerConstants.ADD:
-	      addTrack(payload.track);
-	      PlayerStore.__emitChange();
+	    case BlogConstants.SINGLE_BLOG_RECEIVED:
+	      for (var i = 0; i < _blogs.length; i++) {
+	        if (_blogs[i].id === payload.blog.id) {
+	          _blogs[i] = payload.blog;
+	        }
+	      }
+	      BlogStore.__emitChange();
 	      break;
 	  }
 	};
 	
-	module.exports = PlayerStore;
+	BlogStore.find = function (blog_id) {
+	  return _blogs.find(function (blog) {
+	    return blog.id === parseInt(blog_id);
+	  });
+	};
+	
+	module.exports = BlogStore;
 
 /***/ },
 /* 250 */
-/***/ function(module, exports) {
-
-	var PlayerConstants = {
-	  CURRENT_TRACK_RECEIVED: "CURRENT_TRACK_RECEIVED",
-	  PLAYED: "PLAYED",
-	  PAUSED: "PAUSED",
-	  ADD: "ADD",
-	  NEXT: "NEXT",
-	  BACK: "BACK"
-	};
-	
-	module.exports = PlayerConstants;
-
-/***/ },
-/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Modal = __webpack_require__(252);
-	var LoginModal = __webpack_require__(272);
-	var UserModal = __webpack_require__(274);
+	var Modal = __webpack_require__(251);
+	var LoginModal = __webpack_require__(271);
+	var UserModal = __webpack_require__(273);
 	
 	var style = {
 	  overlay: {
@@ -32430,23 +32404,23 @@
 	module.exports = FavModal;
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(253);
+	module.exports = __webpack_require__(252);
 	
 
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ExecutionEnvironment = __webpack_require__(254);
-	var ModalPortal = React.createFactory(__webpack_require__(255));
-	var ariaAppHider = __webpack_require__(270);
-	var elementClass = __webpack_require__(271);
+	var ExecutionEnvironment = __webpack_require__(253);
+	var ModalPortal = React.createFactory(__webpack_require__(254));
+	var ariaAppHider = __webpack_require__(269);
+	var elementClass = __webpack_require__(270);
 	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
@@ -32525,7 +32499,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32570,14 +32544,14 @@
 
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(256);
-	var scopeTab = __webpack_require__(258);
-	var Assign = __webpack_require__(259);
+	var focusManager = __webpack_require__(255);
+	var scopeTab = __webpack_require__(257);
+	var Assign = __webpack_require__(258);
 	
 	
 	// so that our CSS is statically analyzable
@@ -32774,10 +32748,10 @@
 
 
 /***/ },
-/* 256 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(257);
+	var findTabbable = __webpack_require__(256);
 	var modalElement = null;
 	var focusLaterElement = null;
 	var needToFocus = false;
@@ -32848,7 +32822,7 @@
 
 
 /***/ },
-/* 257 */
+/* 256 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32904,10 +32878,10 @@
 
 
 /***/ },
-/* 258 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(257);
+	var findTabbable = __webpack_require__(256);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32925,7 +32899,7 @@
 
 
 /***/ },
-/* 259 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32936,9 +32910,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseAssign = __webpack_require__(260),
-	    createAssigner = __webpack_require__(266),
-	    keys = __webpack_require__(262);
+	var baseAssign = __webpack_require__(259),
+	    createAssigner = __webpack_require__(265),
+	    keys = __webpack_require__(261);
 	
 	/**
 	 * A specialized version of `_.assign` for customizing assigned values without
@@ -33011,7 +32985,7 @@
 
 
 /***/ },
-/* 260 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33022,8 +32996,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseCopy = __webpack_require__(261),
-	    keys = __webpack_require__(262);
+	var baseCopy = __webpack_require__(260),
+	    keys = __webpack_require__(261);
 	
 	/**
 	 * The base implementation of `_.assign` without support for argument juggling,
@@ -33044,7 +33018,7 @@
 
 
 /***/ },
-/* 261 */
+/* 260 */
 /***/ function(module, exports) {
 
 	/**
@@ -33082,7 +33056,7 @@
 
 
 /***/ },
-/* 262 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33093,9 +33067,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var getNative = __webpack_require__(263),
-	    isArguments = __webpack_require__(264),
-	    isArray = __webpack_require__(265);
+	var getNative = __webpack_require__(262),
+	    isArguments = __webpack_require__(263),
+	    isArray = __webpack_require__(264);
 	
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33324,7 +33298,7 @@
 
 
 /***/ },
-/* 263 */
+/* 262 */
 /***/ function(module, exports) {
 
 	/**
@@ -33467,7 +33441,7 @@
 
 
 /***/ },
-/* 264 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -33716,7 +33690,7 @@
 
 
 /***/ },
-/* 265 */
+/* 264 */
 /***/ function(module, exports) {
 
 	/**
@@ -33902,7 +33876,7 @@
 
 
 /***/ },
-/* 266 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33913,9 +33887,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var bindCallback = __webpack_require__(267),
-	    isIterateeCall = __webpack_require__(268),
-	    restParam = __webpack_require__(269);
+	var bindCallback = __webpack_require__(266),
+	    isIterateeCall = __webpack_require__(267),
+	    restParam = __webpack_require__(268);
 	
 	/**
 	 * Creates a function that assigns properties of source object(s) to a given
@@ -33960,7 +33934,7 @@
 
 
 /***/ },
-/* 267 */
+/* 266 */
 /***/ function(module, exports) {
 
 	/**
@@ -34031,7 +34005,7 @@
 
 
 /***/ },
-/* 268 */
+/* 267 */
 /***/ function(module, exports) {
 
 	/**
@@ -34169,7 +34143,7 @@
 
 
 /***/ },
-/* 269 */
+/* 268 */
 /***/ function(module, exports) {
 
 	/**
@@ -34242,7 +34216,7 @@
 
 
 /***/ },
-/* 270 */
+/* 269 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -34289,7 +34263,7 @@
 
 
 /***/ },
-/* 271 */
+/* 270 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -34354,12 +34328,12 @@
 
 
 /***/ },
-/* 272 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LoginForm = __webpack_require__(273);
-	var Modal = __webpack_require__(252);
+	var LoginForm = __webpack_require__(272);
+	var Modal = __webpack_require__(251);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -34421,7 +34395,7 @@
 	module.exports = LoginModal;
 
 /***/ },
-/* 273 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34509,12 +34483,12 @@
 	module.exports = LoginForm;
 
 /***/ },
-/* 274 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var NewUserForm = __webpack_require__(275);
-	var Modal = __webpack_require__(252);
+	var NewUserForm = __webpack_require__(274);
+	var Modal = __webpack_require__(251);
 	var style = {
 	  overlay: {
 	    position: 'fixed',
@@ -34576,7 +34550,7 @@
 	module.exports = NewUserModal;
 
 /***/ },
-/* 275 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34678,12 +34652,12 @@
 	module.exports = UserForm;
 
 /***/ },
-/* 276 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PlayerStore = __webpack_require__(249);
-	var PlayerActions = __webpack_require__(277);
+	var PlayerStore = __webpack_require__(276);
+	var PlayerActions = __webpack_require__(278);
 	
 	var PlayPause = React.createClass({
 	  displayName: 'PlayPause',
@@ -34759,11 +34733,81 @@
 	module.exports = PlayPause;
 
 /***/ },
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store;
+	var AppDispatcher = __webpack_require__(236);
+	var PlayerConstants = __webpack_require__(277);
+	var TrackStore = __webpack_require__(217);
+	// var Cache = require('../lib/cache');
+	
+	var _currentTrack;
+	var _playStatus = false;
+	var _loadedTracks = [];
+	
+	var PlayerStore = new Store(AppDispatcher);
+	
+	PlayerStore.addTrack = function (track) {
+	  _loadedTracks.push(track);
+	};
+	
+	PlayerStore.all = function () {
+	  return _loadedTracks.slice();
+	};
+	
+	PlayerStore.currentTrack = function () {
+	  return _currentTrack;
+	};
+	
+	PlayerStore.playStatus = function () {
+	  return _playStatus;
+	};
+	
+	PlayerStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case PlayerConstants.CURRENT_TRACK_RECEIVED:
+	      _currentTrack = payload.track;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.PLAYED:
+	      _playStatus = true;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.PAUSED:
+	      _playStatus = false;
+	      PlayerStore.__emitChange();
+	      break;
+	    case PlayerConstants.ADD:
+	      addTrack(payload.track);
+	      PlayerStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = PlayerStore;
+
+/***/ },
 /* 277 */
+/***/ function(module, exports) {
+
+	var PlayerConstants = {
+	  CURRENT_TRACK_RECEIVED: "CURRENT_TRACK_RECEIVED",
+	  PLAYED: "PLAYED",
+	  PAUSED: "PAUSED",
+	  ADD: "ADD",
+	  NEXT: "NEXT",
+	  BACK: "BACK"
+	};
+	
+	module.exports = PlayerConstants;
+
+/***/ },
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(236);
-	var PlayerConstants = __webpack_require__(250);
+	var PlayerConstants = __webpack_require__(277);
 	
 	var PlayerActions = {
 	  receiveCurrentTrack: function (track) {
@@ -34795,16 +34839,16 @@
 	module.exports = PlayerActions;
 
 /***/ },
-/* 278 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(279);
+	var UserStore = __webpack_require__(280);
 	var SessionStore = __webpack_require__(248);
 	var TrackIndexItem = __webpack_require__(247);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
-	var Loader = __webpack_require__(280);
+	var Loader = __webpack_require__(281);
 	
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -34990,7 +35034,7 @@
 	module.exports = Profile;
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(236);
@@ -35026,7 +35070,7 @@
 	module.exports = UserStore;
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35047,14 +35091,14 @@
 	module.exports = Loader;
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
 	var TrackIndexItem = __webpack_require__(247);
-	var Loader = __webpack_require__(280);
+	var Loader = __webpack_require__(281);
 	
 	function _getAllTracks() {
 	  return TrackStore.all();
@@ -35255,13 +35299,13 @@
 	// });
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PostStore = __webpack_require__(283);
-	var PostUtil = __webpack_require__(285);
-	var Loader = __webpack_require__(280);
+	var PostStore = __webpack_require__(284);
+	var PostUtil = __webpack_require__(286);
+	var Loader = __webpack_require__(281);
 	
 	function _getAllPosts() {
 	  return PostStore.all();
@@ -35307,12 +35351,12 @@
 	module.exports = Post;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
 	var AppDispatcher = __webpack_require__(236);
-	var PostConstants = __webpack_require__(284);
+	var PostConstants = __webpack_require__(285);
 	var _posts = [];
 	
 	var PostStore = new Store(AppDispatcher);
@@ -35339,7 +35383,7 @@
 	module.exports = PostStore;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports) {
 
 	var PostConstants = {
@@ -35349,10 +35393,10 @@
 	module.exports = PostConstants;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var PostActions = __webpack_require__(286);
+	var PostActions = __webpack_require__(287);
 	
 	PostUtil = {
 	  fetchPosts: function () {
@@ -35373,11 +35417,11 @@
 	module.exports = PostUtil;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(236);
-	var PostConstants = __webpack_require__(284);
+	var PostConstants = __webpack_require__(285);
 	
 	var PostActions = {
 	  rececivePosts: function (posts) {
@@ -35391,18 +35435,18 @@
 	module.exports = PostActions;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Link = __webpack_require__(159).Link;
 	var SessionStore = __webpack_require__(248);
 	var ApiUtil = __webpack_require__(240);
-	var UserModal = __webpack_require__(274);
-	var LoginModal = __webpack_require__(272);
-	var ProfileMenu = __webpack_require__(288);
-	var NavPlayer = __webpack_require__(289);
-	var NavControls = __webpack_require__(290);
+	var UserModal = __webpack_require__(273);
+	var LoginModal = __webpack_require__(271);
+	var ProfileMenu = __webpack_require__(289);
+	var NavPlayer = __webpack_require__(290);
+	var NavControls = __webpack_require__(291);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -35423,6 +35467,7 @@
 	  },
 	
 	  render: function () {
+	    debugger;
 	    var sideMenu;
 	    if (this.state.currentUser) {
 	      sideMenu = React.createElement(
@@ -35535,7 +35580,7 @@
 	module.exports = App;
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35637,15 +35682,15 @@
 	module.exports = ProfileMenu;
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PlayerStore = __webpack_require__(249);
+	var PlayerStore = __webpack_require__(276);
 	// var PlayerActions = require('../actions/player_actions');
-	var Loader = __webpack_require__(280);
+	var Loader = __webpack_require__(281);
 	var TrackStore = __webpack_require__(217);
-	var NavControls = __webpack_require__(290);
+	var NavControls = __webpack_require__(291);
 	
 	function _getCurrentTrack() {
 	  return PlayerStore.currentTrack();
@@ -35738,13 +35783,13 @@
 	module.exports = NavPlayer;
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PlayerStore = __webpack_require__(249);
+	var PlayerStore = __webpack_require__(276);
 	var TrackStore = __webpack_require__(217);
-	var PlayerActions = __webpack_require__(277);
+	var PlayerActions = __webpack_require__(278);
 	
 	function _isPlaying() {
 	  return PlayerStore.playStatus();
@@ -35858,13 +35903,13 @@
 	module.exports = NavControls;
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
-	var Loader = __webpack_require__(280);
-	var ArtistStore = __webpack_require__(292);
+	var Loader = __webpack_require__(281);
+	var ArtistStore = __webpack_require__(293);
 	var TrackIndexItem = __webpack_require__(247);
 	
 	var Artist = React.createClass({
@@ -35948,7 +35993,7 @@
 	module.exports = Artist;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -35984,13 +36029,13 @@
 	module.exports = ArtistStore;
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
-	var Loader = __webpack_require__(280);
-	var BlogStore = __webpack_require__(294);
+	var Loader = __webpack_require__(281);
+	var BlogStore = __webpack_require__(249);
 	var TrackIndexItem = __webpack_require__(247);
 	var Link = __webpack_require__(159).Link;
 	
@@ -36126,50 +36171,6 @@
 	});
 	
 	module.exports = Blog;
-
-/***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var AppDispatcher = __webpack_require__(236);
-	var BlogConstants = __webpack_require__(244);
-	
-	var _blogs = [];
-	var BlogStore = new Store(AppDispatcher);
-	
-	var resetBlogs = function (blogs) {
-	  _blogs = blogs.slice();
-	};
-	
-	BlogStore.all = function () {
-	  return _blogs.slice();
-	};
-	
-	BlogStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case BlogConstants.BLOGS_RECEIVED:
-	      resetBlogs(payload.blogs);
-	      BlogStore.__emitChange();
-	      break;
-	    case BlogConstants.SINGLE_BLOG_RECEIVED:
-	      for (var i = 0; i < _blogs.length; i++) {
-	        if (_blogs[i].id === payload.blog.id) {
-	          _blogs[i] = payload.blog;
-	        }
-	      }
-	      BlogStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	BlogStore.find = function (blog_id) {
-	  return _blogs.find(function (blog) {
-	    return blog.id === parseInt(blog_id);
-	  });
-	};
-	
-	module.exports = BlogStore;
 
 /***/ }
 /******/ ]);
