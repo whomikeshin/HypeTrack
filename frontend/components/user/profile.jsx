@@ -36,7 +36,6 @@ var Profile = React.createClass({
   },
 
   render: function () {
-    debugger;
     var user = this.state.user;
 
     if(!user) {
@@ -70,22 +69,7 @@ var Profile = React.createClass({
 
           </header>
 
-          <header>
-            <h2 className="playlist-title">My Favorite Tracks</h2>
-            <ul className="playlist-menu">
-              <li><a href="#">Feed</a></li>
-              <li><a href="#">Favorites</a></li>
-              <li><a href="#">Up</a></li>
-              <li><a href="#">Down</a></li>
-              <li><a href="#">Weird</a></li>
-              <li><a href="#">Listening History</a></li>
-            </ul>
-          </header>
-          <ul className="tracks-list">
-            {user.favorite_tracks.map(function (track) {
-              return <TrackIndexItem key={track.id} track={track} />;
-            })}
-          </ul>
+          {this.props.children}
         </section>
       </main>
     );

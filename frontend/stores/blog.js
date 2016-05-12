@@ -1,8 +1,8 @@
 var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var BlogConstants = require('../constants/blog_constants');
-
 var _blogs = [];
+
 var BlogStore = new Store(AppDispatcher);
 
 var resetBlogs = function (blogs) {

@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
     resources :artists, only: [:create, :show, :destroy]
 
-    resources :blogs, only: [:create, :show, :destroy] do
+    resources :blogs, only: [:create, :show, :destroy, :index] do
       resource :follow, only: [:create, :destroy]
     end
   end

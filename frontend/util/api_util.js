@@ -73,7 +73,7 @@ ApiUtil = {
 
   destroyFollow: function (blogId, success) {
     $.ajax({
-      url: "/api/blogs/" + blogId + "/follow",
+      url: "api/blogs/" + blogId + "/follow",
       method: 'DELETE',
       success: function (blog) {
         ApiActions.receiveSingleBlog(blog);
@@ -180,6 +180,19 @@ ApiUtil = {
         ApiActions.receiveBlogs([blog]);
       },
       error: function (data) {
+        console.log(data);
+      }
+    });
+  },
+
+  fetchBlogs: function () {
+    $.ajax({
+      type: 'GET',
+      url: 'api/blogs',
+      success: function (blogs) {
+        ApiActions.receiveBlogs(blogs);
+      },
+      error: function(data) {
         console.log(data);
       }
     });

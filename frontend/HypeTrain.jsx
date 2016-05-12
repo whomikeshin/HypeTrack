@@ -7,9 +7,10 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 
-var TrackIndex = require('./components/track/index');
+var Latest = require('./components/track/latest');
 var Profile = require ('./components/user/profile');
-var FavoriteIndex = require('./components/track/favorite_index');
+var Favorites = require('./components/track/favorites');
+var Feed = require('./components/track/feed');
 var Post = require('./components/post');
 var App = require('./components/app');
 var Artist = require('./components/artist');
@@ -21,11 +22,13 @@ var Modal = require("react-modal");
 var router = (
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <Route path="tracks" component={TrackIndex}/>
+      <IndexRoute component={Latest}/>
       <Route path="artists/:id" component={Artist}/>
       <Route path="blogs/:id" component={Blog}/>
-      <Route path="users/:id" component={Profile}/>
-        <IndexRoute component={FavoriteIndex}/>
+      <Route path="users/:id" component={Profile}>
+        <Route path="favorites" component={Favorites}/>
+        <Route path="feed" component={Feed}/>
+      </Route>
     </Route>
   </Router>
 );

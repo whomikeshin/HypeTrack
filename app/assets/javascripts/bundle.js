@@ -53,9 +53,10 @@
 	var IndexRoute = ReactRouter.IndexRoute;
 	var hashHistory = ReactRouter.hashHistory;
 	
-	var TrackIndex = __webpack_require__(216);
-	var Profile = __webpack_require__(279);
-	var FavoriteIndex = __webpack_require__(282);
+	var Latest = __webpack_require__(216);
+	var Profile = __webpack_require__(280);
+	var Favorites = __webpack_require__(282);
+	var Feed = __webpack_require__(295);
 	var Post = __webpack_require__(283);
 	var App = __webpack_require__(288);
 	var Artist = __webpack_require__(292);
@@ -70,11 +71,15 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: App },
-	    React.createElement(Route, { path: 'tracks', component: TrackIndex }),
+	    React.createElement(IndexRoute, { component: Latest }),
 	    React.createElement(Route, { path: 'artists/:id', component: Artist }),
 	    React.createElement(Route, { path: 'blogs/:id', component: Blog }),
-	    React.createElement(Route, { path: 'users/:id', component: Profile }),
-	    React.createElement(IndexRoute, { component: FavoriteIndex })
+	    React.createElement(
+	      Route,
+	      { path: 'users/:id', component: Profile },
+	      React.createElement(Route, { path: 'favorites', component: Favorites }),
+	      React.createElement(Route, { path: 'feed', component: Feed })
+	    )
 	  )
 	);
 	
@@ -24777,7 +24782,6 @@
 
 	var React = __webpack_require__(1);
 	var TrackStore = __webpack_require__(217);
-	var BlogStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
 	var TrackIndexItem = __webpack_require__(247);
 	
@@ -24785,8 +24789,8 @@
 	  return TrackStore.all();
 	}
 	
-	var Index = React.createClass({
-	  displayName: 'Index',
+	var Latest = React.createClass({
+	  displayName: 'Latest',
 	
 	  getInitialState: function () {
 	    return {
@@ -24830,7 +24834,7 @@
 	            { className: 'playlist-menu' },
 	            React.createElement(
 	              'li',
-	              null,
+	              { className: 'highlight' },
 	              React.createElement(
 	                'a',
 	                { href: '#' },
@@ -24887,7 +24891,7 @@
 	  }
 	});
 	
-	module.exports = Index;
+	module.exports = Latest;
 
 /***/ },
 /* 217 */
@@ -31779,7 +31783,7 @@
 	
 	  destroyFollow: function (blogId, success) {
 	    $.ajax({
-	      url: "/api/blogs/" + blogId + "/follow",
+	      url: "api/blogs/" + blogId + "/follow",
 	      method: 'DELETE',
 	      success: function (blog) {
 	        ApiActions.receiveSingleBlog(blog);
@@ -31884,6 +31888,19 @@
 	      url: 'api/blogs/' + blog_id,
 	      success: function (blog) {
 	        ApiActions.receiveBlogs([blog]);
+	      },
+	      error: function (data) {
+	        console.log(data);
+	      }
+	    });
+	  },
+	
+	  fetchBlogs: function () {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/blogs',
+	      success: function (blogs) {
+	        ApiActions.receiveBlogs(blogs);
 	      },
 	      error: function (data) {
 	        console.log(data);
@@ -32038,15 +32055,44 @@
 	var FavLoginModal = __webpack_require__(250);
 	var Player = __webpack_require__(275);
 	var PlayerActions = __webpack_require__(278);
+	var Loader = __webpack_require__(279);
+	
+	function _getAllBlogs() {
+	  return BlogStore.all();
+	}
 	
 	var IndexItem = React.createClass({
 	  displayName: 'IndexItem',
 	
+	  getInitialState: function () {
+	    return { blogs: null };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = BlogStore.addListener(this._onChange);
+	    ApiUtil.fetchBlogs();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ blogs: _getAllBlogs() });
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
 	
 	  render: function () {
+	    var blogList;
 	    var favoriteButton;
 	    var followButton;
 	    var track = this.props.track;
+	    var blogs = this.state.blogs;
+	
+	    if (blogs) {
+	      var blogList = this._blogList(blogs);
+	    } else {
+	      return React.createElement(Loader, null);
+	    }
 	
 	    var currentUser = SessionStore.currentUser();
 	    if (currentUser) {
@@ -32098,7 +32144,7 @@
 	            'div',
 	            { className: 'track-post-count' },
 	            'Posted by ',
-	            track.post_count,
+	            blogList.length,
 	            ' blogs'
 	          ),
 	          React.createElement(
@@ -32107,14 +32153,14 @@
 	            React.createElement(
 	              Link,
 	              {
-	                to: "/blogs/" + track.blogs[0].id },
-	              track.blogs[0].name
+	                to: "/blogs/" + blogList[0].id },
+	              blogList[0].name
+	            ),
+	            React.createElement(
+	              'span',
+	              { className: 'follow-button' },
+	              followButton
 	            )
-	          ),
-	          React.createElement(
-	            'span',
-	            { className: 'follow-button' },
-	            followButton
 	          ),
 	          React.createElement(
 	            'p',
@@ -32173,9 +32219,10 @@
 	  },
 	
 	  _follow: function () {
-	    var blog = this.props.track.blogs[0];
+	    var blogList = this._blogList(this.state.blogs);
+	    var blog = blogList[0];
 	    var currentUser = SessionStore.currentUser();
-	    if (currentUser.blog_follows.includes(blog.id)) {
+	    if (blog.follower_ids.includes(currentUser.id)) {
 	      return React.createElement(
 	        'button',
 	        {
@@ -32184,7 +32231,12 @@
 	        React.createElement(
 	          'div',
 	          null,
-	          React.createElement('i', { className: 'fa fa-minus' })
+	          React.createElement('i', { className: 'fa fa-minus' }),
+	          React.createElement(
+	            'span',
+	            { className: 'follow-text' },
+	            ' Unfollow'
+	          )
 	        )
 	      );
 	    } else {
@@ -32196,10 +32248,29 @@
 	        React.createElement(
 	          'div',
 	          null,
-	          React.createElement('i', { className: 'fa fa-plus' })
+	          React.createElement('i', { className: 'fa fa-plus' }),
+	          React.createElement(
+	            'span',
+	            { className: 'follow-text' },
+	            ' Follow'
+	          )
 	        )
 	      );
 	    }
+	  },
+	
+	  _blogList: function (blogs) {
+	    var track = this.props.track;
+	    var blogList = [];
+	    for (var i = 0; i < blogs.length; i++) {
+	      var blog = blogs[i];
+	      for (var j = 0; j < blog.tracks.length; j++) {
+	        if (blog.tracks[j].id === track.id) {
+	          blogList.push(blogs[i]);
+	        }
+	      }
+	    }
+	    return blogList;
 	  },
 	
 	  _favorTrack: function (trackId) {
@@ -32208,10 +32279,6 @@
 	
 	  _unfavorTrack: function (trackId) {
 	    ApiUtil.destroyFavorite(trackId);
-	  },
-	
-	  _onBlogChange: function () {
-	    this.forceUpdate();
 	  },
 	
 	  _followBlog: function (blogId) {
@@ -32225,6 +32292,29 @@
 	});
 	
 	module.exports = IndexItem;
+	
+	// _follow: function () {
+	//   debugger
+	//   var blog = this.props.track.blogs[0];
+	//   var currentUser = SessionStore.currentUser();
+	//   if (currentUser.blog_follows.includes(blog.id)) {
+	//     return (
+	//       <button
+	//         className="unfollow"
+	//         onClick={this._unfollowBlog.bind(this, blog.id)}>
+	//         <div><i className="fa fa-minus"></i></div>
+	//       </button>
+	//     );
+	//   } else {
+	//     return (
+	//       <button
+	//         className="follow"
+	//         onClick={this._followBlog.bind(this, blog.id)}>
+	//         <div><i className="fa fa-plus"></i></div>
+	//       </button>
+	//     );
+	//   }
+	// },
 
 /***/ },
 /* 248 */
@@ -32273,8 +32363,8 @@
 	var Store = __webpack_require__(218).Store;
 	var AppDispatcher = __webpack_require__(236);
 	var BlogConstants = __webpack_require__(244);
-	
 	var _blogs = [];
+	
 	var BlogStore = new Store(AppDispatcher);
 	
 	var resetBlogs = function (blogs) {
@@ -34460,7 +34550,7 @@
 	    var router = this.context.router;
 	
 	    ApiUtil.login(this.state, function () {
-	      router.push("/tracks");
+	      router.push("/");
 	    });
 	  },
 	
@@ -34475,7 +34565,7 @@
 	  _guestLogin: function () {
 	    var router = this.context.router;
 	    ApiUtil.login({ username: "yeezus", password: "password" }, function () {
-	      router.push("/tracks");
+	      router.push("/");
 	    });
 	  }
 	});
@@ -34843,12 +34933,33 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(280);
+	
+	var Loader = React.createClass({
+	  displayName: 'Loader',
+	
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'loader' },
+	      React.createElement('img', { src: 'http://sierrafire.cr.usgs.gov/images/loading.gif' })
+	    );
+	  }
+	});
+	
+	module.exports = Loader;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(281);
 	var SessionStore = __webpack_require__(248);
 	var TrackIndexItem = __webpack_require__(247);
 	var TrackStore = __webpack_require__(217);
 	var ApiUtil = __webpack_require__(240);
-	var Loader = __webpack_require__(281);
+	var Loader = __webpack_require__(279);
 	
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -34882,7 +34993,6 @@
 	  },
 	
 	  render: function () {
-	    debugger;
 	    var user = this.state.user;
 	
 	    if (!user) {
@@ -34952,6 +35062,104 @@
 	            )
 	          )
 	        ),
+	        this.props.children
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Profile;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(236);
+	var Store = __webpack_require__(218).Store;
+	var UserConstants = __webpack_require__(242);
+	
+	var _users = [];
+	var UserStore = new Store(AppDispatcher);
+	
+	var resetUsers = function (users) {
+	  _users = users.slice();
+	};
+	
+	UserStore.all = function () {
+	  return _users.slice();
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case UserConstants.USERS_RECEIVED:
+	      resetUsers(payload.users);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	UserStore.find = function (user_id) {
+	  return _users.find(function (user) {
+	    return user.id === parseInt(user_id);
+	  });
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var TrackStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(240);
+	var TrackIndexItem = __webpack_require__(247);
+	var Loader = __webpack_require__(279);
+	var Link = __webpack_require__(159).Link;
+	
+	function _getAllTracks() {
+	  return TrackStore.all();
+	}
+	
+	var Favorites = React.createClass({
+	  displayName: 'Favorites',
+	
+	  getInitialState: function () {
+	    return { tracks: null };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = TrackStore.addListener(this._onChange);
+	    ApiUtil.fetchUserTracks(this.props.params.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ tracks: null });
+	
+	    ApiUtil.fetchUserTracks(newProps.params.id);
+	  },
+	
+	  render: function () {
+	    var tracks = this.state.tracks;
+	    var favTracks;
+	    var currentUserId = this.props.params.id;
+	
+	    if (tracks === null) {
+	      return React.createElement(Loader, null);
+	    } else {
+	      favTracks = this._favoriteTracks(tracks);
+	    }
+	
+	    return React.createElement(
+	      'main',
+	      { className: 'content' },
+	      React.createElement(
+	        'section',
+	        { className: 'playlist group' },
 	        React.createElement(
 	          'header',
 	          null,
@@ -34967,17 +35175,17 @@
 	              'li',
 	              null,
 	              React.createElement(
-	                'a',
-	                { href: '#' },
+	                Link,
+	                { to: "/users/" + currentUserId + "/feed" },
 	                'Feed'
 	              )
 	            ),
 	            React.createElement(
 	              'li',
-	              null,
+	              { className: 'highlight' },
 	              React.createElement(
-	                'a',
-	                { href: '#' },
+	                Link,
+	                { to: "/users/" + currentUserId + "/favorites" },
 	                'Favorites'
 	              )
 	            ),
@@ -35022,102 +35230,12 @@
 	        React.createElement(
 	          'ul',
 	          { className: 'tracks-list' },
-	          user.favorite_tracks.map(function (track) {
+	          favTracks.map(function (track) {
 	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
 	          })
 	        )
 	      )
 	    );
-	  }
-	});
-	
-	module.exports = Profile;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(236);
-	var Store = __webpack_require__(218).Store;
-	var UserConstants = __webpack_require__(242);
-	
-	var _users = [];
-	var UserStore = new Store(AppDispatcher);
-	
-	var resetUsers = function (users) {
-	  _users = users.slice();
-	};
-	
-	UserStore.all = function () {
-	  return _users.slice();
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case UserConstants.USERS_RECEIVED:
-	      resetUsers(payload.users);
-	      UserStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	UserStore.find = function (user_id) {
-	  return _users.find(function (user) {
-	    return user.id === parseInt(user_id);
-	  });
-	};
-	
-	module.exports = UserStore;
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var Loader = React.createClass({
-	  displayName: 'Loader',
-	
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'loader' },
-	      React.createElement('img', { src: 'http://sierrafire.cr.usgs.gov/images/loading.gif' })
-	    );
-	  }
-	});
-	
-	module.exports = Loader;
-
-/***/ },
-/* 282 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var TrackStore = __webpack_require__(217);
-	var ApiUtil = __webpack_require__(240);
-	var TrackIndexItem = __webpack_require__(247);
-	var Loader = __webpack_require__(281);
-	
-	function _getAllTracks() {
-	  return TrackStore.all();
-	}
-	
-	var FavoriteIndex = React.createClass({
-	  displayName: 'FavoriteIndex',
-	
-	  getInitialState: function () {
-	    return { tracks: _getAllTracks() };
-	  },
-	
-	  componentDidMount: function () {
-	    this.onChangeToken = TrackStore.addListener(this._onChange);
-	    ApiUtil.fetchTracks();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.onChangeToken.remove();
 	  },
 	
 	  _onChange: function () {
@@ -35125,178 +35243,21 @@
 	    this.setState({ tracks: tracks });
 	  },
 	
-	  render: function () {
-	    var tracks = this.state.tracks;
-	    return React.createElement(
-	      'main',
-	      { className: 'content' },
-	      React.createElement(
-	        'section',
-	        { className: 'playlist group' },
-	        React.createElement(
-	          'header',
-	          null,
-	          React.createElement(
-	            'h2',
-	            { className: 'playlist-title' },
-	            'Latest Blogged Music'
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'playlist-menu' },
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'All'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Freshest'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Only Remixes'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'No Remixes'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Blogs in USA'
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'ul',
-	          { className: 'tracks-list' },
-	          tracks.map(function (track) {
-	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
-	          })
-	        )
-	      )
-	    );
+	  _favoriteTracks: function (tracks) {
+	    userId = parseInt(this.props.params.id);
+	    var favTracks = [];
+	    for (var i = 0; i < tracks.length; i++) {
+	      if (tracks[i].favorite_ids.includes(userId)) {
+	        favTracks.push(tracks[i]);
+	      }
+	    };
+	
+	    return favTracks;
 	  }
+	
 	});
 	
-	module.exports = FavoriteIndex;
-	
-	//
-	// function _getAllTracks () {
-	//   return TrackStore.all();
-	// }
-	//
-	// var FavoriteIndex = React.createClass({
-	//   getInitialState: function () {
-	//     return { tracks: _getAllTracks() };
-	//   },
-	//
-	//   componentDidMount: function () {
-	//     this.onChangeToken = TrackStore.addListener(this._onChange);
-	//     ApiUtil.fetchTracks();
-	//   },
-	//
-	//   componentWillUnmount: function () {
-	//     this.onChangeToken.remove();
-	//   },
-	//
-	//   _onChange: function () {
-	//     var tracks = _getAllTracks();
-	//     this.setState({ tracks: tracks });
-	//   },
-	//
-	//   render: function () {
-	//     var tracks = this.state.tracks;
-	//     return (
-	//       <main className="content">
-	//         <section className="playlist group">
-	//
-	//           <header>
-	//             <h2 className="playlist-title">Latest Blogged Music</h2>
-	//             <ul className="playlist-menu">
-	//               <li><a href="#">All</a></li>
-	//               <li><a href="#">Freshest</a></li>
-	//               <li><a href="#">Only Remixes</a></li>
-	//               <li><a href="#">No Remixes</a></li>
-	//               <li><a href="#">Blogs in USA</a></li>
-	//             </ul>
-	//           </header>
-	//
-	//           <ul className="tracks-list">
-	//             {tracks.map(function (track) {
-	//               return <TrackIndexItem key={track.id} track={track} />;
-	//             })}
-	//           </ul>
-	//         </section>
-	//       </main>
-	//     );
-	//   }
-	// });
-
-	// var FavoriteIndex = React.createClass({
-	//   getInitialState: function () {
-	//     debugger
-	//     return ({ tracks: null });
-	//   },
-	//
-	//   componentDidMount: function () {
-	//     this.onChangeToken = TrackStore.addListener(this._onChange);
-	//     ApiUtil.fetchUserTracks(this.props.params.id);
-	//   },
-	//
-	//   componentWillUnmount: function () {
-	//     this.onChangeToken.remove();
-	//   },
-	//
-	//   componentWillReceiveProps: function (newProps) {
-	//     this.setState({ tracks: null });
-	//
-	//     TrackUtil.fetchUserTracks(newProps.params.id);
-	//   },
-	//
-	//   render: function () {
-	//     var tracks = this.state.tracks;
-	//
-	//     if (tracks === null) {
-	//       return <Loader />;
-	//     }
-	//     return (
-	//       <ul className="tracks-list">
-	//         {tracks.map(function (track) {
-	//           return <TrackIndexItem key={track.id} track={track} />;
-	//         })}
-	//       </ul>
-	//     );
-	//   },
-	//
-	//   _onChange: function () {
-	//     this.setState({ tracks: TrackStore.all()});
-	//   }
-	// });
+	module.exports = Favorites;
 
 /***/ },
 /* 283 */
@@ -35305,7 +35266,7 @@
 	var React = __webpack_require__(1);
 	var PostStore = __webpack_require__(284);
 	var PostUtil = __webpack_require__(286);
-	var Loader = __webpack_require__(281);
+	var Loader = __webpack_require__(279);
 	
 	function _getAllPosts() {
 	  return PostStore.all();
@@ -35467,7 +35428,6 @@
 	  },
 	
 	  render: function () {
-	    debugger;
 	    var sideMenu;
 	    if (this.state.currentUser) {
 	      sideMenu = React.createElement(
@@ -35615,8 +35575,8 @@
 	          'li',
 	          null,
 	          React.createElement(
-	            'a',
-	            { href: '#' },
+	            Link,
+	            { to: "/users/" + currentUser.id + "/feed" },
 	            'Feed'
 	          )
 	        ),
@@ -35625,7 +35585,7 @@
 	          null,
 	          React.createElement(
 	            Link,
-	            { to: "/users/" + currentUser.id },
+	            { to: "/users/" + currentUser.id + "/favorites" },
 	            'Favorites'
 	          )
 	        ),
@@ -35688,7 +35648,7 @@
 	var React = __webpack_require__(1);
 	var PlayerStore = __webpack_require__(276);
 	// var PlayerActions = require('../actions/player_actions');
-	var Loader = __webpack_require__(281);
+	var Loader = __webpack_require__(279);
 	var TrackStore = __webpack_require__(217);
 	var NavControls = __webpack_require__(291);
 	
@@ -35908,7 +35868,7 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
-	var Loader = __webpack_require__(281);
+	var Loader = __webpack_require__(279);
 	var ArtistStore = __webpack_require__(293);
 	var TrackIndexItem = __webpack_require__(247);
 	
@@ -36034,7 +35994,7 @@
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
-	var Loader = __webpack_require__(281);
+	var Loader = __webpack_require__(279);
 	var BlogStore = __webpack_require__(249);
 	var TrackIndexItem = __webpack_require__(247);
 	var Link = __webpack_require__(159).Link;
@@ -36171,6 +36131,160 @@
 	});
 	
 	module.exports = Blog;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var TrackStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(240);
+	var TrackIndexItem = __webpack_require__(247);
+	var Loader = __webpack_require__(279);
+	var Link = __webpack_require__(159).Link;
+	
+	function _getAllTracks() {
+	  return TrackStore.all();
+	}
+	
+	var Feed = React.createClass({
+	  displayName: 'Feed',
+	
+	  getInitialState: function () {
+	    return { tracks: null };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = TrackStore.addListener(this._onChange);
+	    ApiUtil.fetchUserTracks(this.props.params.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ tracks: null });
+	
+	    ApiUtil.fetchUserTracks(newProps.params.id);
+	  },
+	
+	  render: function () {
+	    var tracks = this.state.tracks;
+	    var favTracks;
+	    var currentUserId = this.props.params.id;
+	
+	    if (tracks === null) {
+	      return React.createElement(Loader, null);
+	    } else {
+	      feedTracks = this._feedTracks(tracks);
+	    }
+	
+	    return React.createElement(
+	      'main',
+	      { className: 'content' },
+	      React.createElement(
+	        'section',
+	        { className: 'playlist group' },
+	        React.createElement(
+	          'header',
+	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'playlist-title' },
+	            'My Feed'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'playlist-menu' },
+	            React.createElement(
+	              'li',
+	              { className: 'highlight' },
+	              React.createElement(
+	                Link,
+	                { to: "/users/" + currentUserId + "/feed" },
+	                'Feed'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "/users/" + currentUserId + "/favorites" },
+	                'Favorites'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Up'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Down'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Weird'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Listening History'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'tracks-list' },
+	          feedTracks.map(function (track) {
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	          })
+	        )
+	      )
+	    );
+	  },
+	
+	  _onChange: function () {
+	    var tracks = _getAllTracks();
+	    this.setState({ tracks: tracks });
+	  },
+	
+	  _feedTracks: function (tracks) {
+	    debugger;
+	    userId = parseInt(this.props.params.id);
+	    var favTracks = [];
+	    for (var i = 0; i < tracks.length; i++) {
+	      if (tracks[i].favorite_ids.includes(userId)) {
+	        favTracks.push(tracks[i]);
+	      }
+	    };
+	
+	    return favTracks;
+	  }
+	
+	});
+	
+	module.exports = Feed;
 
 /***/ }
 /******/ ]);

@@ -7,13 +7,43 @@ var ApiUtil = require('../../util/api_util');
 var FavLoginModal = require('../user/fav_modal');
 var Player = require('./play_pause');
 var PlayerActions = require('../../actions/player_actions');
+var Loader = require('../loader');
+
+function _getAllBlogs () {
+  return BlogStore.all();
+}
 
 var IndexItem = React.createClass({
+  getInitialState: function () {
+    return { blogs: null }
+  },
+
+  componentDidMount: function () {
+    this.onChangeToken = BlogStore.addListener(this._onChange);
+    ApiUtil.fetchBlogs();
+  },
+
+  _onChange: function () {
+    this.setState({ blogs: _getAllBlogs() })
+  },
+
+  componentWillUnmount: function () {
+    this.onChangeToken.remove();
+  },
+
 
   render: function () {
+    var blogList;
     var favoriteButton;
     var followButton;
     var track = this.props.track;
+    var blogs = this.state.blogs;
+
+    if (blogs) {
+      var blogList = this._blogList(blogs);
+    } else {
+      return <Loader />;
+    }
 
     var currentUser = SessionStore.currentUser();
     if (currentUser) {
@@ -46,18 +76,18 @@ var IndexItem = React.createClass({
 
           <section className="track-post">
             <div className="track-post-count">
-              Posted by {track.post_count} blogs
+              Posted by {blogList.length} blogs
             </div>
 
             <div className="track-blog-name">
               <Link
-                to={"/blogs/" + track.blogs[0].id}>{track.blogs[0].name}
+                to={"/blogs/" + blogList[0].id}>
+                {blogList[0].name}
               </Link>
+              <span className="follow-button">
+                {followButton}
+              </span>
             </div>
-
-            <span className="follow-button">
-              {followButton}
-            </span>
 
             <p className="track-post-info">
               {track.posts[0].track_info.slice(0, 200).concat("...")}
@@ -101,14 +131,18 @@ var IndexItem = React.createClass({
   },
 
   _follow: function () {
-    var blog = this.props.track.blogs[0];
+    var blogList = this._blogList(this.state.blogs);
+    var blog = blogList[0];
     var currentUser = SessionStore.currentUser();
-    if (currentUser.blog_follows.includes(blog.id)) {
+    if (blog.follower_ids.includes(currentUser.id)) {
       return (
         <button
           className="unfollow"
           onClick={this._unfollowBlog.bind(this, blog.id)}>
-          <div><i className="fa fa-minus"></i></div>
+          <div>
+            <i className="fa fa-minus"></i>
+            <span className="follow-text"> Unfollow</span>
+          </div>
         </button>
       );
     } else {
@@ -116,10 +150,27 @@ var IndexItem = React.createClass({
         <button
           className="follow"
           onClick={this._followBlog.bind(this, blog.id)}>
-          <div><i className="fa fa-plus"></i></div>
+          <div>
+            <i className="fa fa-plus"></i>
+            <span className="follow-text"> Follow</span>
+          </div>
         </button>
       );
     }
+  },
+
+  _blogList: function (blogs) {
+    var track = this.props.track;
+    var blogList = [];
+    for (var i = 0; i < blogs.length; i++) {
+      var blog = blogs[i]
+      for (var j = 0; j < blog.tracks.length; j++) {
+        if (blog.tracks[j].id === track.id) {
+          blogList.push(blogs[i])
+        }
+      }
+    }
+    return blogList;
   },
 
   _favorTrack: function (trackId) {
@@ -128,10 +179,6 @@ var IndexItem = React.createClass({
 
   _unfavorTrack: function (trackId) {
     ApiUtil.destroyFavorite(trackId);
-  },
-
-  _onBlogChange: function () {
-    this.forceUpdate();
   },
 
   _followBlog: function (blogId) {
@@ -145,3 +192,27 @@ var IndexItem = React.createClass({
 });
 
 module.exports = IndexItem;
+
+
+// _follow: function () {
+//   debugger
+//   var blog = this.props.track.blogs[0];
+//   var currentUser = SessionStore.currentUser();
+//   if (currentUser.blog_follows.includes(blog.id)) {
+//     return (
+//       <button
+//         className="unfollow"
+//         onClick={this._unfollowBlog.bind(this, blog.id)}>
+//         <div><i className="fa fa-minus"></i></div>
+//       </button>
+//     );
+//   } else {
+//     return (
+//       <button
+//         className="follow"
+//         onClick={this._followBlog.bind(this, blog.id)}>
+//         <div><i className="fa fa-plus"></i></div>
+//       </button>
+//     );
+//   }
+// },

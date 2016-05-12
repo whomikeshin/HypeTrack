@@ -42,7 +42,7 @@ var LoginForm = React.createClass({
     var router = this.context.router;
 
     ApiUtil.login(this.state, function() {
-      router.push("/tracks");
+      router.push("/");
     });
   },
 
@@ -57,7 +57,7 @@ var LoginForm = React.createClass({
   _guestLogin: function () {
     var router = this.context.router;
     ApiUtil.login({ username: "yeezus", password: "password" }, function() {
-      router.push("/tracks");
+      router.push("/");
     });
   }
 });

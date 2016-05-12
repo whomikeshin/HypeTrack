@@ -15,8 +15,8 @@ var ProfileMenu = React.createClass({
         <figure className="profile-image-small"><img src={imgSource}/></figure>
 
       <ul className="profile-list group">
-          <li><a href="#">Feed</a></li>
-          <li><Link to={"/users/" + currentUser.id}>Favorites</Link></li>
+          <li><Link to={"/users/" + currentUser.id + "/feed"}>Feed</Link></li>
+          <li><Link to={"/users/" + currentUser.id + "/favorites"}>Favorites</Link></li>
           <li><a href="#">Friends</a></li>
           <li><a href="#">Find Friends</a></li>
           <li><a href="#">Find Blogs</a></li>

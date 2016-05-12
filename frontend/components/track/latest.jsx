@@ -1,6 +1,5 @@
 var React = require('react');
 var TrackStore = require('../../stores/track');
-var BlogStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
 var TrackIndexItem = require('./index_item');
 
@@ -8,7 +7,7 @@ function _getAllTracks () {
   return TrackStore.all();
 }
 
-var Index = React.createClass({
+var Latest = React.createClass({
   getInitialState: function () {
     return {
       tracks: _getAllTracks()
@@ -39,7 +38,7 @@ var Index = React.createClass({
           <header>
             <h2 className="playlist-title">Latest Blogged Music</h2>
             <ul className="playlist-menu">
-              <li><a href="#">All</a></li>
+              <li className="highlight"><a href="#">All</a></li>
               <li><a href="#">Freshest</a></li>
               <li><a href="#">Only Remixes</a></li>
               <li><a href="#">No Remixes</a></li>
@@ -58,4 +57,4 @@ var Index = React.createClass({
   }
 });
 
-module.exports = Index;
+module.exports = Latest;
