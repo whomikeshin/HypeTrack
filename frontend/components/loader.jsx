@@ -5,7 +5,7 @@ var Loader = React.createClass({
   render: function () {
     return (
       <div className="loader">
-        <img src='http://sierrafire.cr.usgs.gov/images/loading.gif'></img>
+        <img src='https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif'></img>
       </div>
     );
   }

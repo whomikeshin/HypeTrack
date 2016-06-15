@@ -1,5 +1,6 @@
 var React = require('react');
 var TrackStore = require('../../stores/track');
+var UserStore = require('../../stores/user');
 var ApiUtil = require('../../util/api_util');
 var TrackIndexItem = require('./index_item');
 var Loader = require('../loader');
@@ -32,7 +33,7 @@ var Feed = React.createClass({
 
   render: function () {
     var tracks = this.state.tracks;
-    var favTracks;
+    var feedTracks;
     var currentUserId = this.props.params.id;
 
     if (tracks === null) {
@@ -74,16 +75,19 @@ var Feed = React.createClass({
   },
 
   _feedTracks: function (tracks) {
-    debugger
-    userId = parseInt(this.props.params.id);
-    var favTracks = [];
-    for (var i = 0; i < tracks.length; i++) {
-      if (tracks[i].favorite_ids.includes(userId)) {
-        favTracks.push(tracks[i])
+    var userId = parseInt(this.props.params.id);
+    var user = UserStore.find(userId);
+    var blogFollows = user.blog_follows;
+    var blogTracks = [];
+
+    for (var i = 0; i < blogFollows.length; i++) {
+      var blog = blogFollows[i];
+      for (var j = 0; j < blog.tracks.length; j++) {
+        blogTracks.push(blog.tracks[j])
       }
     };
 
-    return favTracks;
+    return blogTracks;
   },
 
 });

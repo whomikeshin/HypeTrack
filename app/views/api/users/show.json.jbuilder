@@ -4,4 +4,6 @@ json.favorite_tracks do
   json.array! @user.favorite_tracks, partial: 'api/tracks/track', as: :track
 end
 
-json.blog_follows @user.follows.pluck(:blog_id)
+json.blog_follows do
+  json.array! @user.blog_follows, partial: 'api/blogs/blog', as: :blog
+end

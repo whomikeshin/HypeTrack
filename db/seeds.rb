@@ -197,7 +197,7 @@ Post.create!(
   blog_id: musicgeeks.id,
   post_date: Time.now,
   post_url: "https://www.musicgeeks.co/pretty-sister/",
-  thumb_url: "https://pbs.twimg.com/profile_images/710905057500274688/J0H4UzQ9.jpg"
+  thumb_url: "http://www.chansamusic.com/wp-content/uploads/2016/03/Pretty-Sister-Come-to-LA.jpg"
 )
 
 Post.create!(

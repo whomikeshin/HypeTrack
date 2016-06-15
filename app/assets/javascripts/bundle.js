@@ -56,11 +56,11 @@
 	var Latest = __webpack_require__(216);
 	var Profile = __webpack_require__(280);
 	var Favorites = __webpack_require__(282);
-	var Feed = __webpack_require__(295);
-	var Post = __webpack_require__(283);
-	var App = __webpack_require__(288);
-	var Artist = __webpack_require__(292);
-	var Blog = __webpack_require__(294);
+	var Feed = __webpack_require__(283);
+	var Post = __webpack_require__(284);
+	var App = __webpack_require__(289);
+	var Artist = __webpack_require__(293);
+	var Blog = __webpack_require__(295);
 	
 	var ApiUtil = __webpack_require__(240);
 	var Modal = __webpack_require__(251);
@@ -34942,7 +34942,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'loader' },
-	      React.createElement('img', { src: 'http://sierrafire.cr.usgs.gov/images/loading.gif' })
+	      React.createElement('img', { src: 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif' })
 	    );
 	  }
 	});
@@ -35264,8 +35264,166 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var PostStore = __webpack_require__(284);
-	var PostUtil = __webpack_require__(286);
+	var TrackStore = __webpack_require__(217);
+	var UserStore = __webpack_require__(281);
+	var ApiUtil = __webpack_require__(240);
+	var TrackIndexItem = __webpack_require__(247);
+	var Loader = __webpack_require__(279);
+	var Link = __webpack_require__(159).Link;
+	
+	function _getAllTracks() {
+	  return TrackStore.all();
+	}
+	
+	var Feed = React.createClass({
+	  displayName: 'Feed',
+	
+	  getInitialState: function () {
+	    return { tracks: null };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onChangeToken = TrackStore.addListener(this._onChange);
+	    ApiUtil.fetchUserTracks(this.props.params.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onChangeToken.remove();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ tracks: null });
+	
+	    ApiUtil.fetchUserTracks(newProps.params.id);
+	  },
+	
+	  render: function () {
+	    var tracks = this.state.tracks;
+	    var feedTracks;
+	    var currentUserId = this.props.params.id;
+	
+	    if (tracks === null) {
+	      return React.createElement(Loader, null);
+	    } else {
+	      feedTracks = this._feedTracks(tracks);
+	    }
+	
+	    return React.createElement(
+	      'main',
+	      { className: 'content' },
+	      React.createElement(
+	        'section',
+	        { className: 'playlist group' },
+	        React.createElement(
+	          'header',
+	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'playlist-title' },
+	            'My Feed'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'playlist-menu' },
+	            React.createElement(
+	              'li',
+	              { className: 'highlight' },
+	              React.createElement(
+	                Link,
+	                { to: "/users/" + currentUserId + "/feed" },
+	                'Feed'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                Link,
+	                { to: "/users/" + currentUserId + "/favorites" },
+	                'Favorites'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Up'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Down'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Weird'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Listening History'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'tracks-list' },
+	          feedTracks.map(function (track) {
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	          })
+	        )
+	      )
+	    );
+	  },
+	
+	  _onChange: function () {
+	    var tracks = _getAllTracks();
+	    this.setState({ tracks: tracks });
+	  },
+	
+	  _feedTracks: function (tracks) {
+	    var userId = parseInt(this.props.params.id);
+	    var user = UserStore.find(userId);
+	    var blogFollows = user.blog_follows;
+	    var blogTracks = [];
+	
+	    for (var i = 0; i < blogFollows.length; i++) {
+	      var blog = blogFollows[i];
+	      for (var j = 0; j < blog.tracks.length; j++) {
+	        blogTracks.push(blog.tracks[j]);
+	      }
+	    };
+	
+	    return blogTracks;
+	  }
+	
+	});
+	
+	module.exports = Feed;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var PostStore = __webpack_require__(285);
+	var PostUtil = __webpack_require__(287);
 	var Loader = __webpack_require__(279);
 	
 	function _getAllPosts() {
@@ -35312,12 +35470,12 @@
 	module.exports = Post;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
 	var AppDispatcher = __webpack_require__(236);
-	var PostConstants = __webpack_require__(285);
+	var PostConstants = __webpack_require__(286);
 	var _posts = [];
 	
 	var PostStore = new Store(AppDispatcher);
@@ -35344,7 +35502,7 @@
 	module.exports = PostStore;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports) {
 
 	var PostConstants = {
@@ -35354,10 +35512,10 @@
 	module.exports = PostConstants;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var PostActions = __webpack_require__(287);
+	var PostActions = __webpack_require__(288);
 	
 	PostUtil = {
 	  fetchPosts: function () {
@@ -35378,11 +35536,11 @@
 	module.exports = PostUtil;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(236);
-	var PostConstants = __webpack_require__(285);
+	var PostConstants = __webpack_require__(286);
 	
 	var PostActions = {
 	  rececivePosts: function (posts) {
@@ -35396,7 +35554,7 @@
 	module.exports = PostActions;
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35405,9 +35563,9 @@
 	var ApiUtil = __webpack_require__(240);
 	var UserModal = __webpack_require__(273);
 	var LoginModal = __webpack_require__(271);
-	var ProfileMenu = __webpack_require__(289);
-	var NavPlayer = __webpack_require__(290);
-	var NavControls = __webpack_require__(291);
+	var ProfileMenu = __webpack_require__(290);
+	var NavPlayer = __webpack_require__(291);
+	var NavControls = __webpack_require__(292);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -35540,7 +35698,7 @@
 	module.exports = App;
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35642,7 +35800,7 @@
 	module.exports = ProfileMenu;
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35650,7 +35808,7 @@
 	// var PlayerActions = require('../actions/player_actions');
 	var Loader = __webpack_require__(279);
 	var TrackStore = __webpack_require__(217);
-	var NavControls = __webpack_require__(291);
+	var NavControls = __webpack_require__(292);
 	
 	function _getCurrentTrack() {
 	  return PlayerStore.currentTrack();
@@ -35743,7 +35901,7 @@
 	module.exports = NavPlayer;
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -35863,13 +36021,13 @@
 	module.exports = NavControls;
 
 /***/ },
-/* 292 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var ApiUtil = __webpack_require__(240);
 	var Loader = __webpack_require__(279);
-	var ArtistStore = __webpack_require__(293);
+	var ArtistStore = __webpack_require__(294);
 	var TrackIndexItem = __webpack_require__(247);
 	
 	var Artist = React.createClass({
@@ -35953,7 +36111,7 @@
 	module.exports = Artist;
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Store = __webpack_require__(218).Store;
@@ -35989,7 +36147,7 @@
 	module.exports = ArtistStore;
 
 /***/ },
-/* 294 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -36131,160 +36289,6 @@
 	});
 	
 	module.exports = Blog;
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var TrackStore = __webpack_require__(217);
-	var ApiUtil = __webpack_require__(240);
-	var TrackIndexItem = __webpack_require__(247);
-	var Loader = __webpack_require__(279);
-	var Link = __webpack_require__(159).Link;
-	
-	function _getAllTracks() {
-	  return TrackStore.all();
-	}
-	
-	var Feed = React.createClass({
-	  displayName: 'Feed',
-	
-	  getInitialState: function () {
-	    return { tracks: null };
-	  },
-	
-	  componentDidMount: function () {
-	    this.onChangeToken = TrackStore.addListener(this._onChange);
-	    ApiUtil.fetchUserTracks(this.props.params.id);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.onChangeToken.remove();
-	  },
-	
-	  componentWillReceiveProps: function (newProps) {
-	    this.setState({ tracks: null });
-	
-	    ApiUtil.fetchUserTracks(newProps.params.id);
-	  },
-	
-	  render: function () {
-	    var tracks = this.state.tracks;
-	    var favTracks;
-	    var currentUserId = this.props.params.id;
-	
-	    if (tracks === null) {
-	      return React.createElement(Loader, null);
-	    } else {
-	      feedTracks = this._feedTracks(tracks);
-	    }
-	
-	    return React.createElement(
-	      'main',
-	      { className: 'content' },
-	      React.createElement(
-	        'section',
-	        { className: 'playlist group' },
-	        React.createElement(
-	          'header',
-	          null,
-	          React.createElement(
-	            'h2',
-	            { className: 'playlist-title' },
-	            'My Feed'
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'playlist-menu' },
-	            React.createElement(
-	              'li',
-	              { className: 'highlight' },
-	              React.createElement(
-	                Link,
-	                { to: "/users/" + currentUserId + "/feed" },
-	                'Feed'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                Link,
-	                { to: "/users/" + currentUserId + "/favorites" },
-	                'Favorites'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Up'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Down'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Weird'
-	              )
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Listening History'
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'ul',
-	          { className: 'tracks-list' },
-	          feedTracks.map(function (track) {
-	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
-	          })
-	        )
-	      )
-	    );
-	  },
-	
-	  _onChange: function () {
-	    var tracks = _getAllTracks();
-	    this.setState({ tracks: tracks });
-	  },
-	
-	  _feedTracks: function (tracks) {
-	    debugger;
-	    userId = parseInt(this.props.params.id);
-	    var favTracks = [];
-	    for (var i = 0; i < tracks.length; i++) {
-	      if (tracks[i].favorite_ids.includes(userId)) {
-	        favTracks.push(tracks[i]);
-	      }
-	    };
-	
-	    return favTracks;
-	  }
-	
-	});
-	
-	module.exports = Feed;
 
 /***/ }
 /******/ ]);
