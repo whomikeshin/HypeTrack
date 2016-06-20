@@ -35244,14 +35244,14 @@
 	  },
 	
 	  _favoriteTracks: function (tracks) {
-	    userId = parseInt(this.props.params.id);
+	    var userId = parseInt(this.props.params.id);
 	    var favTracks = [];
 	    for (var i = 0; i < tracks.length; i++) {
 	      if (tracks[i].favorite_ids.includes(userId)) {
 	        favTracks.push(tracks[i]);
 	      }
 	    };
-	
+	    debugger;
 	    return favTracks;
 	  }
 	
@@ -35665,7 +35665,7 @@
 	      ),
 	      React.createElement(
 	        'nav',
-	        { className: 'player-container' },
+	        { id: 'player-container' },
 	        React.createElement(
 	          'div',
 	          { className: 'player group' },
@@ -35696,6 +35696,14 @@
 	});
 	
 	module.exports = App;
+	
+	$(window).scroll(function () {
+	  if ($(this).scrollTop() > 33) {
+	    $("#player-container").addClass("sticky");
+	  } else {
+	    $("#player-container").removeClass("sticky");
+	  }
+	});
 
 /***/ },
 /* 290 */

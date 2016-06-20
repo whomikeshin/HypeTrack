@@ -3,7 +3,6 @@ var PlayerStore = require('../stores/player');
 var TrackStore = require('../stores/track');
 var PlayerActions = require('../actions/player_actions');
 
-
 function _isPlaying () {
   return PlayerStore.playStatus();
 }

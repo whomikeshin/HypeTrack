@@ -73,14 +73,14 @@ var Favorites = React.createClass({
   },
 
   _favoriteTracks: function (tracks) {
-    userId = parseInt(this.props.params.id);
+    var userId = parseInt(this.props.params.id);
     var favTracks = [];
     for (var i = 0; i < tracks.length; i++) {
       if (tracks[i].favorite_ids.includes(userId)) {
         favTracks.push(tracks[i])
       }
     };
-
+    debugger
     return favTracks;
   },
 

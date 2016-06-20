@@ -59,7 +59,7 @@ var App = React.createClass({
           </nav>
         </header>
 
-        <nav className="player-container">
+        <nav id="player-container">
 
           <div className="player group">
             <div className="player-controls">
@@ -87,3 +87,12 @@ var App = React.createClass({
 });
 
 module.exports = App;
+
+$(window).scroll(function() {
+  if ($(this).scrollTop() > 33) {
+    $("#player-container").addClass("sticky");
+  }
+  else{
+    $("#player-container").removeClass("sticky");
+  }
+});

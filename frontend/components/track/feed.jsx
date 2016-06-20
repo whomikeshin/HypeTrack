@@ -86,7 +86,7 @@ var Feed = React.createClass({
         blogTracks.push(blog.tracks[j])
       }
     };
-
+    
     return blogTracks;
   },
 

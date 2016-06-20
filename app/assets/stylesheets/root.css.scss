@@ -54,7 +54,7 @@ button {
   background: #83c441;
   height: 42px;
   line-height: 42px;
-  z-index: 201;
+  z-index: 200;
   position: relative;
 }
 
@@ -102,13 +102,25 @@ button {
 
 /*/ Player /*/
 
-.player-container {
+#player-container {
   display: block;
   background: #222;
   color: #e0e0e0;
   height: 33px;
   width: 100%;
   line-height: 25px;
+}
+
+#player-container.sticky {
+  display: block;
+  background: #222;
+  color: #e0e0e0;
+  height: 33px;
+  width: 100%;
+  line-height: 25px;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
 }
 
 .player {
