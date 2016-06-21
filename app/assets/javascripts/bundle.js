@@ -35698,7 +35698,7 @@
 	module.exports = App;
 	
 	$(window).scroll(function () {
-	  if ($(this).scrollTop() > 33) {
+	  if ($(this).scrollTop() > 42) {
 	    $("#player-container").addClass("sticky");
 	  } else {
 	    $("#player-container").removeClass("sticky");
