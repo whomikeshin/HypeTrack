@@ -1,5 +1,6 @@
 var React = require('react');
 var PlayerStore = require('../stores/player');
+var SessionStore = require('../stores/session');
 var TrackStore = require('../stores/track');
 var PlayerActions = require('../actions/player_actions');
 
@@ -34,12 +35,18 @@ var NavControls = React.createClass({
   },
 
   render: function () {
+    var favoriteButton = <i className="fa fa-heart"></i>;
+    var currentUser = SessionStore.currentUser();
+
+    // if (currentUser) {
+    //   favoriteButton = this._favorite();
+    // }
 
     return (
       <ul className="nav-controls">
         <li><i className="fa fa-fast-backward"></i></li>
         <li><i className="fa fa-play"></i></li>
-        <li><i className="fa fa-heart"></i></li>
+        <li>{favoriteButton}</li>
         <li><i className="fa fa-fast-forward"></i></li>
       </ul>
     );
@@ -74,6 +81,39 @@ var NavControls = React.createClass({
   //     </button>
   //   );
   // },
+
+
+  // _favorite: function () {
+  //   var track = PlayerStore.currentTrack();
+  //   //track is undefined
+  //   var currentUser = SessionStore.currentUser();
+  //
+  //   if (track.favorite_ids.includes(currentUser.id)) {
+  //     return (
+  //       <button
+  //         className="unfavorite"
+  //         onClick={this._unfavorTrack.bind(this, track.id)}>
+  //         <div><i className="fa fa-heart"></i></div>
+  //       </button>
+  //     );
+  //   } else {
+  //     return (
+  //       <button
+  //         className="favorite"
+  //         onClick={this._favorTrack.bind(this, track.id)}>
+  //         <div><i className="fa fa-heart"></i></div>
+  //       </button>
+  //     );
+  //   }
+  // },
+
+  _favorTrack: function (trackId) {
+    ApiUtil.createFavorite(trackId);
+  },
+
+  _unfavorTrack: function (trackId) {
+    ApiUtil.destroyFavorite(trackId);
+  },
 
   _onPlayerChange: function () {
     audio = document.getElementsByTagName('audio');

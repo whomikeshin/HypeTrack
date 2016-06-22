@@ -28,7 +28,7 @@ var App = React.createClass({
     var sideMenu;
     if (this.state.currentUser) {
       sideMenu = <div className="profile-menu">
-                    <ProfileMenu />
+                    <ProfileMenu/>
                   </div>;
     } else {
       sideMenu = <ul className="login-menu">
@@ -51,8 +51,8 @@ var App = React.createClass({
             </Link>
 
             <ul className="header-nav-list">
-              <li><a href="#">Latest</a></li>
-              <li><a href="#">Popular</a></li>
+              <li><Link to={"/"}>Latest</Link></li>
+              <li><Link to={"/popular"}>Popular</Link></li>
               <li><a href="#">Genres</a></li>
             </ul>
 

@@ -1,6 +1,5 @@
 var React = require('react');
 var PlayerStore = require('../stores/player');
-// var PlayerActions = require('../actions/player_actions');
 var Loader = require('./loader');
 var TrackStore = require('../stores/track');
 var NavControls = require('./nav_controls');

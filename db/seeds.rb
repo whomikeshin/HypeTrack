@@ -24,6 +24,22 @@ yeezus = User.create!(
   thumb_url: "http://static03.mediaite.com/rr/up/2016/01/giphy.gif"
 )
 
+guest1 = User.create!(
+  email: "guest1@hotmail.com",
+  username: "guest1",
+  password: "password",
+  activation_token: 4,
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg"
+)
+
+guest2 = User.create!(
+  email: "guest2@hotmail.com",
+  username: "guest2",
+  password: "password",
+  activation_token: 5,
+  thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg"
+)
+
 Artist.destroy_all
 
 kanye = Artist.create!(

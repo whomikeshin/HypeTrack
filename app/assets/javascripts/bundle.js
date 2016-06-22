@@ -54,6 +54,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	var Latest = __webpack_require__(216);
+	var Popular = __webpack_require__(296);
 	var Profile = __webpack_require__(280);
 	var Favorites = __webpack_require__(282);
 	var Feed = __webpack_require__(283);
@@ -79,7 +80,8 @@
 	      { path: 'users/:id', component: Profile },
 	      React.createElement(Route, { path: 'favorites', component: Favorites }),
 	      React.createElement(Route, { path: 'feed', component: Feed })
-	    )
+	    ),
+	    React.createElement(Route, { path: 'popular', component: Popular })
 	  )
 	);
 	
@@ -35251,7 +35253,6 @@
 	        favTracks.push(tracks[i]);
 	      }
 	    };
-	    debugger;
 	    return favTracks;
 	  }
 	
@@ -35637,8 +35638,8 @@
 	              'li',
 	              null,
 	              React.createElement(
-	                'a',
-	                { href: '#' },
+	                Link,
+	                { to: "/" },
 	                'Latest'
 	              )
 	            ),
@@ -35646,8 +35647,8 @@
 	              'li',
 	              null,
 	              React.createElement(
-	                'a',
-	                { href: '#' },
+	                Link,
+	                { to: "/popular" },
 	                'Popular'
 	              )
 	            ),
@@ -35813,7 +35814,6 @@
 
 	var React = __webpack_require__(1);
 	var PlayerStore = __webpack_require__(276);
-	// var PlayerActions = require('../actions/player_actions');
 	var Loader = __webpack_require__(279);
 	var TrackStore = __webpack_require__(217);
 	var NavControls = __webpack_require__(292);
@@ -35914,6 +35914,7 @@
 
 	var React = __webpack_require__(1);
 	var PlayerStore = __webpack_require__(276);
+	var SessionStore = __webpack_require__(248);
 	var TrackStore = __webpack_require__(217);
 	var PlayerActions = __webpack_require__(278);
 	
@@ -35950,6 +35951,12 @@
 	  },
 	
 	  render: function () {
+	    var favoriteButton = React.createElement('i', { className: 'fa fa-heart' });
+	    var currentUser = SessionStore.currentUser();
+	
+	    // if (currentUser) {
+	    //   favoriteButton = this._favorite();
+	    // }
 	
 	    return React.createElement(
 	      'ul',
@@ -35967,7 +35974,7 @@
 	      React.createElement(
 	        'li',
 	        null,
-	        React.createElement('i', { className: 'fa fa-heart' })
+	        favoriteButton
 	      ),
 	      React.createElement(
 	        'li',
@@ -36010,6 +36017,38 @@
 	  //     </button>
 	  //   );
 	  // },
+	
+	  // _favorite: function () {
+	  //   var track = PlayerStore.currentTrack();
+	  //   //track is undefined
+	  //   var currentUser = SessionStore.currentUser();
+	  //
+	  //   if (track.favorite_ids.includes(currentUser.id)) {
+	  //     return (
+	  //       <button
+	  //         className="unfavorite"
+	  //         onClick={this._unfavorTrack.bind(this, track.id)}>
+	  //         <div><i className="fa fa-heart"></i></div>
+	  //       </button>
+	  //     );
+	  //   } else {
+	  //     return (
+	  //       <button
+	  //         className="favorite"
+	  //         onClick={this._favorTrack.bind(this, track.id)}>
+	  //         <div><i className="fa fa-heart"></i></div>
+	  //       </button>
+	  //     );
+	  //   }
+	  // },
+	
+	  _favorTrack: function (trackId) {
+	    ApiUtil.createFavorite(trackId);
+	  },
+	
+	  _unfavorTrack: function (trackId) {
+	    ApiUtil.destroyFavorite(trackId);
+	  },
 	
 	  _onPlayerChange: function () {
 	    audio = document.getElementsByTagName('audio');
@@ -36297,6 +36336,127 @@
 	});
 	
 	module.exports = Blog;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var TrackStore = __webpack_require__(217);
+	var ApiUtil = __webpack_require__(240);
+	var TrackIndexItem = __webpack_require__(247);
+	
+	function _getAllTracks() {
+	  return TrackStore.all();
+	}
+	
+	var Popular = React.createClass({
+	  displayName: 'Popular',
+	
+	  getInitialState: function () {
+	    return {
+	      tracks: _getAllTracks()
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
+	    ApiUtil.fetchTracks();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.onTrackChangeToken.remove();
+	  },
+	
+	  _onTrackChange: function () {
+	    var tracks = _getAllTracks();
+	    this.setState({ tracks: tracks });
+	  },
+	
+	  render: function () {
+	    var tracks = this.state.tracks;
+	
+	    tracks.sort(function (a, b) {
+	      return b.favorite_count - a.favorite_count;
+	    });
+	
+	    return React.createElement(
+	      'main',
+	      { className: 'content' },
+	      React.createElement(
+	        'section',
+	        { className: 'playlist group' },
+	        React.createElement(
+	          'header',
+	          null,
+	          React.createElement(
+	            'h2',
+	            { className: 'playlist-title' },
+	            'Most Popular Tracks'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'playlist-menu' },
+	            React.createElement(
+	              'li',
+	              { className: 'highlight' },
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Now'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Time Machine'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Only Remixes'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'No Remixes'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Artists'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'tracks-list' },
+	          tracks.map(function (track) {
+	            return React.createElement(TrackIndexItem, { key: track.id, track: track });
+	          })
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Popular;
 
 /***/ }
 /******/ ]);

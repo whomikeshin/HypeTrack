@@ -80,7 +80,6 @@ var Favorites = React.createClass({
         favTracks.push(tracks[i])
       }
     };
-    debugger
     return favTracks;
   },
 

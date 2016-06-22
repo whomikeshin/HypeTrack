@@ -8,6 +8,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 var hashHistory = ReactRouter.hashHistory;
 
 var Latest = require('./components/track/latest');
+var Popular = require('./components/track/popular');
 var Profile = require ('./components/user/profile');
 var Favorites = require('./components/track/favorites');
 var Feed = require('./components/track/feed');
@@ -29,6 +30,7 @@ var router = (
         <Route path="favorites" component={Favorites}/>
         <Route path="feed" component={Feed}/>
       </Route>
+      <Route path="popular" component={Popular}/>
     </Route>
   </Router>
 );
