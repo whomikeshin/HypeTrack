@@ -53,7 +53,7 @@ var App = React.createClass({
             <ul className="header-nav-list">
               <li><Link to={"/"}>Latest</Link></li>
               <li><Link to={"/popular"}>Popular</Link></li>
-              <li><a href="#">Genres</a></li>
+              <li>Genres</li>
             </ul>
 
           </nav>

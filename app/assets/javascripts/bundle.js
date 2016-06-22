@@ -35655,11 +35655,7 @@
 	            React.createElement(
 	              'li',
 	              null,
-	              React.createElement(
-	                'a',
-	                { href: '#' },
-	                'Genres'
-	              )
+	              'Genres'
 	            )
 	          )
 	        )
@@ -35759,38 +35755,22 @@
 	        React.createElement(
 	          'li',
 	          null,
-	          React.createElement(
-	            'a',
-	            { href: '#' },
-	            'Friends'
-	          )
+	          'Friends'
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
-	          React.createElement(
-	            'a',
-	            { href: '#' },
-	            'Find Friends'
-	          )
+	          'Find Friends'
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
-	          React.createElement(
-	            'a',
-	            { href: '#' },
-	            'Find Blogs'
-	          )
+	          'Find Blogs'
 	        ),
 	        React.createElement(
 	          'li',
 	          null,
-	          React.createElement(
-	            'a',
-	            { href: '#' },
-	            'Settings'
-	          )
+	          'Settings'
 	        ),
 	        React.createElement(
 	          'li',
