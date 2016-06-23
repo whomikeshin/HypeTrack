@@ -42,11 +42,11 @@ var Popular = React.createClass({
           <header>
             <h2 className="playlist-title">Most Popular Tracks</h2>
             <ul className="playlist-menu">
-              <li className="highlight"><a href="#">Now</a></li>
-              <li><a href="#">Time Machine</a></li>
-              <li><a href="#">Only Remixes</a></li>
-              <li><a href="#">No Remixes</a></li>
-              <li><a href="#">Artists</a></li>
+              <li className="highlight"><a href="#/popular">Now</a></li>
+              <li><a>Time Machine</a></li>
+              <li><a>Only Remixes</a></li>
+              <li><a>No Remixes</a></li>
+              <li><a>Artists</a></li>
             </ul>
           </header>
 

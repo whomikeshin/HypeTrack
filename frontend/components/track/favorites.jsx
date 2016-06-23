@@ -49,10 +49,10 @@ var Favorites = React.createClass({
             <ul className="playlist-menu">
               <li><Link to={"/users/" + currentUserId + "/feed"}>Feed</Link></li>
               <li className="highlight"><Link to={"/users/" + currentUserId + "/favorites"}>Favorites</Link></li>
-              <li><a href="#">Up</a></li>
-              <li><a href="#">Down</a></li>
-              <li><a href="#">Weird</a></li>
-              <li><a href="#">Listening History</a></li>
+              <li><a>Up</a></li>
+              <li><a>Down</a></li>
+              <li><a>Weird</a></li>
+              <li><a>Listening History</a></li>
             </ul>
           </header>
 

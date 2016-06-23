@@ -72,7 +72,7 @@ var Blog = React.createClass({
               Latest Posts From <a href={blog.url} className="blog-url">{blog.name}</a>
             </h2>
             <ul className="playlist-menu alt">
-              <li><a href="#">Newest First↓</a></li>
+              <li><a>Newest First↓</a></li>
             </ul>
           </header>
           <ul className="tracks-list">
