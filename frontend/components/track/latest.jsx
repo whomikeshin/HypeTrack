@@ -39,10 +39,10 @@ var Latest = React.createClass({
             <h2 className="playlist-title">Latest Blogged Music</h2>
             <ul className="playlist-menu">
               <li className="highlight"><a href="#">All</a></li>
-              <li><a href="#">Freshest</a></li>
-              <li><a href="#">Only Remixes</a></li>
-              <li><a href="#">No Remixes</a></li>
-              <li><a href="#">Blogs in USA</a></li>
+              <li><a>Freshest</a></li>
+              <li><a>Only Remixes</a></li>
+              <li><a>No Remixes</a></li>
+              <li><a>Blogs in USA</a></li>
             </ul>
           </header>
 

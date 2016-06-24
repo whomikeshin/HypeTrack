@@ -44,7 +44,7 @@ var Artist = React.createClass({
               Search Results for {artist.name}
             </h2>
             <ul className="playlist-menu alt">
-              <li><a href="#">Newest First↓</a></li>
+              <li><a>Newest First↓</a></li>
             </ul>
           </header>
           <ul className="tracks-list">

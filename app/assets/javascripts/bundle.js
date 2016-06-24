@@ -24848,7 +24848,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Freshest'
 	              )
 	            ),
@@ -24857,7 +24857,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Only Remixes'
 	              )
 	            ),
@@ -24866,7 +24866,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'No Remixes'
 	              )
 	            ),
@@ -24875,7 +24875,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Blogs in USA'
 	              )
 	            )
@@ -35016,7 +35016,7 @@
 	              { className: 'highlight' },
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                { href: '#/popular' },
 	                'Now'
 	              )
 	            ),
@@ -35025,7 +35025,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Time Machine'
 	              )
 	            ),
@@ -35034,7 +35034,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Only Remixes'
 	              )
 	            ),
@@ -35043,7 +35043,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'No Remixes'
 	              )
 	            ),
@@ -35052,7 +35052,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Artists'
 	              )
 	            )
@@ -35317,7 +35317,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Up'
 	              )
 	            ),
@@ -35326,7 +35326,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Down'
 	              )
 	            ),
@@ -35335,7 +35335,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Weird'
 	              )
 	            ),
@@ -35344,7 +35344,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Listening History'
 	              )
 	            )
@@ -35470,7 +35470,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Up'
 	              )
 	            ),
@@ -35479,7 +35479,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Down'
 	              )
 	            ),
@@ -35488,7 +35488,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Weird'
 	              )
 	            ),
@@ -35497,7 +35497,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Listening History'
 	              )
 	            )
@@ -36238,7 +36238,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Newest First↓'
 	              )
 	            )
@@ -36418,7 +36418,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                null,
 	                'Newest First↓'
 	              )
 	            )
