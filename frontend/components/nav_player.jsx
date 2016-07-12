@@ -30,6 +30,7 @@ var NavPlayer = React.createClass({
   componentDidMount: function () {
     this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+    console.log("mounted");
   },
 
   componentWillUnmount: function () {
@@ -41,6 +42,8 @@ var NavPlayer = React.createClass({
     var loadedTracks = this.state.loadedTracks;
     var track = this.state.currentTrack || loadedTracks[0];
     var playStatus = this.state.playStatus;
+    console.log(loadedTracks);
+    console.log(track);
 
     if (!track) {
       return <Loader/>;

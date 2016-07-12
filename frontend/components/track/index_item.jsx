@@ -5,7 +5,7 @@ var SessionStore = require('../../stores/session');
 var BlogStore = require('../../stores/blog');
 var ApiUtil = require('../../util/api_util');
 var FavLoginModal = require('../user/fav_modal');
-var Player = require('./play_pause');
+var PlayPause = require('./play_pause');
 var PlayerActions = require('../../actions/player_actions');
 var Loader = require('../loader');
 
@@ -100,7 +100,7 @@ var IndexItem = React.createClass({
           <span className="fav-div">
             <p>{track.favorite_count}</p>
             {favoriteButton}
-            <Player track={this.props.track}/>
+            <PlayPause track={this.props.track}/>
           </span>
 
         </section>
@@ -192,27 +192,3 @@ var IndexItem = React.createClass({
 });
 
 module.exports = IndexItem;
-
-
-// _follow: function () {
-//   debugger
-//   var blog = this.props.track.blogs[0];
-//   var currentUser = SessionStore.currentUser();
-//   if (currentUser.blog_follows.includes(blog.id)) {
-//     return (
-//       <button
-//         className="unfollow"
-//         onClick={this._unfollowBlog.bind(this, blog.id)}>
-//         <div><i className="fa fa-minus"></i></div>
-//       </button>
-//     );
-//   } else {
-//     return (
-//       <button
-//         className="follow"
-//         onClick={this._followBlog.bind(this, blog.id)}>
-//         <div><i className="fa fa-plus"></i></div>
-//       </button>
-//     );
-//   }
-// },

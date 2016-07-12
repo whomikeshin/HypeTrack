@@ -116,16 +116,17 @@ var NavControls = React.createClass({
   },
 
   _onPlayerChange: function () {
-    audio = document.getElementsByTagName('audio');
+    let $audio = $('audio');
+    console.log("now playing" + $audio[0].src)
     this.setState({
       playStatus: _isPlaying(),
     });
 
     //Player Store lags behind
     if (!this.state.playStatus) {
-      audio[0].play();
+      $audio[0].play();
     } else {
-      audio[0].pause();
+      $audio[0].pause();
     }
   }
 });
