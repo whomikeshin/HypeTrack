@@ -3,7 +3,7 @@ var PlayerStore = require('../stores/player');
 var Loader = require('./loader');
 var TrackStore = require('../stores/track');
 var NavControls = require('./nav_controls');
-var Wavesurfer = require('./wavesurfer');
+var Timebar = require('./nav_timebar');
 
 function _getCurrentTrack () {
   return PlayerStore.currentTrack();
@@ -59,7 +59,7 @@ var NavPlayer = React.createClass({
           {track.title} - {track.artist_name + " "}
           <a href={track.posts[0].post_url}><small>Read Post →</small></a>
         </div>
-        <Wavesurfer currentTrack={track}/>
+        <Timebar track={track} playing={playStatus}/>
       </div>
       );
     }
