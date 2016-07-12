@@ -62,6 +62,12 @@ var PlayerActions = {
       actionType: PlayerConstants.RESET
     });
   },
+
+  progress: function () {
+    AppDispatcher.dispatch({
+      actionType: PlayerConstants.PROGRESS
+    });
+  }
 };
 
 module.exports = PlayerActions;
