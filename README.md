@@ -4,10 +4,26 @@ HypeTrack is a web application that aggregates music posted on blogs. It was ins
 
 Explore and listen to new tracks. Get Hyped! [hypetrack.xyz](http://www.hypetrack.xyz/)
 
-###Welcome View:
-
-![welcome]
-
 ###Home View:
 
-![stream]
+![latest]
+
+###Profile View:
+
+![profile]
+
+###Technical Details:
+
+###Features:
+* Sign up/in with email
+* Playbar fixed to top of page
+* Favorite tracks
+* Follow blogs
+
+###To-Do:
+* [ ] Notifications
+* [ ] Search
+* [ ] Genre Tags
+* [ ] Infinite Scroll
+* [ ] Waveform Visualization
+* [ ] Integrate Blog Api's
