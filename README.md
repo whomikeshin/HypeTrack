@@ -1,12 +1,8 @@
 #HypeTrack
 
-HypeTrack is a web application that aggregates music posted on blogs. It was inspired by HypeMachine and was built using Ruby on Rails and React.js.
+HypeTrack is a web application that aggregates new music trending on blogs. It allows users to discover songs that appeal to their specific tastes. It was inspired by HypeMachine and was built using Ruby on Rails and React.js.
 
 Explore and listen to new tracks. Get Hyped! [hypetrack.xyz](http://www.hypetrack.xyz/)
-
-###Land Page View:
-
-![latest]
 
 ###Profile View:
 
@@ -18,9 +14,9 @@ Explore and listen to new tracks. Get Hyped! [hypetrack.xyz](http://www.hypetrac
 * Sign up/in with email
 * Explore latest and most popular tracks
 * Favorite tracks
-* Follow blogs
+* Follow blogs, artist, users
 * Custom track controls
-* Playbar fixed to top of page
+* Navbar fixed to top of page
 
 ###To-Do:
 * [ ] Notifications
