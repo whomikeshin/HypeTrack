@@ -33,9 +33,10 @@ var PlayerActions = {
     });
   },
 
-  play: function () {
+  play: function (trackId) {
     AppDispatcher.dispatch({
       actionType: PlayerConstants.PLAYED,
+      trackId: trackId
     });
   },
 

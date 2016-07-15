@@ -1,24 +1,24 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactRouter = require('react-router');
+var React = require('react'),
+    ReactDOM = require('react-dom'),
+    ReactRouter = require('react-router'),
 
-var Router = ReactRouter.Router;
-var Route = ReactRouter.Route;
-var IndexRoute = ReactRouter.IndexRoute;
-var hashHistory = ReactRouter.hashHistory;
+    Router = ReactRouter.Router,
+    Route = ReactRouter.Route,
+    IndexRoute = ReactRouter.IndexRoute,
+    hashHistory = ReactRouter.hashHistory,
 
-var Latest = require('./components/track/latest');
-var Popular = require('./components/track/popular');
-var Profile = require ('./components/user/profile');
-var Favorites = require('./components/track/favorites');
-var Feed = require('./components/track/feed');
-var Post = require('./components/post');
-var App = require('./components/app');
-var Artist = require('./components/artist');
-var Blog = require('./components/blog');
+    Latest = require('./components/track/latest'),
+    Popular = require('./components/track/popular'),
+    Profile = require ('./components/user/profile'),
+    Favorites = require('./components/track/favorites'),
+    Feed = require('./components/track/feed'),
+    Post = require('./components/post'),
+    App = require('./components/app'),
+    Artist = require('./components/artist'),
+    Blog = require('./components/blog'),
 
-var ApiUtil = require('./util/api_util');
-var Modal = require("react-modal");
+    ApiUtil = require('./util/api_util'),
+    Modal = require("react-modal");
 
 var router = (
   <Router history={hashHistory}>

@@ -1,5 +1,5 @@
 {
-  "name": "HypeTrain",
+  "name": "HypeTrack",
   "version": "1.0.0",
   "description": "== README",
   "main": "index.js",
@@ -34,10 +34,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/whomikeshin/HypeTrain.git"
+    "url": "git+https://github.com/whomikeshin/HypeTrack.git"
   },
   "bugs": {
-    "url": "https://github.com/whomikeshin/HypeTrain/issues"
+    "url": "https://github.com/whomikeshin/HypeTrack/issues"
   },
-  "homepage": "https://github.com/whomikeshin/HypeTrain#readme"
+  "homepage": "https://github.com/whomikeshin/HypeTrack#readme"
 }

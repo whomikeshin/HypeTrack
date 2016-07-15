@@ -1,12 +1,8 @@
-# NewTunes
-
-[Heroku link][heroku] **NB:** This should be a link to your production site
-
-[heroku]: http://www.herokuapp.com
+# HypeTrack
 
 ## Minimum Viable Product
 
-NewTunes is a web application inspired by Hype Machine built using Ruby on Rails and React.js. NewTunes allows users to:
+HypeTrack is a web application inspired by Hype Machine built using Ruby on Rails and React.js. HypeTrack allows users to:
 
 - [ ] Create an account
 - [ ] Log in / Log out

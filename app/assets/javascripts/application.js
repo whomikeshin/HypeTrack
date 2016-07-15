@@ -15,9 +15,3 @@
 //= require bundle
 //= require_tree .
 //
-// = require wavesurfer.js
-// = require util.js
-// = require webaudio.js
-// = require mediaelement.js
-// = require drawer.js
-// = require drawer.canvas.js

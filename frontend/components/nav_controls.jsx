@@ -8,17 +8,6 @@ function _isPlaying () {
   return PlayerStore.playStatus();
 }
 
-function _findTrackIdx () {
-  var tracks = TrackStore.all();
-  var current = PlayerStore.currentTrack();
-
-  for (var i = 0; i < tracks.length; i++) {
-    if (tracks[i] === current) {
-      return i;
-    }
-  }
-}
-
 var NavControls = React.createClass({
   getInitialState: function () {
     return {
@@ -51,26 +40,42 @@ var NavControls = React.createClass({
       </ul>
     );
   },
+  //
+  _onPlayerChange: function () {
+    // let $audio = $('audio');
+    // console.log("now playing" + $audio[0].src)
+    this.setState({
+      playStatus: _isPlaying(),
+    });
 
-  _changeTrack: function (change) {
-    var currentIdx = _findTrackIdx();
-    var tracks = TrackStore.all();
+    console.log("isPlaying: " + this.state.playStatus)
 
-    var updateTrack = tracks[currentIdx + change]
-
-    PlayerActions.receiveCurrentTrack(updateTrack);
-    PlayerActions.play();
+    // if (!this.state.playStatus) {
+    //   $audio[0].play();
+    // } else {
+    //   $audio[0].pause();
+    // }
   },
 
-  _forward: function () {
-    return (
-      <button
-        className="forward"
-        onClick={this._changeTrack(1)}>
-        <div><i className="fa fa-fast-forward"></i></div>
-      </button>
-    );
-  },
+  // _changeTrack: function (change) {
+  //   var currentIdx = _findTrackIdx();
+  //   var tracks = TrackStore.all();
+  //
+  //   var updateTrack = tracks[currentIdx + change]
+  //
+  //   PlayerActions.receiveCurrentTrack(updateTrack);
+  //   PlayerActions.play();
+  // },
+  //
+  // _forward: function () {
+  //   return (
+  //     <button
+  //       className="forward"
+  //       onClick={this._changeTrack(1)}>
+  //       <div><i className="fa fa-fast-forward"></i></div>
+  //     </button>
+  //   );
+  // },
 
   // _backward: function () {
   //   return (
@@ -106,29 +111,14 @@ var NavControls = React.createClass({
   //     );
   //   }
   // },
-
-  _favorTrack: function (trackId) {
-    ApiUtil.createFavorite(trackId);
-  },
-
-  _unfavorTrack: function (trackId) {
-    ApiUtil.destroyFavorite(trackId);
-  },
-
-  _onPlayerChange: function () {
-    let $audio = $('audio');
-    console.log("now playing" + $audio[0].src)
-    this.setState({
-      playStatus: _isPlaying(),
-    });
-
-    //Player Store lags behind
-    if (!this.state.playStatus) {
-      $audio[0].play();
-    } else {
-      $audio[0].pause();
-    }
-  }
+  //
+  // _favorTrack: function (trackId) {
+  //   ApiUtil.createFavorite(trackId);
+  // },
+  //
+  // _unfavorTrack: function (trackId) {
+  //   ApiUtil.destroyFavorite(trackId);
+  // },
 });
 
 

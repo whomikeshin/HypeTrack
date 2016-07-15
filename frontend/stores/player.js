@@ -4,24 +4,94 @@ var PlayerConstants = require('../constants/player_constants');
 var TrackStore = require('./track');
 var Cache = require('../lib/cache');
 
-var _currentTrack;
-var _playStatus = false;
+var PlayerStore = new Store(AppDispatcher),
+    _currentTrack,
+    _playStatus = false,
 //changed from an array
-var _loadedTracks = {};
-var _trackCache = new Cache(20);
+    _loadedTracks = {},
+    _trackCache = new Cache(20);
 
-var PlayerStore = new Store(AppDispatcher);
-
-PlayerStore.addTrack = function (track) {
-  _loadedTracks.push(track);
+var add = function (track) {
+  _loadedTracks[track.id] = track;
 };
 
-PlayerStore.all = function () {
-  return _loadedTracks.slice();
+var remount = function (trackId, container, height, visible) {
+  //look into this
+  var cached = _trackCache.remove(trackId).value;
+
+  cached.wavesurfer.remount(container, height, visible);
+
+  _loadedTracks[trackId] = cached;
+};
+
+var unmount = function (trackId) {
+  var isPlaying = false;
+  if  (isCurrentTrack(trackId)) {
+    isPlaying = true;
+  }
+
+  var track = _loadedTracks[trackId];
+
+  if (track) {
+    track.wavesurfer.dismount(isPlaying);
+    _trackCache.add(trackId, track);
+    delete _loadedTracks[trackId];
+  }
+};
+
+var isCurrentTrack = function (trackId) {
+  return (_currentTrack && _currentTrack.id === trackId);
+};
+
+var play = function (trackId) {
+  pause();
+
+  _currentTrack = _loadedTracks[trackId];
+  _currentTrack.wavesurfer.play();
+};
+
+var pause = function () {
+  debugger
+  _currentTrack && _currentTrack.wavesurfer.pause();
+};
+
+var playPause = function () {
+  _currentTrack && _currentTrack.wavesurfer.playPause();
+};
+
+var playNext = function () {
+  var nextTrack = TrackStore.next(_currentTrack.id);
+
+  play(nextTrack.id);
+};
+
+var playPrev = function () {
+  var prevTrack = TrackStore.prev(_currentTrack.id);
+
+  play(prevTrack.id);
+};
+
+var destroy = function (trackId) {
+  _loadedTracks[trackId].wavesurfer.destroy();
+
+  if (isCurrentTrack(trackId)) {
+    _currentTrack = null;
+  }
+};
+
+var reset = function () {
+  if (_currentTrack) {
+    pause();
+    _currentTrack = null;
+  }
 };
 
 PlayerStore.currentTrack = function () {
   return _currentTrack;
+};
+
+PlayerStore.isCurrentTrack = function (trackId) {
+  return (_currentTrack && _currentTrack.id === parseInt(trackId));
 };
 
 PlayerStore.playStatus = function () {
@@ -35,19 +105,32 @@ PlayerStore.wavesurferExists = function (trackId) {
 PlayerStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case PlayerConstants.CURRENT_TRACK_RECEIVED:
+      //add function works
+      add(payload.track);
       _currentTrack = payload.track;
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PLAYED:
-      _playStatus = true;
+      console.log("PLAYED");
+      console.log(payload.trackId);
+      play(payload.trackId);
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PAUSED:
-      _playStatus = false;
+      pause();
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.ADD:
-      addTrack(payload.track);
+      add(payload.track);
+      PlayerStore.__emitChange();
+      break;
+    case PlayerConstants.WAVE_REMOUNTED:
+      remount(
+          payload.trackId,
+          payload.container,
+          playload.height,
+          payload.visible
+      );
       PlayerStore.__emitChange();
       break;
   }

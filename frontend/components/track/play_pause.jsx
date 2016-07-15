@@ -10,6 +10,7 @@ var PlayPause = React.createClass({
   },
 
   componentDidMount: function () {
+    console.log('listener')
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
   },
 
@@ -29,8 +30,8 @@ var PlayPause = React.createClass({
 
   _onPlayerChange: function () {
     var track = this.props.track;
-    currentTrack = PlayerStore.currentTrack();
-    if (track.id === currentTrack.id) {
+
+    if (PlayerStore.isCurrentTrack(track.id)) {
       this.setState({ isPlaying: PlayerStore.playStatus() });
     } else {
       this.setState({ isPlaying: false});
@@ -39,18 +40,22 @@ var PlayPause = React.createClass({
 
   _toggle: function(e) {
     e.preventDefault();
+    var track = this.props.track;
     var isPlaying = this.state.isPlaying;
 
     if (isPlaying) {
       PlayerActions.pause();
     } else {
-      PlayerActions.receiveCurrentTrack(this.props.track);
-      PlayerActions.play();
+      PlayerActions.receiveCurrentTrack(track);
+      console.log("PLAYED")
+      PlayerActions.play(track.id);
+      console.log("end of toggle")
     }
   },
 
   _trackButton: function () {
     var isPlaying = this.state.isPlaying;
+
     if (isPlaying) {
       return (
         <button

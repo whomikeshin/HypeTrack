@@ -8,6 +8,7 @@ var FavLoginModal = require('../user/fav_modal');
 var PlayPause = require('./play_pause');
 var PlayerActions = require('../../actions/player_actions');
 var Loader = require('../loader');
+// var WaveSurfer = require('../wavesurfer');
 
 function _getAllBlogs () {
   return BlogStore.all();
