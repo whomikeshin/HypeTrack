@@ -10,14 +10,18 @@ WaveSurfer.Drawer = {
 
         this.lastPos = 0;
 
+        this.initDrawer(params);
         this.createWrapper();
         this.createElements();
     },
 
     createWrapper: function () {
+        debugger
         this.wrapper = this.container.appendChild(
             document.createElement('wave')
         );
+
+        console.log("after")
 
         this.style(this.wrapper, {
             display: 'block',
@@ -40,8 +44,25 @@ WaveSurfer.Drawer = {
 
     handleEvent: function (e) {
         e.preventDefault();
+
         var bbox = this.wrapper.getBoundingClientRect();
-        return ((e.clientX - bbox.left + this.wrapper.scrollLeft) / this.wrapper.scrollWidth) || 0;
+
+        var nominalWidth = this.width;
+        var parentWidth = this.getWidth();
+
+        var progress;
+
+        if (!this.params.fillParent && nominalWidth < parentWidth) {
+            progress = ((e.clientX - bbox.left) * this.params.pixelRatio / nominalWidth) || 0;
+
+            if (progress > 1) {
+                progress = 1;
+            }
+        } else {
+            progress = ((e.clientX - bbox.left + this.wrapper.scrollLeft) / this.wrapper.scrollWidth) || 0;
+        }
+
+        return progress;
     },
 
     setupWrapperEvents: function () {
@@ -182,6 +203,8 @@ WaveSurfer.Drawer = {
     },
 
     /* Renderer-specific methods */
+    initDrawer: function () {},
+
     createElements: function () {},
 
     updateSize: function () {},

@@ -7,7 +7,6 @@ var Cache = require('../lib/cache');
 var PlayerStore = new Store(AppDispatcher),
     _currentTrack,
     _playStatus = false,
-//changed from an array
     _loadedTracks = {},
     _trackCache = new Cache(20);
 
@@ -16,7 +15,6 @@ var add = function (track) {
 };
 
 var remount = function (trackId, container, height, visible) {
-  //look into this
   var cached = _trackCache.remove(trackId).value;
 
   cached.wavesurfer.remount(container, height, visible);
@@ -26,7 +24,7 @@ var remount = function (trackId, container, height, visible) {
 
 var unmount = function (trackId) {
   var isPlaying = false;
-  if  (isCurrentTrack(trackId)) {
+  if (isCurrentTrack(trackId)) {
     isPlaying = true;
   }
 
@@ -99,7 +97,7 @@ PlayerStore.playStatus = function () {
 };
 
 PlayerStore.wavesurferExists = function (trackId) {
-  return !!_loadedTracks(trackId) || _trackCache.includes(trackId);
+  return !!_loadedTracks[trackId] || _trackCache.includes(trackId);
 };
 
 PlayerStore.__onDispatch = function (payload) {

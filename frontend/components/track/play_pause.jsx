@@ -10,7 +10,6 @@ var PlayPause = React.createClass({
   },
 
   componentDidMount: function () {
-    console.log('listener')
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
   },
 

@@ -76,8 +76,7 @@ var NavPlayer = React.createClass({
       loadedTracks: loadedTracks,
       playStatus: playStatus
     });
-    console.log("after")
-  }
+  },
 });
 
 

@@ -37,7 +37,7 @@ Explore and listen to new tracks. Get Hyped! [hypetrack.xyz](http://www.hypetrac
 [profile]: ./app/assets/images/profile.png
 
 [views]: ./project-proposal-master/docs/views.md
-[components]: ./docs/components.md
-[stores]: ./docs/stores.md
-[api-endpoints]: ./docs/api-endpoints.md
-[schema]: ./docs/schema.md
+[components]: ./project-proposal-master/docs/components.md
+[stores]: ./project-proposal-master/docs/stores.md
+[api-endpoints]: ./project-proposal-master/docs/api-endpoints.md
+[schema]: ./project-proposal-master/docs/schema.md

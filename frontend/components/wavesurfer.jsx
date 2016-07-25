@@ -25,6 +25,7 @@ var Wavesurfer = React.createClass({
         type = this.props.type,
         height = 128;
         visible = true;
+
     if (type === "show") {
       height = 200;
     }
@@ -50,11 +51,13 @@ var Wavesurfer = React.createClass({
 
     this.wavesurfer = Object.create(WaveSurfer);
 
+    console.log("before init")
     this.wavesurfer.init({
       container: container,
       height: height,
       visible: visible
     });
+    console.log("the rabbit hole")
 
     this.wavesurfer.load(track.audio_file_name);
 

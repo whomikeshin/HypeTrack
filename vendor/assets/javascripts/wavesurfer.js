@@ -10,15 +10,14 @@
 
 var WaveSurfer = {
     defaultParams: {
-        barWidth      : 2,
         height        : 128,
-        waveColor     : '#555',
-        progressColor : '#f50',
+        waveColor     : '#999',
+        progressColor : '#555',
         cursorColor   : '#333',
-        cursorWidth   : 0,
+        cursorWidth   : 1,
         skipLength    : 2,
         minPxPerSec   : 20,
-        pixelRatio    : window.devicePixelRatio,
+        pixelRatio    : window.devicePixelRatio || screen.deviceXDPI / screen.logicalXDPI,
         fillParent    : true,
         scrollParent  : false,
         hideScrollbar : false,
@@ -30,20 +29,17 @@ var WaveSurfer = {
         audioRate     : 1,
         interact      : true,
         splitChannels : false,
+        channel       : -1,
         mediaContainer: null,
         mediaControls : false,
         renderer      : 'Canvas',
         backend       : 'WebAudio',
         mediaType     : 'audio',
-        autoCenter    : true,
-        visible       : true
+        autoCenter    : true
     },
 
     init: function (params) {
-        this.mounted = true
-        this.drawn = false
-
-      // Extract relevant parameters (or defaults)
+        // Extract relevant parameters (or defaults)
         this.params = WaveSurfer.util.extend({}, this.defaultParams, params);
 
         this.container = 'string' == typeof params.container ?
@@ -65,18 +61,22 @@ var WaveSurfer = {
         if (!this.mediaContainer) {
             throw new Error('Media Container element not found');
         }
+
         // Used to save the current volume when muting so we can
         // restore once unmuted
         this.savedVolume = 0;
+
         // The current muted state
         this.isMuted = false;
+
         // Will hold a list of event descriptors that need to be
         // cancelled on subsequent loads of audio
         this.tmpEvents = [];
 
-        if (this.params.visible) {
-          this.createDrawer();
-        }
+        // Holds any running audio downloads
+        this.currentAjax = null;
+
+        this.createDrawer();
         this.createBackend();
     },
 
@@ -128,13 +128,25 @@ var WaveSurfer = {
         this.backend.on('pause', function () { my.fireEvent('pause'); });
 
         this.backend.on('audioprocess', function (time) {
-            if (my.params.visible) {
-              my.drawer.progress(my.backend.getPlayedPercents());
-            }
-
             my.fireEvent('audioprocess', time);
         });
     },
+
+    startAnimationLoop: function () {
+        var my = this;
+        var requestFrame = window.requestAnimationFrame ||
+                           window.webkitRequestAnimationFrame ||
+                           window.mozRequestAnimationFrame;
+        var frame = function () {
+            if (!my.backend.isPaused()) {
+                var percent = my.backend.getPlayedPercents();
+                my.drawer.progress(percent);
+                my.fireEvent('audioprocess', my.getCurrentTime());
+                requestFrame(frame);
+            }
+        };
+        frame();
+     },
 
     getDuration: function () {
         return this.backend.getDuration();
@@ -146,6 +158,7 @@ var WaveSurfer = {
 
     play: function (start, end) {
         this.backend.play(start, end);
+        this.startAnimationLoop();
     },
 
     pause: function () {
@@ -177,9 +190,7 @@ var WaveSurfer = {
 
     seekAndCenter: function (progress) {
         this.seekTo(progress);
-        if (this.params.visible) {
-          this.drawer.recenter(progress);
-        }
+        this.drawer.recenter(progress);
     },
 
     seekTo: function (progress) {
@@ -190,10 +201,7 @@ var WaveSurfer = {
             this.params.scrollParent = false;
         }
         this.backend.seekTo(progress * this.getDuration());
-
-        if (this.params.visible) {
-          this.drawer.progress(this.backend.getPlayedPercents());
-        }
+        this.drawer.progress(this.backend.getPlayedPercents());
 
         if (!paused) {
             this.backend.pause();
@@ -206,10 +214,7 @@ var WaveSurfer = {
     stop: function () {
         this.pause();
         this.seekTo(0);
-
-        if (this.params.visible) {
-          this.drawer.progress(0);
-        }
+        this.drawer.progress(0);
     },
 
     /**
@@ -263,15 +268,6 @@ var WaveSurfer = {
     },
 
     drawBuffer: function () {
-      if (this.drawn || !this.mounted) return;
-
-      if (!this.backend.buffer) {
-        setTimeout(function () {
-          this.drawBuffer();
-        }.bind(this), 1);
-        return;
-      }
-
         var nominalWidth = Math.round(
             this.getDuration() * this.params.minPxPerSec * this.params.pixelRatio
         );
@@ -283,12 +279,9 @@ var WaveSurfer = {
             width = parentWidth;
         }
 
-
         var peaks = this.backend.getPeaks(width);
         this.drawer.drawPeaks(peaks, width);
         this.fireEvent('redraw', peaks, width);
-
-        this.drawn = true
     },
 
     zoom: function (pxPerSec) {
@@ -296,14 +289,19 @@ var WaveSurfer = {
 
         this.params.scrollParent = true;
 
-        if (this.params.visible) {
-          this.drawBuffer();
-        }
+        this.drawBuffer();
 
         this.seekAndCenter(
             this.getCurrentTime() / this.getDuration()
         );
         this.fireEvent('zoom', pxPerSec);
+    },
+
+    setChannel: function (channel) {
+        this.params.channel = channel;
+        this.drawer.clearWave();
+        this.drawBuffer();
+        this.backend.setChannel(channel);
     },
 
     /**
@@ -320,9 +318,7 @@ var WaveSurfer = {
      */
     loadDecodedBuffer: function (buffer) {
         this.backend.load(buffer);
-        if (this.params.visible) {
-          this.drawBuffer();
-        }
+        this.drawBuffer();
         this.fireEvent('ready');
     },
 
@@ -362,7 +358,6 @@ var WaveSurfer = {
      * Loads audio using Web Audio buffer backend.
      */
     loadBuffer: function (url) {
-
         this.empty();
         // load via XHR and render all at once
         return this.getArrayBuffer(url, this.loadArrayBuffer.bind(this));
@@ -374,9 +369,7 @@ var WaveSurfer = {
 
         this.tmpEvents.push(
             this.backend.once('canplay', (function () {
-                if (this.params.visible) {
-                  this.drawBuffer();
-                }
+                this.drawBuffer();
                 this.fireEvent('ready');
             }).bind(this)),
 
@@ -385,16 +378,13 @@ var WaveSurfer = {
             }).bind(this))
         );
 
-
         // If no pre-decoded peaks provided, attempt to download the
         // audio file and decode it with Web Audio.
         if (!peaks && this.backend.supportsWebAudio()) {
             this.getArrayBuffer(url, (function (arraybuffer) {
                 this.decodeArrayBuffer(arraybuffer, (function (buffer) {
                     this.backend.buffer = buffer;
-                    if (this.params.visible) {
-                      this.drawBuffer();
-                    }
+                    this.drawBuffer();
                 }).bind(this));
             }).bind(this));
         }
@@ -413,19 +403,28 @@ var WaveSurfer = {
 
     getArrayBuffer: function (url, callback) {
         var my = this;
+
         var ajax = WaveSurfer.util.ajax({
             url: url,
             responseType: 'arraybuffer'
-        }, my);
+        });
+
+        this.currentAjax = ajax;
+
         this.tmpEvents.push(
             ajax.on('progress', function (e) {
                 my.onProgress(e);
             }),
-            ajax.on('success', callback),
+            ajax.on('success', function (data, e) {
+                callback(data);
+                my.currentAjax = null;
+            }),
             ajax.on('error', function (e) {
                 my.fireEvent('error', 'XHR error: ' + e.target.statusText);
+                my.currentAjax = null;
             })
         );
+
         return ajax;
     },
 
@@ -459,6 +458,13 @@ var WaveSurfer = {
         return json;
     },
 
+    cancelAjax: function () {
+        if (this.currentAjax) {
+            this.currentAjax.xhr.abort();
+            this.currentAjax = null;
+        }
+    },
+
     clearTmpEvents: function () {
         this.tmpEvents.forEach(function (e) { e.un(); });
     },
@@ -471,63 +477,23 @@ var WaveSurfer = {
             this.stop();
             this.backend.disconnectSource();
         }
+        this.cancelAjax();
         this.clearTmpEvents();
-
-        if (this.params.visible) {
-          this.drawer.progress(0);
-          this.drawer.setWidth(0);
-          this.drawer.drawPeaks({ length: this.drawer.getWidth() }, 0);
-        }
+        this.drawer.progress(0);
+        this.drawer.setWidth(0);
+        this.drawer.drawPeaks({ length: this.drawer.getWidth() }, 0);
     },
 
     /**
      * Remove events, elements and disconnect WebAudio nodes.
      */
     destroy: function () {
-        this.mounted = false
-        
         this.fireEvent('destroy');
+        this.cancelAjax();
         this.clearTmpEvents();
         this.unAll();
         this.backend.destroy();
-
-        if (this.params.visible) {
-          this.drawer.destroy();
-          this.drawn = false;
-        }
-    },
-
-    dismount: function (currentlyPlaying) {
-      this.mounted = false
-
-      if (!currentlyPlaying) {
-        this.seekTo(0);
-      }
-
-      if (this.params.visible) {
         this.drawer.destroy();
-        this.drawn = false;
-      }
-    },
-
-    remount: function (container, height, visible) {
-      this.mounted = true
-
-      this.container = container;
-      this.mediaContainer = container;
-
-      this.params.height = height;
-
-      if (typeof visible === "undefined") {
-        this.params.visible = true;
-      } else {
-        this.params.visible = visible;
-      }
-
-      if (this.params.visible) {
-        this.createDrawer();
-        this.drawBuffer();
-      }
     }
 };
 

@@ -10,6 +10,28 @@ WaveSurfer.util = {
         return dest;
     },
 
+    min: function(values) {
+        var min = +Infinity;
+        for (var i in values) {
+            if (values[i] < min) {
+                min = values[i];
+            }
+        }
+
+        return min;
+    },
+
+    max: function(values) {
+        var max = -Infinity;
+        for (var i in values) {
+            if (values[i] > max) {
+                max = values[i];
+            }
+        }
+
+        return max;
+    },
+
     getId: function () {
         return 'wavesurfer_' + Math.random().toString(32).substring(2);
     },
@@ -23,27 +45,27 @@ WaveSurfer.util = {
         xhr.responseType = options.responseType || 'json';
 
         xhr.addEventListener('progress', function (e) {
-          ajax.fireEvent('progress', e);
-          if (e.lengthComputable && e.loaded == e.total) {
-              fired100 = true;
-          }
+            ajax.fireEvent('progress', e);
+            if (e.lengthComputable && e.loaded == e.total) {
+                fired100 = true;
+            }
         });
 
         xhr.addEventListener('load', function (e) {
-          if (!fired100) {
-              ajax.fireEvent('progress', e);
-          }
-          ajax.fireEvent('load', e);
+            if (!fired100) {
+                ajax.fireEvent('progress', e);
+            }
+            ajax.fireEvent('load', e);
 
-          if (200 == xhr.status || 206 == xhr.status) {
-              ajax.fireEvent('success', xhr.response, e);
-          } else {
-              ajax.fireEvent('error', e);
-          }
+            if (200 == xhr.status || 206 == xhr.status) {
+                ajax.fireEvent('success', xhr.response, e);
+            } else {
+                ajax.fireEvent('error', e);
+            }
         });
 
         xhr.addEventListener('error', function (e) {
-          ajax.fireEvent('error', e);
+            ajax.fireEvent('error', e);
         });
 
         xhr.send();
@@ -51,7 +73,6 @@ WaveSurfer.util = {
         return ajax;
     }
 };
-
 
 /* Observer */
 WaveSurfer.Observer = {
@@ -126,7 +147,6 @@ WaveSurfer.Observer = {
         });
     }
 };
-
 
 /* Make the main WaveSurfer object an observer */
 WaveSurfer.util.extend(WaveSurfer, WaveSurfer.Observer);

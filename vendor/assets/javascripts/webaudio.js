@@ -57,7 +57,7 @@ WaveSurfer.WebAudio = {
             });
             this.filters = null;
             // Reconnect direct path
-            this.analyser.connect(this.gainNode);
+            this.analyser.connect(this.splitter);
         }
     },
 
@@ -91,7 +91,7 @@ WaveSurfer.WebAudio = {
             filters.reduce(function (prev, curr) {
                 prev.connect(curr);
                 return curr;
-            }, this.analyser).connect(this.gainNode);
+            }, this.analyser).connect(this.splitter);
         }
 
     },
@@ -126,6 +126,30 @@ WaveSurfer.WebAudio = {
 
     removeOnAudioProcess: function () {
         this.scriptNode.onaudioprocess = null;
+    },
+
+    createChannelNodes: function () {
+        var channels = this.buffer.numberOfChannels;
+
+        this.splitter = this.ac.createChannelSplitter(channels);
+        this.merger = this.ac.createChannelMerger(channels);
+
+        this.setChannel(this.params.channel);
+
+        this.analyser.disconnect();
+        this.analyser.connect(this.splitter);
+
+        this.merger.connect(this.gainNode);
+    },
+
+    setChannel: function (channel) {
+        var channels = this.buffer.numberOfChannels;
+
+        this.splitter.disconnect();
+
+        for (var c = 0; c < channels; c++) {
+            this.splitter.connect(this.merger, channel === -1 ? c : channel, c);
+        }
     },
 
     createAnalyserNode: function () {
@@ -184,7 +208,6 @@ WaveSurfer.WebAudio = {
      * of peaks consisting of (max, min) values for each subrange.
      */
     getPeaks: function (length) {
-
         var sampleSize = this.buffer.length / length;
         var sampleStep = ~~(sampleSize / 10) || 1;
         var channels = this.buffer.numberOfChannels;
@@ -198,8 +221,8 @@ WaveSurfer.WebAudio = {
             for (var i = 0; i < length; i++) {
                 var start = ~~(i * sampleSize);
                 var end = ~~(start + sampleSize);
-                var min = chan[0];
-                var max = chan[0];
+                var min = 0;
+                var max = 0;
 
                 for (var j = start; j < end; j += sampleStep) {
                     var value = chan[j];
@@ -226,7 +249,7 @@ WaveSurfer.WebAudio = {
             }
         }
 
-        return this.params.splitChannels ? splitPeaks : mergedPeaks;
+        return (this.params.splitChannels || this.params.channel > -1) ? splitPeaks : mergedPeaks;
     },
 
     getPlayedPercents: function () {
@@ -249,6 +272,8 @@ WaveSurfer.WebAudio = {
         this.disconnectSource();
         this.gainNode.disconnect();
         this.scriptNode.disconnect();
+        this.merger.disconnect();
+        this.splitter.disconnect();
         this.analyser.disconnect();
     },
 
@@ -257,6 +282,7 @@ WaveSurfer.WebAudio = {
         this.lastPlay = this.ac.currentTime;
         this.buffer = buffer;
         this.createSource();
+        this.createChannelNodes();
     },
 
     createSource: function () {
@@ -268,7 +294,6 @@ WaveSurfer.WebAudio = {
         this.source.stop = this.source.stop || this.source.noteOff;
 
         this.source.playbackRate.value = this.playbackRate;
-
         this.source.buffer = this.buffer;
         this.source.connect(this.analyser);
     },
@@ -320,38 +345,27 @@ WaveSurfer.WebAudio = {
      * relative to the beginning of a clip.
      */
     play: function (start, end) {
-        // will keep trying to play until loaded
-        if (!this.buffer) {
-          this.tryPlay = setTimeout(function () {
-            this.play(start, end);
-          }.bind(this), 0);
-        } else {
+        // need to re-create source on each playback
+        this.createSource();
 
-          // need to re-create source on each playback
-          this.createSource();
+        var adjustedTime = this.seekTo(start, end);
 
-          var adjustedTime = this.seekTo(start, end);
+        start = adjustedTime.start;
+        end = adjustedTime.end;
 
-          start = adjustedTime.start;
-          end = adjustedTime.end;
+        this.scheduledPause = end;
 
-          this.scheduledPause = end;
+        this.source.start(0, start, end - start);
 
-          this.setState(this.PLAYING_STATE);
+        this.setState(this.PLAYING_STATE);
 
-          this.source.start(0, start, end - start);
-
-          this.fireEvent('play');
-        }
+        this.fireEvent('play');
     },
 
     /**
      * Pauses the loaded audio.
      */
     pause: function () {
-        clearTimeout(this.tryPlay)
-        if (!this.buffer) return;
-
         this.scheduledPause = null;
 
         this.startPosition += this.getPlayedTime();

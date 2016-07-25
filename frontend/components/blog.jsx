@@ -56,10 +56,10 @@ var Blog = React.createClass({
               </li>
 
               <li>
-                <Link
-                  to={blog.twitter_url}>
+                <a 
+                  href={blog.twitter_url}>
                   <img className="twitter" src="https://g.twimg.com/Twitter_logo_blue.png"/>
-                </Link>
+                </a>
                 <p className="blog-text">Twitter</p>
               </li>
 
