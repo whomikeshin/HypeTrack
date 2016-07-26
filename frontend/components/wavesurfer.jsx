@@ -16,7 +16,6 @@ var Wavesurfer = React.createClass({
 
   render: function () {
     var type = this.props.type;
-
     return <div className={ type + " wave-" + this.props.track.id }></div>;
   },
 
@@ -58,8 +57,6 @@ var Wavesurfer = React.createClass({
     });
 
     this.wavesurfer.load(track.audio_file_name);
-
-    debugger
 
     setTimeout(function () {
       PlayerActions.receiveWavesurfer({
