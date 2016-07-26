@@ -35,7 +35,7 @@ var Wavesurfer = React.createClass({
     }
 
     var containerClass = "wave-" + track.id;
-    var container = $("." + containerClass[0]);
+    var container = $("." + containerClass)[0];
 
     if (PlayerStore.wavesurferExists(track.id)) {
       setTimeout(function () {
@@ -51,15 +51,15 @@ var Wavesurfer = React.createClass({
 
     this.wavesurfer = Object.create(WaveSurfer);
 
-    console.log("before init")
     this.wavesurfer.init({
       container: container,
       height: height,
       visible: visible
     });
-    console.log("the rabbit hole")
 
     this.wavesurfer.load(track.audio_file_name);
+
+    debugger
 
     setTimeout(function () {
       PlayerActions.receiveWavesurfer({
@@ -73,7 +73,7 @@ var Wavesurfer = React.createClass({
 
       this.wavesurfer.on('finish', function () {
         this.wavesurfer.seekTo(0);
-        PlayerActions.playNext();
+        PlayerActions.next();
       }.bind(this));
 
     }.bind(this), 0);

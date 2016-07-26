@@ -49,7 +49,6 @@ var play = function (trackId) {
 };
 
 var pause = function () {
-  debugger
   _currentTrack && _currentTrack.wavesurfer.pause();
 };
 

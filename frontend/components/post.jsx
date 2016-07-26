@@ -27,9 +27,8 @@ var Post = React.createClass({
   },
 
   render: function () {
-    debugger;
     var posts = this.state.posts;
-  
+
     if(!posts) {
       return <Loader/>;
     }

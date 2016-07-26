@@ -2,6 +2,7 @@
 
 WaveSurfer.Drawer = {
     init: function (container, params) {
+
         this.container = container;
         this.params = params;
 
@@ -16,12 +17,9 @@ WaveSurfer.Drawer = {
     },
 
     createWrapper: function () {
-        debugger
         this.wrapper = this.container.appendChild(
             document.createElement('wave')
         );
-
-        console.log("after")
 
         this.style(this.wrapper, {
             display: 'block',
