@@ -13,7 +13,7 @@ var React = require('react'),
     Favorites = require('./components/track/favorites'),
     Feed = require('./components/track/feed'),
     Post = require('./components/post'),
-    App = require('./components/app'),
+    App = require('./components/App'),
     Artist = require('./components/artist'),
     Blog = require('./components/blog'),
 
