@@ -1,6 +1,6 @@
 html, body, div, header, nav, a, h1, h2,
 ul, li, main, section, figure, img, p, form,
-fieldset, label, input, textarea, button, i, link {
+fieldset, label, input, textarea, button, i, link, canvas {
   border: 0;
   margin: 0;
   padding: 0;
@@ -259,12 +259,6 @@ button {
 .playlist-menu > li:hover {
   text-decoration: underline;
 }
-
-// .playlist-menu > li:first-child {
-//   border-top: 1px solid #999;
-//   border-left: 1px solid #999;
-//   border-right: 1px solid #999;
-// }
 
 .highlight {
   border-top: 1px solid #999;
@@ -584,4 +578,35 @@ label {
   float: right;
   font-weight: 600;
   font-size: 24px;
+}
+
+// wavesurfer
+
+.wave {
+  width: 550px;
+  height: 50px;
+  // margin-left: 45px;
+}
+
+.wave > wave {
+  margin-top: 10px;
+  height: 70px !important;
+}
+
+.wave > wave > canvas, .wave > wave > wave {
+  top: -30px !important;
+}
+
+.show {
+  width: 550px;
+  height: 50px;
+  margin-top: 150px;
+}
+
+.show > wave {
+  height: 50px !important;
+}
+
+wave {
+  cursor: pointer;
 }

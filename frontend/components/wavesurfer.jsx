@@ -22,12 +22,8 @@ var Wavesurfer = React.createClass({
   _initWavesurfer: function () {
     var track = this.props.track,
         type = this.props.type,
-        height = 128;
+        height = 50;
         visible = true;
-
-    if (type === "show") {
-      height = 200;
-    }
 
     if (type === "hide") {
       visible = false;
