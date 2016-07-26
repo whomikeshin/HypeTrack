@@ -54,14 +54,13 @@ gallant = Artist.create!(
   name: "Gallant"
 )
 
-pretty_sister = Artist.create!(
-  name: "Pretty Sister"
+broods = Artist.create!(
+  name: "Broods"
 )
 
-vallis_alps = Artist.create!(
-  name: "Vallis Alps"
+miike_snow = Artist.create!(
+  name: "Miike Snow"
 )
-
 
 Blog.destroy_all
 
@@ -115,6 +114,12 @@ mountain_at_my_gates = Track.create!(
   audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/02-foals-mountain_at_my_gates.mp3"
 )
 
+london_thunder = Track.create!(
+  title: "London Thunder",
+  artist: foals,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Foals+-+London+Thunder.mp3"
+)
+
 weight_in_gold = Track.create!(
   title: "Weight in Gold",
   artist: gallant,
@@ -127,36 +132,40 @@ bourbon = Track.create!(
   audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Gallant+-+Bourbon.mp3"
 )
 
-come_to_la = Track.create!(
-  title: "Come To LA",
-  artist: pretty_sister,
-  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Kanye+-+Fade.mp3"
-)
-
-young = Track.create!(
-  title: "Young",
-  artist: vallis_alps,
-  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Foals+-+London+Thunder.mp3"
-)
-
 i_love_kanye = Track.create!(
   title: "I Love Kanye",
   artist: kanye,
   audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/09+I+Love+Kanye.mp3"
 )
 
-Playlist.destroy_all
-
-latest = Playlist.create!(
-  name: "Latest"
+bridges_astr_remix = Track.create!(
+  title: "Bridges ASTR Remix",
+  artist: broods,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Broods+-+Bridges+(ASTR+Remix).mp3",
 )
 
-popular = Playlist.create!(
-  name: "Popular"
+we_had_everything = Track.create!(
+  title: "We Had Everything",
+  artist: broods,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/02.+We+Had+Everything.mp3"
 )
 
-favorites = Playlist.create!(
-  name: "Favorites"
+heartlines = Track.create!(
+  title: "Heartlines",
+  artist: broods,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/04.+Heartlines.mp3"
+)
+
+my_trigger = Track.create!(
+  title: "My Trigger",
+  artist: miike_snow,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/01+-+My+Trigger.mp3"
+)
+
+genghis_kahn_louis_remix = Track.create!(
+  title: "Genghis Khan Louis The Child Remix",
+  artist: miike_snow,
+  audio_file_name: "https://s3.amazonaws.com/hype-train-dev/seed-audio/Miike+Snow+-+Genghis+Khan+(Louis+The+Child+Remix)+(Mp3FB.com).mp3"
 )
 
 Post.destroy_all
@@ -195,7 +204,6 @@ Post.create!(
   post_date: Time.now,
   post_url: "https://www.musicgeeks.co/gallant/",
   thumb_url: "https://s3.amazonaws.com/hype-train-dev/seed-images/gallant.jpg"
-
 )
 
 Post.create!(
@@ -208,21 +216,30 @@ Post.create!(
 )
 
 Post.create!(
-  track: come_to_la,
-  track_info: "LOVE Huge bouncing bass and razor sharp guitar funk take me straight back to 90's West Coast hip hop",
-  blog_id: musicgeeks.id,
+  track: bridges_astr_remix,
+  track_info: "“FADER PREMIERE NYC’s ASTR remixed “Bridges,” from New Zealand’s brother-sister duo Broods, giving the original growler a sort of Swedes-doing-tropic",
+  blog_id: the_fader.id,
   post_date: Time.now,
-  post_url: "https://www.musicgeeks.co/pretty-sister/",
-  thumb_url: "http://www.chansamusic.com/wp-content/uploads/2016/03/Pretty-Sister-Come-to-LA.jpg"
+  post_url: "http://www.thefader.com/2014/04/23/stream-broods-bridges-astr-remix/",
+  thumb_url: "https://upload.wikimedia.org/wikipedia/en/2/21/Broods_%E2%80%93_Broods.jpg"
 )
 
 Post.create!(
-  track: young,
-  track_info: "We somehow missed this awesome song when it first got published in the beginning of 2015... but, oh well",
+  track: we_had_everything,
+  track_info: "You are in your car, a light blue classic convertible with brilliant leather seats, driving down the California coastline in",
   blog_id: stereofox.id,
   post_date: Time.now,
-  post_url: "http://www.stereofox.com/vallis-alps-young/",
-  thumb_url: "http://www.stereofox.com/images/22848/resized/22863.jpg"
+  post_url: "http://survivingthegoldenage.com/broods-conscious/",
+  thumb_url: "https://images.genius.com/a0fceafe6191a0a461a8eac9c459199b.1000x1000x1.jpg"
+)
+
+Post.create!(
+  track: heartlines,
+  track_info: "Welcome to your Monday serving of new music cocktails, where this week’s focus is on powerful female vocalists",
+  blog_id: stereofox.id,
+  post_date: Time.now,
+  post_url: "http://therevue.ca/2016/06/13/melodic-tonic-16-vol-23/",
+  thumb_url: "https://images.genius.com/a0fceafe6191a0a461a8eac9c459199b.1000x1000x1.jpg"
 )
 
 Post.create!(
@@ -234,21 +251,31 @@ Post.create!(
   thumb_url: "http://cdn4.pitchfork.com/albums/22851/homepage_large.1192269b.jpg"
 )
 
-TracksPlaylist.destroy_all
-
-TracksPlaylist.create!(
-  track_id: mountain_at_my_gates.id,
-  playlist_id: latest.id
+Post.create!(
+  track: london_thunder,
+  track_info: "It appears Oxford outfit Foals wanted to hit the ground running with album four. After a triumphant headlining slot.",
+  blog_id: dancing_astronaut.id,
+  post_date: Time.now,
+  post_url: "http://www.northerntransmissions.com/album-review/went-foals/",
+  thumb_url: "http://www.stereofox.com/images/25491/resized/24672.jpg"
 )
 
-TracksPlaylist.create!(
-  track_id: weight_in_gold.id,
-  playlist_id: latest.id
+Post.create!(
+  track: my_trigger,
+  track_info: "Swedish electo-pop trio put out the first single from their upcoming Happy To You, “Devil’s Work,” out in December",
+  blog_id: stereogum.id,
+  post_date: Time.now,
+  post_url: "http://www.stereogum.com/928922/miike-snow-paddling-out/mp3s/",
+  thumb_url: "https://upload.wikimedia.org/wikipedia/en/1/1b/Iii_-_Miike_Snow_%28Front_Cover%29.png"
 )
 
-TracksPlaylist.create!(
-  track_id: bourbon.id,
-  playlist_id: latest.id
+Post.create!(
+  track: genghis_kahn_louis_remix,
+  track_info: "Swedish electo-pop trio put out the first single from their upcoming Happy To You, “Devil’s Work,” out in December",
+  blog_id: musicgeeks.id,
+  post_date: Time.now,
+  post_url: "http://beautifulbuzzz.com/home/2016/1/12/miike-snow-genghis-kahn-louis-the-child-remix",
+  thumb_url: "https://upload.wikimedia.org/wikipedia/en/1/1b/Iii_-_Miike_Snow_%28Front_Cover%29.png"
 )
 
 Favorite.destroy_all

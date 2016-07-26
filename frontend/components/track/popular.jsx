@@ -58,7 +58,10 @@ var Popular = React.createClass({
         </section>
       </main>
     );
-  }
+  },
+
+
+
 });
 
 module.exports = Popular;

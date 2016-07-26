@@ -16,6 +16,7 @@ var React = require('react'),
     App = require('./components/App'),
     Artist = require('./components/artist'),
     Blog = require('./components/blog'),
+    
 
     ApiUtil = require('./util/api_util'),
     Modal = require("react-modal");

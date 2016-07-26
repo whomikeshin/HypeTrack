@@ -104,7 +104,7 @@ var IndexItem = React.createClass({
             <PlayPause track={this.props.track}/>
           </span>
 
-          <WaveSurfer track={track} type="show" />
+          <WaveSurfer track={track} type="hide" />
         </section>
       </li>
     );
