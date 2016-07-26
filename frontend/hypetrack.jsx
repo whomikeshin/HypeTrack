@@ -42,6 +42,15 @@ document.addEventListener("DOMContentLoaded", function () {
   ReactDOM.render(router, root);
 });
 
+$(window).scroll(function() {
+  if ($(this).scrollTop() > 42) {
+    $("#player-container").addClass("sticky");
+  }
+  else{
+    $("#player-container").removeClass("sticky");
+  }
+});
+
 // function _requireLoggedIn(nextState, replace, callback) {
 //   if (!SessionStore.currentUserHasBeenFetched()) {
 //     ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
