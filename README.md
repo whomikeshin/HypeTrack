@@ -4,15 +4,15 @@ HypeTrack is a web application that aggregates new music trending on blogs. It a
 
 Explore and listen to new tracks. Get Hype! [hypetrack.xyz](http://www.hypetrack.xyz/)
 
-###Profile View:
-* Log in to access profile, add songs to favorites, and follow blogs access new posts in your feed!
+##Profile View:
+Log in to access your profile, add songs to favorites, and follow blogs to push new posts in your feed!
 ![profile]
 
-###Technical Details:
-##User Authentication
-User authentication is handled in the backend using BCrypt to encrypt passwords. Password hash values are saved to the database and rehashed to check the user's login password. 
+##Technical Details:
+###User Authentication
+User authentication is handled in the backend using BCrypt to encrypt passwords. Password hash values are saved to the database and rehashed to check the user's login password.
 
-###Features:
+##Features:
 * Sign up & log in with email
 * Explore latest and most popular tracks
 * Favorite tracks
@@ -21,7 +21,7 @@ User authentication is handled in the backend using BCrypt to encrypt passwords.
 * Navbar fixed to top of page
 * Waveform visualization
 
-###Languages, Frameworks & Libraries
+##Languages, Frameworks & Libraries
 * Ruby on Rails
 * PostgreSQL
 * React
@@ -33,7 +33,7 @@ User authentication is handled in the backend using BCrypt to encrypt passwords.
   * Jbuilder
   * BCrypt
 
-###To-Do:
+##To-Do:
 * [ ] Notifications
 * [ ] Search
 * [ ] Genre Tags
@@ -41,7 +41,7 @@ User authentication is handled in the backend using BCrypt to encrypt passwords.
 * [ ] Integrate Reddit API
 * [ ] Track control icons
 
-### Design Docs
+## Design Docs
 * [View Wireframes][views]
 * [React Components][components]
 * [Flux Stores][stores]
