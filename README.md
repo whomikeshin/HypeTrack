@@ -24,10 +24,10 @@ User authentication is handled in the backend using BCrypt to encrypt passwords.
 ##Languages, Frameworks & Libraries
 * Ruby on Rails
 * PostgreSQL
-* React
-* Flux
-* jQuery
-* Wavesurfer
+* ![React]
+* ![Flux]
+* ![jQuery]
+* ![Wavesurfer]
 * Gems
   * Paperclip
   * Jbuilder
@@ -49,6 +49,11 @@ User authentication is handled in the backend using BCrypt to encrypt passwords.
 * [DB schema][schema]
 
 [profile]: ./app/assets/images/profile.png
+
+[React]:https://facebook.github.io/react/
+[Flux]:https://facebook.github.io/flux/
+[jQuery]:https://github.com/jquery/jquery
+[Wavesurfer]:https://github.com/katspaugh/wavesurfer.js
 
 [views]: ./project-proposal-master/docs/views.md
 [components]: ./project-proposal-master/docs/components.md
