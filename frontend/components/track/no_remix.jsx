@@ -7,7 +7,7 @@ function _getAllTracks () {
   return TrackStore.all();
 }
 
-var Popular = React.createClass({
+var Remix = React.createClass({
   getInitialState: function () {
     return {
       tracks: _getAllTracks()
@@ -31,8 +31,8 @@ var Popular = React.createClass({
   render: function () {
     var tracks = this.state.tracks;
 
-    tracks.sort(function(a, b) {
-      return b.favorite_count - a.favorite_count;
+    tracks = tracks.filter(function(track) {
+      return !track.title.includes("Remix");
     });
 
     return (
@@ -40,13 +40,12 @@ var Popular = React.createClass({
         <section className="playlist group">
 
           <header>
-            <h2 className="playlist-title">Most Popular Tracks</h2>
+            <h2 className="playlist-title">Latest Original Music</h2>
             <ul className="playlist-menu">
-              <li className="highlight"><a href="#/popular">Now</a></li>
-              <li><a>Time Machine</a></li>
-              <li><a>Only Remixes</a></li>
-              <li><a>No Remixes</a></li>
-              <li><a>Artists</a></li>
+              <li><a href="#">All</a></li>
+              <li><a href="#/freshest">Freshest</a></li>
+              <li><a href="#/remix">Only Remixes</a></li>
+              <li className="highlight"><a>No Remixes</a></li>
             </ul>
           </header>
 
@@ -59,6 +58,7 @@ var Popular = React.createClass({
       </main>
     );
   },
+
 });
 
-module.exports = Popular;
+module.exports = Remix;

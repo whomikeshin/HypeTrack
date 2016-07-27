@@ -16,7 +16,10 @@ var React = require('react'),
     App = require('./components/App'),
     Artist = require('./components/artist'),
     Blog = require('./components/blog'),
-    
+
+    Remix = require('./components/track/remix');
+    NoRemix = require('./components/track/no_remix');
+    Freshest = require('./components/track/freshest');
 
     ApiUtil = require('./util/api_util'),
     Modal = require("react-modal");
@@ -32,6 +35,9 @@ var router = (
         <Route path="feed" component={Feed}/>
       </Route>
       <Route path="popular" component={Popular}/>
+      <Route path="freshest" component={Freshest}/>
+      <Route path="remix" component={Remix}/>
+      <Route path="noremix" component={NoRemix}/>
     </Route>
   </Router>
 );

@@ -180,6 +180,15 @@ Post.create!(
 )
 
 Post.create!(
+  track: mountain_at_my_gates,
+  track_info: "Foals are making me sososo happy lately. Just a few weeks ago they have released 'What Went Down', the title",
+  blog_id: dancing_astronaut.id,
+  post_date: Time.now,
+  post_url: "http://www.stereofox.com/foals-mountain-at-my-gates",
+  thumb_url: "http://www.stereofox.com/images/25491/resized/24672.jpg"
+)
+
+Post.create!(
   track: weight_in_gold,
   track_info: "Bounce-Worthy talent Gallant has accomplished much in short amount of time and is now on the verge of releasing his",
   blog_id: dancing_astronaut.id,
@@ -244,7 +253,7 @@ Post.create!(
 
 Post.create!(
   track: i_love_kanye,
-  track_info: "Finally, after a protracted and often chaotic roll-out, the new Kanye West album is here.",
+  track_info: "Finally, after a protracted and often chaotic roll-out, the new Kanye West album is here. All hail Mr.West",
   blog_id: pitchfork.id,
   post_date: Time.now,
   post_url: "http://pitchfork.com/reviews/albums/21542-the-life-of-pablo/",
@@ -285,9 +294,44 @@ Favorite.create!(
   track: i_love_kanye
 )
 
+Favorite.create!(
+  user: guest,
+  track: weight_in_gold
+)
+
+Favorite.create!(
+  user: guest1,
+  track: weight_in_gold
+)
+
+Favorite.create!(
+  user: guest2,
+  track: weight_in_gold
+)
+
+Favorite.create!(
+  user: me,
+  track: weight_in_gold
+)
+
+Favorite.create!(
+  user: guest1,
+  track: bridges_astr_remix
+)
+
+Favorite.create!(
+  user: guest2,
+  track: bridges_astr_remix
+)
+
 Follow.destroy_all
 
 Follow.create!(
   user: me,
   blog: stereofox
+)
+
+Follow.create!(
+  user: yeezus,
+  blog: musicgeeks
 )

@@ -31,6 +31,10 @@ var Latest = React.createClass({
   render: function () {
     var tracks = this.state.tracks;
 
+    tracks.sort(function(a, b) {
+      return b.created_at - a.created_at;
+    });
+
     return (
       <main className="content">
         <section className="playlist group">
@@ -39,10 +43,9 @@ var Latest = React.createClass({
             <h2 className="playlist-title">Latest Blogged Music</h2>
             <ul className="playlist-menu">
               <li className="highlight"><a href="#">All</a></li>
-              <li><a>Freshest</a></li>
-              <li><a>Only Remixes</a></li>
-              <li><a>No Remixes</a></li>
-              <li><a>Blogs in USA</a></li>
+              <li><a href="#/freshest">Freshest</a></li>
+              <li><a href="#/remix">Only Remixes</a></li>
+              <li><a href="#/noremix">No Remixes</a></li>
             </ul>
           </header>
 

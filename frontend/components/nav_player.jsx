@@ -3,7 +3,6 @@ var PlayerStore = require('../stores/player');
 var Loader = require('./loader');
 var TrackStore = require('../stores/track');
 var NavControls = require('./nav_controls');
-// var Timebar = require('./nav_timebar');
 
 function _getCurrentTrack () {
   return PlayerStore.currentTrack();
