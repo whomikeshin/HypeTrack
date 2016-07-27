@@ -24,10 +24,10 @@ User authentication is handled in the backend using BCrypt to encrypt passwords.
 ##Languages, Frameworks & Libraries
 * Ruby on Rails
 * PostgreSQL
-* ![React]
-* ![Flux]
-* ![jQuery]
-* ![Wavesurfer]
+* [React][React]
+* [Flux][Flux]
+* [jQuery][jQuery]
+* [Wavesurfer][Wavesurfer]
 * Gems
   * Paperclip
   * Jbuilder
