@@ -4,7 +4,7 @@ HypeTrack is a web application that aggregates new music trending on blogs. It a
 
 Explore and listen to new tracks. Get Hype! [hypetrack.xyz](http://www.hypetrack.xyz/)
 
-##Profile View:
+###Profile View:
 Log in to access your profile, add songs to favorites, and follow blogs to push new posts in your feed!
 ![profile]
 
@@ -24,6 +24,7 @@ User authentication is handled in the backend using BCrypt to encrypt passwords.
 ##Languages, Frameworks & Libraries
 * Ruby on Rails
 * PostgreSQL
+* Heroku
 * [React][React]
 * [Flux][Flux]
 * [jQuery][jQuery]

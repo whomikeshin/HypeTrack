@@ -46,9 +46,7 @@ var PlayPause = React.createClass({
       PlayerActions.pause();
     } else {
       PlayerActions.receiveCurrentTrack(track);
-      console.log("PLAYED")
       PlayerActions.play(track.id);
-      console.log("end of toggle")
     }
   },
 

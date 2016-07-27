@@ -108,8 +108,6 @@ PlayerStore.__onDispatch = function (payload) {
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PLAYED:
-      console.log("PLAYED");
-      console.log(payload.trackId);
       play(payload.trackId);
       PlayerStore.__emitChange();
       break;

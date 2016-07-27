@@ -43,12 +43,9 @@ var NavControls = React.createClass({
   //
   _onPlayerChange: function () {
     // let $audio = $('audio');
-    // console.log("now playing" + $audio[0].src)
     this.setState({
       playStatus: _isPlaying(),
     });
-
-    console.log("isPlaying: " + this.state.playStatus)
 
     // if (!this.state.playStatus) {
     //   $audio[0].play();
