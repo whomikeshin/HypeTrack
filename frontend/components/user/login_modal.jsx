@@ -8,7 +8,7 @@ var style = {
     left              : 0,
     right             : 0,
     bottom            : 0,
-    backgroundColor   : 'rgba(0, 0, 0, 0.75)',
+    backgroundColor   : 'rgba(0, 0, 0, 0.75)'
   },
   content : {
     position          : 'absolute',
@@ -18,7 +18,8 @@ var style = {
     bottom            : 'auto',
     marginRight       : '-50%',
     transform         : 'translate(-50%, -50%)',
-    border            : '3px solid #000'
+    border            : '3px solid #000',
+    zIndex            : '9998'
   }
 };
 

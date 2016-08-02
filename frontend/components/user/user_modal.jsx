@@ -18,7 +18,8 @@ var style = {
     bottom            : 'auto',
     marginRight       : '-50%',
     transform         : 'translate(-50%, -50%)',
-    border            : '3px solid #000'
+    border            : '3px solid #000',
+    zIndex            : '9998'
   }
 };
 

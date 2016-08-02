@@ -7,7 +7,7 @@ WaveSurfer.util.extend(WaveSurfer.Drawer.Canvas, {
         var waveCanvas = this.wrapper.appendChild(
             this.style(document.createElement('canvas'), {
                 position: 'absolute',
-                zIndex: 1,
+                zIndex: -1,
                 left: 0,
                 top: 0,
                 bottom: 0
@@ -18,7 +18,7 @@ WaveSurfer.util.extend(WaveSurfer.Drawer.Canvas, {
         this.progressWave = this.wrapper.appendChild(
             this.style(document.createElement('wave'), {
                 position: 'absolute',
-                zIndex: 2,
+                zIndex: 0,
                 left: 0,
                 top: 0,
                 bottom: 0,
