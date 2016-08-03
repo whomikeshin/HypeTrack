@@ -11,7 +11,7 @@ var PlayerStore = new Store(AppDispatcher),
     _trackCache = new Cache(20);
 
 var add = function (track) {
-  _loadedTracks[track.id] = track;
+  _loadedTracks[track.trackInfo.id] = track;
 };
 
 var remount = function (trackId, container, height, visible) {
@@ -49,7 +49,6 @@ var play = function (trackId) {
 };
 
 var pause = function () {
-  debugger
   _currentTrack && _currentTrack.wavesurfer.pause();
 };
 
@@ -88,6 +87,10 @@ PlayerStore.currentTrack = function () {
   return _currentTrack;
 };
 
+PlayerStore.getLoadedTracks = function () {
+  return _loadedTracks;
+};
+
 PlayerStore.isCurrentTrack = function (trackId) {
   return (_currentTrack && _currentTrack.id === parseInt(trackId));
 };
@@ -106,8 +109,21 @@ PlayerStore.wavesurferExists = function (trackId) {
 
 PlayerStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
-    case PlayerConstants.CURRENT_TRACK_RECEIVED:
+    case PlayerConstants.WAVE_RECEIVED:
       add(payload.track);
+      PlayerStore.__emitChange();
+      break;
+    case PlayerConstants.WAVE_REMOUNTED:
+      remount(
+        payload.trackId,
+        payload.container,
+        playload.height,
+        payload.visible
+      );
+      PlayerStore.__emitChange();
+      break;
+    case PlayerConstants.WAVE_UNMOUNTED:
+      unmount(payload.trackId);
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PLAYED:
@@ -122,19 +138,6 @@ PlayerStore.__onDispatch = function (payload) {
       add(payload.track);
       PlayerStore.__emitChange();
       break;
-    case PlayerConstants.WAVE_REMOUNTED:
-      remount(
-          payload.trackId,
-          payload.container,
-          playload.height,
-          payload.visible
-      );
-      PlayerStore.__emitChange();
-      break;
-    case PlayerConstants.WAVE_UNMOUNTED:
-    unmount(payload.trackId);
-    PlayerStore.__emitChange();
-    break;
   }
 };
 

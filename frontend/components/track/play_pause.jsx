@@ -27,35 +27,21 @@ var PlayPause = React.createClass({
     );
   },
 
-  // _onPlayerChange: function () {
-  //   var track = this.props.track;
-  //
-  //   if (PlayerStore.isCurrentTrack(track.id)) {
-  //     this.setState({ isPlaying: PlayerStore.playStatus() });
-  //   } else {
-  //     this.setState({ isPlaying: false});
-  //   }
-  // },
-
   _toggle: function(e) {
     e.preventDefault();
     var track = this.props.track;
-    var isPlaying = this.props.playing & PlayerStore.isPlaying();
-
-    console.log("track: " + track.title + " is: " + isPlaying)
+    var isPlaying = this.props.playing && PlayerStore.isPlaying();
 
     if (isPlaying) {
       PlayerActions.pause();
     } else {
       // PlayerActions.receiveCurrentTrack(track);
-      // console.log("before PlayerActions.play")
       PlayerActions.play(track.id);
-      console.log("after PlayerActions.play")
     }
   },
 
   _trackButton: function () {
-    var isPlaying = this.props.playing;
+    var isPlaying = this.props.playing && PlayerStore.isPlaying();
 
     if (isPlaying) {
       return (
