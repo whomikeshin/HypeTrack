@@ -47,8 +47,8 @@ var PlayPause = React.createClass({
     if (isPlaying) {
       PlayerActions.pause();
     } else {
-      PlayerActions.receiveCurrentTrack(track);
-      console.log("before PlayerActions.play")
+      // PlayerActions.receiveCurrentTrack(track);
+      // console.log("before PlayerActions.play")
       PlayerActions.play(track.id);
       console.log("after PlayerActions.play")
     }

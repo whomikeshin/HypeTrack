@@ -11,10 +11,10 @@
 var WaveSurfer = {
     defaultParams: {
         height        : 128,
-        waveColor     : '#999',
+        waveColor     : '#83c441',
         progressColor : '#555',
-        cursorColor   : '#333',
-        cursorWidth   : 1,
+        cursorColor   : '#999',
+        cursorWidth   : 0,
         skipLength    : 2,
         minPxPerSec   : 20,
         pixelRatio    : window.devicePixelRatio || screen.deviceXDPI / screen.logicalXDPI,
@@ -35,7 +35,8 @@ var WaveSurfer = {
         renderer      : 'Canvas',
         backend       : 'WebAudio',
         mediaType     : 'audio',
-        autoCenter    : true
+        autoCenter    : true,
+        barWidth      : 1
     },
 
     init: function (params) {

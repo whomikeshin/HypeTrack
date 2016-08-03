@@ -5,7 +5,7 @@ var TrackStore = require('./track');
 var Cache = require('../lib/cache');
 
 var PlayerStore = new Store(AppDispatcher),
-    _currentTrack,
+    _currentTrack = null,
     _playStatus = false,
     _loadedTracks = {},
     _trackCache = new Cache(20);
@@ -107,9 +107,7 @@ PlayerStore.wavesurferExists = function (trackId) {
 PlayerStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case PlayerConstants.CURRENT_TRACK_RECEIVED:
-      //add function works
       add(payload.track);
-      _currentTrack = payload.track;
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PLAYED:
@@ -133,6 +131,10 @@ PlayerStore.__onDispatch = function (payload) {
       );
       PlayerStore.__emitChange();
       break;
+    case PlayerConstants.WAVE_UNMOUNTED:
+    unmount(payload.trackId);
+    PlayerStore.__emitChange();
+    break;
   }
 };
 
