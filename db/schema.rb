@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428130207) do
+ActiveRecord::Schema.define(version: 20160803011246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,12 @@ ActiveRecord::Schema.define(version: 20160428130207) do
   add_index "follows", ["user_id", "artist_id"], name: "index_follows_on_user_id_and_artist_id", unique: true, using: :btree
   add_index "follows", ["user_id", "blog_id"], name: "index_follows_on_user_id_and_blog_id", unique: true, using: :btree
 
+  create_table "genres", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "playlists", force: :cascade do |t|
     t.string   "name",       null: false
     t.datetime "created_at", null: false
@@ -79,6 +85,13 @@ ActiveRecord::Schema.define(version: 20160428130207) do
 
   add_index "posts", ["blog_id"], name: "index_posts_on_blog_id", using: :btree
   add_index "posts", ["track_id"], name: "index_posts_on_track_id", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.integer  "track_id"
+    t.integer  "genre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "tracks", force: :cascade do |t|
     t.string   "title",                    null: false

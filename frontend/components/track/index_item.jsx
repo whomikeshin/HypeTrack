@@ -2,6 +2,7 @@ var React = require('react');
 var Link = require('react-router').Link;
 var ReactRouter = require('react-router');
 var SessionStore = require('../../stores/session');
+var PlayerStore = require('../../stores/player');
 var BlogStore = require('../../stores/blog');
 var ApiUtil = require('../../util/api_util');
 var FavLoginModal = require('../user/fav_modal');
@@ -16,7 +17,10 @@ function _getAllBlogs () {
 
 var IndexItem = React.createClass({
   getInitialState: function () {
-    return { blogs: null }
+    return ({
+      playing: PlayerStore.isCurrentTrack(this.props.track.id),
+      blogs: null
+    });
   },
 
   componentDidMount: function () {
@@ -101,10 +105,10 @@ var IndexItem = React.createClass({
           <span className="fav-div">
             <p>{track.favorite_count}</p>
             {favoriteButton}
-            <PlayPause track={this.props.track}/>
+            <PlayPause playing={this.state.playing} track={track}/>
           </span>
 
-          <WaveSurfer track={track} type="show" />
+          <WaveSurfer track={track} type="hide" />
         </section>
       </li>
     );

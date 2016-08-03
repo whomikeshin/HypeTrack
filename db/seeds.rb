@@ -335,3 +335,58 @@ Follow.create!(
   user: yeezus,
   blog: musicgeeks
 )
+
+Genre.destroy_all
+
+dance = Genre.create!(
+  name: "Dance"
+)
+
+dubstep = Genre.create!(
+  name: "Dubstep"
+)
+
+electronic = Genre.create!(
+  name: "Electronic"
+)
+
+funk = Genre.create!(
+  name: 'Funk'
+)
+
+hip_hop = Genre.create!(
+  name: 'Hip Hop'
+)
+
+house = Genre.create!(
+  name: 'House'
+)
+
+instrumental = Genre.create!(
+  name: 'Instrumental'
+)
+
+pop = Genre.create!(
+  name: 'Pop'
+)
+
+rock = Genre.create!(
+  name: 'Rock'
+)
+
+Tag.destroy_all
+
+Tag.create!(
+  track_id: i_love_kanye.id,
+  genre_id: hip_hop.id
+)
+
+Tag.create!(
+  track_id: weight_in_gold.id,
+  genre_id: hip_hop.id
+)
+
+Tag.create!(
+  track_id: bourbon.id,
+  genre_id: hip_hop.id
+)

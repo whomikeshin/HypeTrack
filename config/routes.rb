@@ -19,5 +19,7 @@ Rails.application.routes.draw do
     resources :blogs, only: [:create, :show, :destroy, :index] do
       resource :follow, only: [:create, :destroy]
     end
+
+    resources :genres, only: [:index, :show]
   end
 end

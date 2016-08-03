@@ -16,6 +16,9 @@ class Track < ActiveRecord::Base
   has_many :favorites, dependent: :destroy
   has_many :lovers, through: :favorites, source: :user
 
+  has_many :tags
+  has_many :genres, through: :tags
+
   validates :title, presence: true
 
 end

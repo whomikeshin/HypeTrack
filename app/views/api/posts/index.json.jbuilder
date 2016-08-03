@@ -1,1 +1,1 @@
-json.array! @posts, partial: 'api/posts/post', as: :post
+json.array! @genres, partial: 'api/posts/post', as: :post

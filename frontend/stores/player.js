@@ -49,6 +49,7 @@ var play = function (trackId) {
 };
 
 var pause = function () {
+  debugger
   _currentTrack && _currentTrack.wavesurfer.pause();
 };
 
@@ -93,6 +94,10 @@ PlayerStore.isCurrentTrack = function (trackId) {
 
 PlayerStore.playStatus = function () {
   return _playStatus;
+};
+
+PlayerStore.isPlaying = function () {
+  return !!_currentTrack && _currentTrack.wavesurfer.isPlaying();
 };
 
 PlayerStore.wavesurferExists = function (trackId) {
