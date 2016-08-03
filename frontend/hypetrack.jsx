@@ -73,7 +73,3 @@ $(window).scroll(function() {
 //     callback();
 //   }
 // }
-
-
-// <Route path="upload" component={TrackForm}/>
-// <Route path="tracks" component={TrackIndex}>

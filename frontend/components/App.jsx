@@ -53,7 +53,13 @@ var App = React.createClass({
             <ul className="header-nav-list">
               <li><Link to={"/"}>Latest</Link></li>
               <li><Link to={"/popular"}>Popular</Link></li>
-              <li>Genres</li>
+              <li className="genre">Genres
+                <ul className="genre-list">
+                  <li>Dance</li>
+                  <li>Dubstep</li>
+                  <li>Hip-Hop</li>
+                </ul>
+              </li>
             </ul>
 
           </nav>

@@ -17,10 +17,6 @@ var ProfileMenu = React.createClass({
       <ul className="profile-list group">
           <li><Link to={"/users/" + currentUser.id + "/feed"}>Feed</Link></li>
           <li><Link to={"/users/" + currentUser.id + "/favorites"}>Favorites</Link></li>
-          <li>Friends</li>
-          <li>Find Friends</li>
-          <li>Find Blogs</li>
-          <li>Settings</li>
           <li><button className="logout" onClick={ApiUtil.logout}>Logout</button></li>
         </ul>
       </div>
@@ -29,3 +25,8 @@ var ProfileMenu = React.createClass({
 });
 
 module.exports = ProfileMenu;
+
+// <li>Friends</li>
+// <li>Find Friends</li>
+// <li>Find Blogs</li>
+// <li>Settings</li>
