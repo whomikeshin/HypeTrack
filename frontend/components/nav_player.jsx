@@ -57,20 +57,11 @@ var NavPlayer = React.createClass({
     }
   },
 
-  // _onTrackChange: function () {
-  //   var loadedTracks = _getAllTracks();
-  //   this.setState({ loadedTracks: loadedTracks });
-  // },
-
   _onPlayerChange: function () {
-    var currentTrack = _getCurrentTrack();
-    var loadedTracks = _getLoadedTracks();
-    var playStatus = _isPlaying();
-
     this.setState({
-      currentTrack: currentTrack,
-      loadedTracks: loadedTracks,
-      playStatus: playStatus
+      currentTrack: _getCurrentTrack(),
+      loadedTracks: _getLoadedTracks(),
+      playStatus: _isPlaying()
     });
   },
 });

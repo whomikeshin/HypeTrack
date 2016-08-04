@@ -5,7 +5,7 @@ var PlayerActions = require('../../actions/player_actions');
 var PlayPause = React.createClass({
   // getInitialState: function () {
   //   return {
-  //     isPlaying: false,
+  //     isPlaying: this.props.playing
   //   };
   // },
   //
@@ -27,18 +27,24 @@ var PlayPause = React.createClass({
     );
   },
 
-  _toggle: function(e) {
-    e.preventDefault();
-    var track = this.props.track;
-    var isPlaying = this.props.playing && PlayerStore.isPlaying();
-
-    if (isPlaying) {
-      PlayerActions.pause();
-    } else {
-      // PlayerActions.receiveCurrentTrack(track);
-      PlayerActions.play(track.id);
-    }
-  },
+  // _toggle: function(e) {
+  //   e.preventDefault();
+  //   var track = this.props.track;
+  //   var isPlaying = this.state.isPlaying && PlayerStore.isPlaying();
+  //
+  //   if (isPlaying) {
+  //     PlayerActions.pause();
+  //   } else {
+  //     PlayerActions.receiveCurrentTrack(track);
+  //     PlayerActions.play(track.id);
+  //   }
+  // },
+  //
+  // _onPlayerChange: function () {
+  //   this.setState({
+  //     isPlaying: this.props.playing
+  //   })
+  // },
 
   _trackButton: function () {
     var isPlaying = this.props.playing && PlayerStore.isPlaying();
@@ -47,7 +53,7 @@ var PlayPause = React.createClass({
       return (
         <button
           className="pause-button"
-          onClick={this._toggle}>
+          onClick={this._pauseTrack}>
           <i className="fa fa-pause"></i>
         </button>
       );
@@ -55,12 +61,20 @@ var PlayPause = React.createClass({
       return (
         <button
           className="play-button"
-          onClick={this._toggle}>
+          onClick={this._playTrack.bind(null, this.props.track)}>
           <i className="fa fa-play"></i>
         </button>
       );
     }
-  }
+  },
+
+  _playTrack: function (track) {
+    PlayerActions.play(track.id);
+  },
+
+  _pauseTrack: function () {
+    PlayerActions.pause();
+  },
 });
 
 module.exports = PlayPause;

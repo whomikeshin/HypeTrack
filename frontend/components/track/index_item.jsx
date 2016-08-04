@@ -24,16 +24,22 @@ var IndexItem = React.createClass({
   },
 
   componentDidMount: function () {
-    this.onChangeToken = BlogStore.addListener(this._onChange);
+    this.onBlogChangeToken = BlogStore.addListener(this._onBlogChange);
+    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange)
     ApiUtil.fetchBlogs();
   },
 
-  _onChange: function () {
+  _onBlogChange: function () {
     this.setState({ blogs: _getAllBlogs() })
   },
 
+  _onPlayerChange: function () {
+    this.setState({ playing: PlayerStore.isCurrentTrack(this.props.track.id) })
+  },
+
   componentWillUnmount: function () {
-    this.onChangeToken.remove();
+    this.onBlogChangeToken.remove();
+    this.onPlayerChangeToken.remove();
   },
 
 

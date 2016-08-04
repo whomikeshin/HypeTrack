@@ -60,9 +60,9 @@ var Wavesurfer = React.createClass({
         wavesurfer: this.wavesurfer
       });
 
-      this.wavesurfer.on('audioprocess', function () {
-        PlayerActions.progress();
-      });
+      // this.wavesurfer.on('audioprocess', function () {
+      //   PlayerActions.progress();
+      // });
 
       this.wavesurfer.on('finish', function () {
         this.wavesurfer.seekTo(0);

@@ -57,13 +57,13 @@ var playPause = function () {
 };
 
 var playNext = function () {
-  var nextTrack = TrackStore.next(_currentTrack.id);
+  var nextTrack = TrackStore.next(_currentTrack.trackInfo.id);
 
   play(nextTrack.id);
 };
 
 var playPrev = function () {
-  var prevTrack = TrackStore.prev(_currentTrack.id);
+  var prevTrack = TrackStore.prev(_currentTrack.trackInfo.id);
 
   play(prevTrack.id);
 };
@@ -92,7 +92,7 @@ PlayerStore.getLoadedTracks = function () {
 };
 
 PlayerStore.isCurrentTrack = function (trackId) {
-  return (_currentTrack && _currentTrack.id === parseInt(trackId));
+  return (_currentTrack && _currentTrack.trackInfo.id === parseInt(trackId));
 };
 
 PlayerStore.playStatus = function () {
@@ -137,6 +137,15 @@ PlayerStore.__onDispatch = function (payload) {
     case PlayerConstants.ADD:
       add(payload.track);
       PlayerStore.__emitChange();
+      break;
+    case PlayerConstants.PROGRESS:
+      PlayerStore.__emitChange();
+      break;
+    case PlayerConstants.NEXT:
+      playNext();
+      break;
+    case PlayerConstants.PREV:
+      playPrev();
       break;
   }
 };
