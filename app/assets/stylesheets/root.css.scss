@@ -211,9 +211,9 @@ button {
   padding: 0;
 }
 
-.login-button, .signup-button {
+.header-button {
   font-size: 14px;
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 .current-track {
@@ -319,7 +319,7 @@ button {
   position: relative;
 }
 
-.track-detail-container > div:hover {
+.track-artist:hover {
   text-decoration: underline;
 }
 
@@ -354,7 +354,11 @@ button {
   position: relative;
 }
 
-.track-post > div:hover {
+.track-blog-name:hover {
+  text-decoration: underline;
+}
+
+.track-blog:hover {
   text-decoration: underline;
 }
 

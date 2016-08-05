@@ -34,6 +34,13 @@ var App = React.createClass({
       sideMenu = <ul className="login-menu">
                     <li><UserModal/></li>
                     <li><LoginModal/></li>
+                    <li>
+                      <button
+                        className="header-button"
+                        onClick={this._guestLogin}>
+                        Guest
+                      </button>
+                    </li>
                   </ul>;
     }
 
@@ -82,6 +89,13 @@ var App = React.createClass({
     } else {
       this.setState({ currentUser: null });
     }
+  },
+
+  _guestLogin: function () {
+    var router = this.context.router;
+    ApiUtil.login({ username: "yeezus", password: "password" }, function() {
+      router.push("/");
+    });
   }
 });
 
