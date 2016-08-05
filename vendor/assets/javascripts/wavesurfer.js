@@ -495,6 +495,41 @@ var WaveSurfer = {
         this.unAll();
         this.backend.destroy();
         this.drawer.destroy();
+    },
+
+    //added from colson
+
+    dismount: function (currentlyPlaying) {
+      this.mounted = false
+
+      if (!currentlyPlaying) {
+        this.seekTo(0);
+      }
+
+      if (this.params.visible) {
+        this.drawer.destroy();
+        this.drawn = false;
+      }
+    },
+
+    remount: function (container, height, visible) {
+      this.mounted = true
+
+      this.container = container;
+      this.mediaContainer = container;
+
+      this.params.height = height;
+
+      if (typeof visible === "undefined") {
+        this.params.visible = true;
+      } else {
+        this.params.visible = visible;
+      }
+
+      if (this.params.visible) {
+        this.createDrawer();
+        this.drawBuffer();
+      }
     }
 };
 

@@ -58,6 +58,7 @@ var playPause = function () {
 
 var playNext = function () {
   var nextTrack = TrackStore.next(_currentTrack.trackInfo.id);
+  console.log(nextTrack.title);
 
   play(nextTrack.id);
 };
@@ -117,7 +118,7 @@ PlayerStore.__onDispatch = function (payload) {
       remount(
         payload.trackId,
         payload.container,
-        playload.height,
+        payload.height,
         payload.visible
       );
       PlayerStore.__emitChange();
@@ -143,6 +144,7 @@ PlayerStore.__onDispatch = function (payload) {
       break;
     case PlayerConstants.NEXT:
       playNext();
+      PlayerStore.__emitChange();
       break;
     case PlayerConstants.PREV:
       playPrev();
