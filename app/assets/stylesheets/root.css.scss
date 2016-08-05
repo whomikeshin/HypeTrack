@@ -6,12 +6,17 @@ fieldset, label, input, textarea, button, i, link, canvas {
   padding: 0;
   outline: 0;
   font: inherit;
-  box-sizing: inherit;
+  box-sizing: border-box;
   text-align: inherit;
   vertical-align: inherit;
   color: inherit;
   text-decoration: inherit;
   background: transparent;
+}
+
+@viewport {
+  width: device-width;
+  zoom: 1;
 }
 
 body {
