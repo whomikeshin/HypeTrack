@@ -100,11 +100,3 @@ var App = React.createClass({
 });
 
 module.exports = App;
-
-// <li className="genre">Genres
-//   <ul className="genre-list">
-//     <li>Dance</li>
-//     <li>Dubstep</li>
-//     <li>Hip-Hop</li>
-//   </ul>
-// </li>

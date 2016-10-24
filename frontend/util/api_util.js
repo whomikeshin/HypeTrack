@@ -147,7 +147,7 @@ ApiUtil = {
     });
   },
 
-  fetchUserTracks: function (userId) {
+   Tracks: function (userId) {
     $.ajax({
       url: "api/users/" + userId + "/tracks",
       success: function (tracks) {
