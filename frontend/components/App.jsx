@@ -48,7 +48,6 @@ var App = React.createClass({
       <div>
         <header className="header">
           <nav className="header-nav group">
-
             <Link to={"/"}>
               <div className="header-logo">
                 Hype Track

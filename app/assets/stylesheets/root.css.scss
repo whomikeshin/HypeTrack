@@ -1,6 +1,7 @@
 html, body, div, header, nav, a, h1, h2,
 ul, li, main, section, figure, img, p, form,
-fieldset, label, input, textarea, button, i, link, canvas {
+fieldset, label, input, textarea, button, i,
+link, canvas {
   border: 0;
   margin: 0;
   padding: 0;
@@ -19,33 +20,37 @@ fieldset, label, input, textarea, button, i, link, canvas {
   zoom: 1;
 }
 
+$primary-white: #fff;
+$primary-green: #83c441;
+$font-gray: #222;
+
 body {
   font-family: sans-serif;
   font-size: 15px;
-  background: #fff;
-  color: #222;
+  background: $primary-white;
+  color: $font-gray;
 }
 
 li {
   list-style: none;
 }
 
-input {
-  padding: 4px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-input:focus {
-  box-shadow: 0 0 4px 2px #83c441;
-}
-
-button {
-  padding: 4px;
-  cursor: pointer;
-  background: #3d3c3a;
-  color: #e0e0e0;
-}
+// input {
+//   padding: 4px;
+//   border: 1px solid #ccc;
+//   border-radius: 3px;
+// }
+//
+// input:focus {
+//   box-shadow: 0 0 4px 2px #83c441;
+// }
+//
+// button {
+//   padding: 4px;
+//   cursor: pointer;
+//   background: #3d3c3a;
+//   color: #e0e0e0;
+// }
 
 .group:after {
   content: "";
@@ -56,20 +61,21 @@ button {
 /* Header */
 
 .header {
-  background: #83c441;
+  background: $primary-green;
   height: 42px;
   line-height: 42px;
-  z-index: 200;
-  position: relative;
+  // z-index: 200;
+  // position: relative;
 }
 
-.header a {
-  display: block;
-}
+// Link is an a tag
 
 .header-nav {
   margin: 0 auto;
   width: 1032px;
+  a {
+    display: inline-block;
+  }
 }
 
 .header-logo {
