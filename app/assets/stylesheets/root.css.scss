@@ -62,7 +62,7 @@ li {
 
 /* Header */
 
-.header {
+#header {
   background: $primary-green;
   height: 42px;
   line-height: 42px;
@@ -105,20 +105,20 @@ li {
 
 #player-container {
   display: block;
-  background: #222;
-  color: #e0e0e0;
-  height: 33px;
+  background: $primary-gray;
+  color: $primary-white;
+  height: 35px;
   width: 100%;
-  line-height: 25px;
+  line-height: 30px;
 }
 
 #player-container.sticky {
   display: block;
-  background: #222;
-  color: #e0e0e0;
-  height: 33px;
+  background: $primary-gray;
+  color: $primary-white;
+  height: 35px;
   width: 100%;
-  line-height: 25px;
+  line-height: 30px;
   position: fixed;
   top: 0;
   z-index: 9999;
