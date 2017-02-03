@@ -48,24 +48,20 @@ var App = React.createClass({
       <div>
         <header className="header">
           <nav className="header-nav group">
-            <Link to={"/"}>
-              <div className="header-logo">
-                Hype Track
-                <img className="record"
-                  src="https://s3.amazonaws.com/hype-train-dev/seed-images/record.png"/>
-              </div>
+            <Link className="header-logo" to={"/"}>
+              Hype Track
+              <img className="record"
+                src="https://s3.amazonaws.com/hype-train-dev/seed-images/record.png"/>
             </Link>
-
             <ul className="header-nav-list">
-              <li><Link to={"/"}>Latest</Link></li>
-              <li><Link to={"/popular"}>Popular</Link></li>
+              <li><a href="#/">Latest</a></li>
+              <li><a href="#/popular">Popular</a></li>
+              <li><a href="#/">Genres</a></li>
             </ul>
-
           </nav>
         </header>
 
         <nav id="player-container">
-
           <div className="player group">
             <div className="player-controls">
               <NavPlayer/>

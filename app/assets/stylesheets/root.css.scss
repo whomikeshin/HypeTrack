@@ -22,17 +22,24 @@ link, canvas {
 
 $primary-white: #fff;
 $primary-green: #83c441;
-$font-gray: #222;
+$primary-gray: #222;
+$button-gray: #3d3c3a;
 
 body {
   font-family: sans-serif;
   font-size: 15px;
   background: $primary-white;
-  color: $font-gray;
+  color: $primary-gray;
 }
 
 li {
   list-style: none;
+}
+
+.group:after {
+  content: "";
+  clear: both;
+  display: block;
 }
 
 // input {
@@ -48,15 +55,10 @@ li {
 // button {
 //   padding: 4px;
 //   cursor: pointer;
-//   background: #3d3c3a;
-//   color: #e0e0e0;
+//   background: $button-gray;
+//   color: $primary-white;
 // }
 
-.group:after {
-  content: "";
-  clear: both;
-  display: block;
-}
 
 /* Header */
 
@@ -68,62 +70,35 @@ li {
   // position: relative;
 }
 
-// Link is an a tag
-
 .header-nav {
   margin: 0 auto;
   width: 1032px;
-  a {
-    display: inline-block;
+  .header-logo {
+    padding-right: 3px;
+    float: left;
+    font-weight: 600;
+    font-size: 28px;
+    text-transform: uppercase;
+    img {
+      max-height: 42px;
+      max-width: 42px;
+      float: right;
+      margin: 0 3px;
+    }
   }
-}
-
-.header-logo {
-  padding-right: 10px;
-  float: left;
-  font-weight: 600;
-  font-size: 24px;
-  text-transform: uppercase;
-}
-
-.header-logo:hover {
-  color: #fff;
-}
-
-.header-logo > img {
-  max-height: 42px;
-  max-width: 42px;
-  float: right;
-  margin: 0 3px;
-}
-
-.header-nav-list {
-  float: left;
-}
-
-.header-nav-list > li {
-  float: left;
-  padding: 0 10px;
-}
-
-.header-nav-list > li:hover {
-  background: #222;
-  color: #e0e0e0;
-}
-
-.genre-list {
-  display: none;
-  position: absolute;
-}
-
-.genre:hover .genre-list {
-  display: block;
-}
-
-.genre-list > li {
-  background: #222;
-  color: #e0e0e0;
-  padding: 0 10px;
+  .header-logo:hover {
+    color: $primary-white
+  }
+  .header-nav-list {
+    li {
+      display: inline-block;
+      padding: 0 10px;
+    }
+    li:hover {
+      background: $primary-gray;
+      color: $primary-white;
+    }
+  }
 }
 
 /*/ Player /*/
