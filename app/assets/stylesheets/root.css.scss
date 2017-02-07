@@ -20,7 +20,8 @@ link, canvas {
   zoom: 1;
 }
 
-$primary-white: #fff;
+$white: #fff;
+$black: #ccc;
 $primary-green: #83c441;
 $primary-gray: #222;
 $button-gray: #3d3c3a;
@@ -29,7 +30,7 @@ $hover-blue: #0063dc;
 body {
   font-family: sans-serif;
   font-size: 15px;
-  background: $primary-white;
+  background: $white;
   color: $primary-gray;
 }
 
@@ -70,7 +71,7 @@ li {
     }
   }
   .header-logo:hover {
-    color: $primary-white
+    color: $white
   }
   .header-nav-list {
     li {
@@ -79,7 +80,7 @@ li {
     }
     li:hover {
       background: $primary-gray;
-      color: $primary-white;
+      color: $white;
     }
   }
 }
@@ -89,7 +90,7 @@ li {
 #player-container {
   display: block;
   background: $primary-gray;
-  color: $primary-white;
+  color: $white;
   height: 35px;
   width: 100%;
   line-height: 30px;
@@ -98,7 +99,7 @@ li {
 #player-container.sticky {
   display: block;
   background: $primary-gray;
-  color: $primary-white;
+  color: $white;
   height: 35px;
   width: 100%;
   line-height: 30px;
@@ -131,14 +132,15 @@ li {
   }
   .login-menu > li {
     float: left;
-    button {
-      font-size: 14px;
-      padding: 1px 2px 2px 2px;
-      cursor: pointer;
-      background: $button-gray;
-      color: $primary-white;
-    }
   }
+}
+
+button {
+  font-size: 14px;
+  padding: 1px 2px 2px 2px;
+  cursor: pointer;
+  background: $button-gray;
+  color: $white;
 }
 
 .player-button {
@@ -146,47 +148,44 @@ li {
   margin-left: 10px;
 }
 
-.dropdown {
-  background: #222;
+.profile-menu {
+  background: $primary-gray;
   width: 80px;
   height: 30px;
-  margin-top: 3px;
+  figure {
+    display: inline-block;
+    line-height: 30px;
+    margin: 0 15px;
+    img {
+      border: 1px solid $black;
+      max-height: 25px;
+      max-width: 25px;
+    }
+  }
+  .profile-list {
+    border: 1px solid $primary-gray;
+    display: none;
+    position: absolute;
+    top: 34px;
+    li {
+      background: $button-gray;
+      padding: 3px;
+      border-bottom: 1px solid $primary-gray;
+      text-align: left;
+      font-size: 12px;
+      width: 80px;
+    }
+  }
 }
 
-.profile-image-small > img {
-  border: 1px solid #555;
-  max-height: 25px;
-  max-width: 25px;
-  position: absolute;
-  top: 4px;
-  right: 20px;
-}
-
-.profile-list {
-  border: 1px solid #222;
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 32px;
-}
-
-.dropdown:hover .profile-list {
+.profile-menu:hover .profile-list {
   display: block;
 }
 
-.profile-list > li {
-  background: #3d3c3a;
-  padding: 3px;
-  border-bottom: 1px solid #222;
-  text-align: right;
-  font-size: 12px;
-  width: 80px;
-}
-
-.logout {
+#logout-button {
   padding: 0;
+  font-size: 12px;
 }
-
 
 .current-track {
   position: absolute;
@@ -198,7 +197,7 @@ li {
 
 input {
   padding: 4px;
-  border: 1px solid #ccc;
+  border: 2px solid $black;
   border-radius: 3px;
 }
 

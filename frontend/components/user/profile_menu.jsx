@@ -10,14 +10,14 @@ var ProfileMenu = React.createClass({
       "https://s3.amazonaws.com/hype-train-dev/seed-images/hypem.jpg";
 
     return(
-      <div className="dropdown">
+      <div className="profile-menu group">
         <a href="#">Me</a>
-        <figure className="profile-image-small"><img src={imgSource}/></figure>
+        <figure><img src={imgSource}/></figure>
 
-      <ul className="profile-list group">
+        <ul className="profile-list">
           <li><Link to={"/users/" + currentUser.id + "/feed"}>Feed</Link></li>
           <li><Link to={"/users/" + currentUser.id + "/favorites"}>Favorites</Link></li>
-          <li><button className="logout" onClick={ApiUtil.logout}>Logout</button></li>
+          <li><button id="logout-button" onClick={ApiUtil.logout}>Logout</button></li>
         </ul>
       </div>
     );
