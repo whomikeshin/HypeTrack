@@ -36,7 +36,7 @@ var App = React.createClass({
                     <li><LoginModal/></li>
                     <li>
                       <button
-                        className="header-button"
+                        className="player-button"
                         onClick={this._guestLogin}>
                         Guest
                       </button>

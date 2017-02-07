@@ -41,7 +41,7 @@ var LoginModal = React.createClass({
   render: function() {
     return(
       <div>
-        <button className="header-button" onClick={this.openModal}>Log in</button>
+        <button className="player-button" onClick={this.openModal}>Log in</button>
         <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}

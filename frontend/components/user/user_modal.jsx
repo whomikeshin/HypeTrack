@@ -40,7 +40,7 @@ var NewUserModal = React.createClass({
   render: function() {
     return(
       <div>
-        <button className="header-button" onClick={this.openModal}>Sign up</button>
+        <button className="player-button" onClick={this.openModal}>Sign up</button>
         <Modal
           isOpen={this.state.modalOpen}
           onRequestClose={this.closeModal}

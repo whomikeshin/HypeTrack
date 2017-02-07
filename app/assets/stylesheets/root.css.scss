@@ -43,24 +43,6 @@ li {
   display: block;
 }
 
-// input {
-//   padding: 4px;
-//   border: 1px solid #ccc;
-//   border-radius: 3px;
-// }
-//
-// input:focus {
-//   box-shadow: 0 0 4px 2px #83c441;
-// }
-//
-// button {
-//   padding: 4px;
-//   cursor: pointer;
-//   background: $button-gray;
-//   color: $primary-white;
-// }
-
-
 /* Header */
 
 #header {
@@ -144,14 +126,24 @@ li {
       }
     }
   }
+  .side-menu {
+    float: right;
+  }
+  .login-menu > li {
+    float: left;
+    button {
+      font-size: 14px;
+      padding: 1px 2px 2px 2px;
+      cursor: pointer;
+      background: $button-gray;
+      color: $primary-white;
+    }
+  }
 }
 
-.side-menu {
-  float: right;
-}
-
-.login-menu > li {
-  float: left;
+.player-button {
+  font-size: 14px;
+  margin-left: 10px;
 }
 
 .dropdown {
@@ -177,6 +169,7 @@ li {
   right: 0;
   top: 32px;
 }
+
 .dropdown:hover .profile-list {
   display: block;
 }
@@ -194,15 +187,23 @@ li {
   padding: 0;
 }
 
-.header-button {
-  font-size: 14px;
-  margin-left: 10px;
-}
 
 .current-track {
   position: absolute;
   left: 150px;
   top: 3px;
+}
+
+/*/ Modal /*/
+
+input {
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input:focus {
+  box-shadow: 0 0 4px 2px #83c441;
 }
 
 /* Track Index */
