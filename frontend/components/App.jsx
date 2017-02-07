@@ -47,7 +47,7 @@ var App = React.createClass({
     return (
       <div>
         <header id="header">
-          <nav className="header-nav group">
+          <nav className="header-nav">
             <Link className="header-logo" to={"/"}>
               Hype Track
               <img className="record"
@@ -56,13 +56,12 @@ var App = React.createClass({
             <ul className="header-nav-list">
               <li><a href="#/">Latest</a></li>
               <li><a href="#/popular">Popular</a></li>
-              <li><a href="#/">Genres</a></li>
             </ul>
           </nav>
         </header>
 
         <nav id="player-container">
-          <div className="player group">
+          <div className="player">
             <div className="player-controls">
               <NavPlayer/>
               <NavControls/>

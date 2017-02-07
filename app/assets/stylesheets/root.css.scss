@@ -24,6 +24,7 @@ $primary-white: #fff;
 $primary-green: #83c441;
 $primary-gray: #222;
 $button-gray: #3d3c3a;
+$hover-blue: #0063dc;
 
 body {
   font-family: sans-serif;
@@ -128,25 +129,21 @@ li {
   position: relative;
   width: 1038px;
   margin: 0 auto;
-}
-
-.player-controls{
-  float: left;
-  width: 728px;
-}
-
-.nav-controls {
-  display: block;
-  float: left
-}
-
-.nav-controls > li {
-  float: left;
-  margin: 3px 7px 0;
-}
-
-.nav-controls > li:hover {
-  color: #0063dc;
+  .player-controls{
+    float: left;
+    width: 728px;
+    .nav-controls {
+      display: block;
+      float: left;
+      li {
+        float: left;
+        margin: 3px 7px 0px;
+      }
+      li:hover {
+        color: $hover-blue;
+      }
+    }
+  }
 }
 
 .side-menu {
