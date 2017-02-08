@@ -26,10 +26,10 @@ var LoginForm = React.createClass({
           <label htmlFor="password">Password</label>
           <input onChange={this._updatePassword} type="password" value={this.state.password}/>
 
-          <button className="form-submit">Log in</button>
+          <button className="modal-button">Log in</button>
         </form>
 
-        <button className="guest" onClick={this._guestLogin}>
+        <button className="modal-button" onClick={this._guestLogin}>
           Guest Account
         </button>
       </div>

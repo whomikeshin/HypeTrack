@@ -32,11 +32,10 @@ var App = React.createClass({
                   </div>;
     } else {
       sideMenu = <ul className="login-menu">
-                    <li><UserModal/></li>
                     <li><LoginModal/></li>
+                    <li><UserModal/></li>
                     <li>
-                      <button
-                        className="player-button"
+                      <button className="player-button"
                         onClick={this._guestLogin}>
                         Guest
                       </button>

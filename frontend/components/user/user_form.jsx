@@ -33,7 +33,7 @@ var UserForm = React.createClass({
           <input onChange={this._updatePassword} type="password" value={this.state.password}/>
           <p className="signup-p">6 characters or more, be tricky!</p>
 
-          <button className="form-submit">Submit</button>
+          <button className="modal-button">Submit</button>
         </form>
       </div>
     );

@@ -21,9 +21,11 @@ link, canvas {
 }
 
 $white: #fff;
-$black: #ccc;
+$black: #000;
 $primary-green: #83c441;
 $primary-gray: #222;
+$light-gray: #efefef;
+$medium-gray: #ccc;
 $button-gray: #3d3c3a;
 $hover-blue: #0063dc;
 
@@ -136,16 +138,23 @@ li {
 }
 
 button {
-  font-size: 14px;
-  padding: 1px 2px 2px 2px;
   cursor: pointer;
-  background: $button-gray;
+  font-size: 14px;
   color: $white;
 }
 
 .player-button {
-  font-size: 14px;
-  margin-left: 10px;
+  margin: 6px 12px 0px 0px;
+  border-radius: 2px;
+  line-height: 14px;
+  background-color: $button-gray;
+  padding: 3px 4px 2px;
+  border: 1px solid $medium-gray;
+}
+
+#create-button {
+  background-color: $primary-green;
+  border: 1px solid $primary-green;
 }
 
 .profile-menu {
@@ -197,8 +206,9 @@ button {
 
 input {
   padding: 4px;
-  border: 2px solid $black;
+  border: 2px solid $primary-gray;
   border-radius: 3px;
+  margin-bottom: 4px;
 }
 
 input:focus {
@@ -483,15 +493,16 @@ label {
   color: #000;
 }
 
-.form-submit, .guest {
+.modal-button {
   border-radius: 3px;
-  background: #efefef;
-  border: 1px solid #ccc;
+  background: $medium-gray;
+  border: 1px solid $primary-gray;
   font-size: 12px;
   color: #000;
   font-weight: 600;
   display: block;
   margin: 5px 0;
+  padding-top: 2px;
 }
 
 /*/ Profile /*/
