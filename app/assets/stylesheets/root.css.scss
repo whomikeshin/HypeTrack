@@ -87,7 +87,7 @@ li {
   }
 }
 
-/*/ Player /*/
+/*/ Player Nav /*/
 
 #player-container {
   display: block;
@@ -95,7 +95,8 @@ li {
   color: $white;
   height: 35px;
   width: 100%;
-  line-height: 30px;
+  line-height: 35px;
+  vertical-align: middle;
 }
 
 #player-container.sticky {
@@ -113,10 +114,12 @@ li {
 .player {
   position: relative;
   width: 1038px;
+  height: 35px;
   margin: 0 auto;
   .player-controls{
     float: left;
     width: 728px;
+    height: inherit;
     .nav-controls {
       display: block;
       float: left;
@@ -160,13 +163,12 @@ button {
 .profile-menu {
   background: $primary-gray;
   width: 80px;
-  height: 30px;
+  height: 35px;
   figure {
     display: inline-block;
-    line-height: 30px;
-    margin: 0 15px;
+    margin-left: 5px;
     img {
-      border: 1px solid $black;
+      border: 1px solid $medium-gray;
       max-height: 25px;
       max-width: 25px;
     }
@@ -196,7 +198,7 @@ button {
   font-size: 12px;
 }
 
-.current-track {
+#current-track {
   position: absolute;
   left: 150px;
   top: 3px;
@@ -206,13 +208,76 @@ button {
 
 input {
   padding: 4px;
-  border: 2px solid $primary-gray;
+  border: 2px solid $medium-gray;
   border-radius: 3px;
   margin-bottom: 4px;
 }
 
 input:focus {
   box-shadow: 0 0 4px 2px #83c441;
+}
+
+.login-form {
+  height: 290px;
+  width: 370px;
+}
+
+.signup-form {
+  height: 392px;
+  width: 340px;
+}
+
+.account-form {
+  height: 250px;
+  width: 360px;
+}
+
+.signup-p, .acc-p {
+  font-size: 12px;
+}
+
+.acc-p {
+  margin-top: 10px;
+}
+
+.form-header, {
+  background: #83c441;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid #4D8119;
+  padding-left: 10px;
+  line-height: 36px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  margin: 10px 0;
+}
+
+.login-form > input {
+  margin: 10px 0;
+  display: block;
+  background: #efefef;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000;
+}
+
+.modal-button {
+  border-radius: 3px;
+  background: $medium-gray;
+  border: 1px solid $primary-gray;
+  font-size: 12px;
+  color: #000;
+  font-weight: 600;
+  display: block;
+  margin: 5px 0;
+  padding-top: 2px;
 }
 
 /* Track Index */
@@ -440,70 +505,6 @@ input:focus {
   top: 0;
   right: 35px;
 }
-/*/ Forms /*/
-
-.login-form {
-  height: 290px;
-  width: 370px;
-}
-
-.signup-form {
-  height: 392px;
-  width: 340px;
-}
-
-.account-form {
-  height: 250px;
-  width: 360px;
-}
-
-.signup-p, .acc-p {
-  font-size: 12px;
-}
-
-.acc-p {
-  margin-top: 10px;
-}
-
-.form-header, {
-  background: #83c441;
-  font-size: 18px;
-  font-weight: 600;
-  text-transform: uppercase;
-  border-bottom: 1px solid #4D8119;
-  padding-left: 10px;
-  line-height: 36px;
-}
-
-label {
-  display: block;
-  font-weight: 600;
-  font-size: 12px;
-  margin: 10px 0;
-}
-
-.login-form > input {
-  margin: 10px 0;
-  display: block;
-  background: #efefef;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 14px;
-  line-height: 16px;
-  color: #000;
-}
-
-.modal-button {
-  border-radius: 3px;
-  background: $medium-gray;
-  border: 1px solid $primary-gray;
-  font-size: 12px;
-  color: #000;
-  font-weight: 600;
-  display: block;
-  margin: 5px 0;
-  padding-top: 2px;
-}
 
 /*/ Profile /*/
 
@@ -581,17 +582,17 @@ label {
   margin: 0 0 5px;
 }
 
-.profile-menu > li {
-  display: block;
-  border: 1px solid #222;
-  width: 80px;
-  height: 60px;
-  margin: 0 5px 0 0;
-  text-align: center;
-  float: right;
-  font-weight: 600;
-  font-size: 24px;
-}
+// .profile-menu > li {
+//   display: block;
+//   border: 1px solid #222;
+//   width: 80px;
+//   height: 60px;
+//   margin: 0 5px 0 0;
+//   text-align: center;
+//   float: right;
+//   font-weight: 600;
+//   font-size: 24px;
+// }
 
 // wavesurfer
 

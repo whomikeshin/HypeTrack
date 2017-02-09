@@ -25,8 +25,3 @@ var ProfileMenu = React.createClass({
 });
 
 module.exports = ProfileMenu;
-
-// <li>Friends</li>
-// <li>Find Friends</li>
-// <li>Find Blogs</li>
-// <li>Settings</li>

@@ -48,7 +48,7 @@ var NavPlayer = React.createClass({
           </audio>
         </div>
 
-        <div className="current-track">
+        <div id="current-track">
           {track.trackInfo.title} - {track.trackInfo.artist_name + " "}
           <a href={track.trackInfo.posts[0].post_url}><small>Read Post →</small></a>
         </div>
