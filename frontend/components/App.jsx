@@ -62,8 +62,8 @@ var App = React.createClass({
         <nav id="player-container">
           <div className="player">
             <div className="player-controls">
-              <NavPlayer/>
-              <NavControls/>
+              <li><NavControls/></li>
+              <li><NavPlayer/></li>
             </div>
 
             <div className="side-menu group">

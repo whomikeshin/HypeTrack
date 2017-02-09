@@ -87,9 +87,10 @@ li {
   }
 }
 
-/*/ Player Nav /*/
+/*/ Player /*/
 
 #player-container {
+  position: relative;
   display: block;
   background: $primary-gray;
   color: $white;
@@ -105,31 +106,22 @@ li {
   color: $white;
   height: 35px;
   width: 100%;
-  line-height: 30px;
   position: fixed;
   top: 0;
   z-index: 9999;
 }
 
 .player {
-  position: relative;
   width: 1038px;
   height: 35px;
   margin: 0 auto;
   .player-controls{
+    display: block;
     float: left;
     width: 728px;
     height: inherit;
-    .nav-controls {
-      display: block;
-      float: left;
-      li {
-        float: left;
-        margin: 3px 7px 0px;
-      }
-      li:hover {
-        color: $hover-blue;
-      }
+    li {
+      display: inline-block;
     }
   }
   .side-menu {
@@ -140,6 +132,27 @@ li {
   }
 }
 
+/*/ NavControls /*/
+
+.nav-controls {
+  height: 35px;
+  li {
+    margin: 0px 7px;
+    vertical-align: middle;
+  }
+  li:hover {
+    color: $hover-blue;
+    cursor: pointer;
+  }
+}
+
+/*/ NavPlayer /*/
+
+#current-track {
+  height: 35px;
+  margin-left: 10px;
+}
+
 button {
   cursor: pointer;
   font-size: 14px;
@@ -147,7 +160,7 @@ button {
 }
 
 .player-button {
-  margin: 6px 12px 0px 0px;
+  margin: 0px 5px;
   border-radius: 2px;
   line-height: 14px;
   background-color: $button-gray;
@@ -155,7 +168,9 @@ button {
   border: 1px solid $medium-gray;
 }
 
-#create-button {
+/*/ Side Menu /*/
+
+#create-account {
   background-color: $primary-green;
   border: 1px solid $primary-green;
 }
@@ -166,7 +181,7 @@ button {
   height: 35px;
   figure {
     display: inline-block;
-    margin-left: 5px;
+    margin-left: 10px;
     img {
       border: 1px solid $medium-gray;
       max-height: 25px;
@@ -180,9 +195,8 @@ button {
     top: 34px;
     li {
       background: $button-gray;
-      padding: 3px;
+      padding-left: 10px;
       border-bottom: 1px solid $primary-gray;
-      text-align: left;
       font-size: 12px;
       width: 80px;
     }
@@ -194,14 +208,8 @@ button {
 }
 
 #logout-button {
-  padding: 0;
   font-size: 12px;
-}
-
-#current-track {
-  position: absolute;
-  left: 150px;
-  top: 3px;
+  margin-left: -2px;
 }
 
 /*/ Modal /*/
