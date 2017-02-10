@@ -66,30 +66,24 @@ var IndexItem = React.createClass({
 
     return (
       <li className="track group">
+        <div className="track-image">
+          <img src={track.posts[0].thumb_url}/>
+        </div>
 
         <section className="track-detail-container">
-
-          <div className="track-image">
-            <img src={track.posts[0].thumb_url}/>
-          </div>
-
           <div className="track-artist">
             <Link
               to={"/artists/" + track.artist.id}>{track.artist_name}
             </Link>
           </div>
-
-          <span className="track-dash"> - </span>
-
           <div className="track-name">
             {track.title}
           </div>
 
-          <section className="track-post">
+          <div className="track-post">
             <div className="track-post-count">
               Posted by {blogList.length} blogs
             </div>
-
             <div className="track-blog-name">
               <Link
                 to={"/blogs/" + blogList[0].id}>
@@ -99,14 +93,13 @@ var IndexItem = React.createClass({
                 {followButton}
               </span>
             </div>
-
             <p className="track-post-info">
-              {track.posts[0].track_info.slice(0, 200).concat("...")}
+              {track.posts[0].track_info.slice(0, 100).concat("...")}
             </p>
-
-            <a href={track.posts[0].post_url} className="track-blog">Read Post →</a>
-
-          </section>
+            <a href={track.posts[0].post_url} className="track-blog">
+              Read Post →</a>
+          </div>
+          <WaveSurfer track={track} type="show" />
 
           <span className="fav-div">
             <p>{track.favorite_count}</p>
@@ -114,7 +107,6 @@ var IndexItem = React.createClass({
             <PlayPause playing={this.state.playing} track={track}/>
           </span>
 
-          <WaveSurfer track={track} type="show" />
         </section>
       </li>
     );
