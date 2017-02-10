@@ -137,8 +137,9 @@ li {
 .nav-controls {
   height: 35px;
   li {
-    margin: 0px 7px;
+    margin: 0px 10px;
     vertical-align: middle;
+    font-size: 13px;
   }
   li:hover {
     color: $hover-blue;
@@ -151,6 +152,14 @@ li {
 #current-track {
   height: 35px;
   margin-left: 10px;
+  li {
+    display: inline-block;
+    margin-right: 7px;
+    a:hover {
+      text-decoration: underline;
+      color: $hover-blue;
+    }
+  }
 }
 
 button {
@@ -249,11 +258,11 @@ input:focus {
 }
 
 .form-header, {
-  background: #83c441;
+  background: $primary-green;
   font-size: 18px;
   font-weight: 600;
   text-transform: uppercase;
-  border-bottom: 1px solid #4D8119;
+  border-bottom: 1px solid $black;
   padding-left: 10px;
   line-height: 36px;
 }
@@ -291,24 +300,17 @@ label {
 /* Track Index */
 
 .content {
-  position: relative;
   margin: 0 auto;
   width: 1032px;
-  text-align: left;
+  .playlist {
+    width: 728px;
+    h2 {
+      font-size: 30px;
+      margin: 25px 0px;
+    }
+  }
 }
 
-.playlist {
-  width: 728px;
-  min-height: 400px;
-  margin-right: 10px;
-  float: left;
-}
-
-.playlist-title {
-  font-size: 29px;
-  margin: 55px 0 25px;
-  display: block;
-}
 
 .playlist-title.blog {
   font-size: 29px;

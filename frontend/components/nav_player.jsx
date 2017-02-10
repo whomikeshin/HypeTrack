@@ -48,10 +48,13 @@ var NavPlayer = React.createClass({
           </audio>
         </div>
 
-        <div id="current-track">
-          {track.trackInfo.title} - {track.trackInfo.artist_name + " "}
-          <a href={track.trackInfo.posts[0].post_url}><small>Read Post →</small></a>
-        </div>
+        <ul id="current-track">
+          <li>{track.trackInfo.title}</li>
+          <li>-</li>
+          <li>{track.trackInfo.artist_name}</li>
+          <li><a href={track.trackInfo.posts[0].post_url}>
+            <small>Read Post →</small></a></li>
+        </ul>
       </div>
       );
     }
