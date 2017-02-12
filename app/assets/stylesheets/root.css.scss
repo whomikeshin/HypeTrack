@@ -373,7 +373,7 @@ label {
   .track-detail-container {
     display: flex;
     flex-direction: column;
-    width: 550px;
+    width: 530px;
     .track-artist {
       font-size: 14px;
       color: $primary-gray;
@@ -413,7 +413,9 @@ label {
     color: $medium-gray;
     display: flex;
     background: transparent;
+    margin-left: 10px;
     p {
+      margin-top: 5px;
       font-size: 14px;
     }
     button {
@@ -423,6 +425,9 @@ label {
     }
     button:hover {
       color: $hover-blue;
+    }
+    .fav-modal {
+      padding-right: 5px;
     }
   }
 }
