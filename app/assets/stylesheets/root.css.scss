@@ -417,14 +417,6 @@ label {
   }
 }
 
-.follow-text {
-  color: transparent;
-}
-
-.follow:hover .follow-text, .unfollow:hover .follow-text {
-  color: $white;
-}
-
 #favorite {
   color: $medium-gray;
   padding-right: 7px;
@@ -433,6 +425,17 @@ label {
 #unfavorite {
   color: red;
   padding-right: 7px;
+}
+
+.follow, .unfollow {
+  font-size: 12px;
+  .follow-text {
+    color: transparent;
+  }
+}
+
+.follow:hover .follow-text, .unfollow:hover .follow-text {
+  color: $white;
 }
 
 /*/ Profile /*/
@@ -511,6 +514,7 @@ label {
   color: #0063dc;
   font-weight: 600px;
 }
+
 // *Blog //
 .blog-menu > li {
   display: block;
