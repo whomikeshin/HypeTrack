@@ -303,7 +303,7 @@ label {
   margin: 0 auto;
   width: 1032px;
   .playlist {
-    width: 728px;
+    width: 780px;
     h2 {
       font-size: 30px;
       margin: 25px 0px;
@@ -366,13 +366,14 @@ label {
   img {
     display: block;
     border: 1px solid $black;
-    max-height: 100px;
-    max-width: 100px;
-    margin-right: 10px;
+    max-height: 150px;
+    max-width: 150px;
+    margin-right: 14px;
   }
   .track-detail-container {
     display: flex;
     flex-direction: column;
+    width: 550px;
     .track-artist {
       font-size: 14px;
       color: $primary-gray;
@@ -386,7 +387,7 @@ label {
     }
     .track-post {
       color: $hover-blue;
-      font-size: 13px;
+      font-size: 12px;
       margin: 5px 0px;
       .track-post-count {
         margin: 5px 0px;
@@ -397,19 +398,24 @@ label {
       .track-post-info {
         color: $black;
         word-wrap: break-word;
-      }
-      .track-blog:hover {
-        text-decoration: underline;
+        a {
+          color: $hover-blue;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
+  .fav-div {
+    width: 80px;
+    height: 80px;
+    font-size: 20px;
+    color: #b3b3b3;
+    display: block;
+  }
 }
 
-.fav-div {
-  width: 80px;
-  font-size: 20px;
-  color: #b3b3b3;
-}
 
 .fav-div > p {
   margin-top: 2px;
@@ -427,9 +433,6 @@ label {
   background: transparent;
   color: #000;
   line-height: 20px;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 
 .play-button:hover, .pause-button:hover, .fav-modal:hover {
@@ -468,12 +471,6 @@ label {
 .fav-modal {
   background: transparent;
   color: #b3b3b3;
-}
-
-.favorite, .unfavorite, .fav-modal {
-  position: absolute;
-  top: 0;
-  right: 35px;
 }
 
 /*/ Profile /*/
@@ -584,7 +581,7 @@ label {
 .show {
   width: 550px;
   height: 50px;
-  margin-top: 150px;
+  margin-top: 10px;
 }
 
 .show > wave {

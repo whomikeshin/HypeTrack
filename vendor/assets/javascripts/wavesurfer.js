@@ -36,7 +36,7 @@ var WaveSurfer = {
         backend       : 'WebAudio',
         mediaType     : 'audio',
         autoCenter    : true,
-        barWidth      : 1
+        barWidth      : 2
     },
 
     init: function (params) {
