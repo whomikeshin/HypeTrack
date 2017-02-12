@@ -409,32 +409,22 @@ label {
   }
   .fav-div {
     width: 70px;
-    height: 70px;
-    font-size: 20px;
+    height: 30px;
     color: $medium-gray;
     display: flex;
+    background: transparent;
+    p {
+      font-size: 14px;
+    }
+    button {
+      font-size: 24px;
+      line-height: 24px;
+      color: $medium-gray;
+    }
     button:hover {
       color: $hover-blue;
     }
   }
-}
-
-// .fav-div > button {
-//   background: transparent;
-// }
-
-// .fav-div > button:hover {
-//   color: #0063dc;
-// }
-
-.play-button, .pause-button {
-  background: transparent;
-  color: $medium-gray;
-  line-height: 20px;
-}
-
-.play-button:hover, .pause-button:hover, .fav-modal:hover {
-  color: #0063dc;
 }
 
 .follow, .unfollow {
@@ -458,17 +448,12 @@ label {
   color: #fff;
 }
 
-.favorite {
-  color: #b3b3b3;
+#favorite {
+  color: $medium-gray;
 }
 
-.unfavorite {
-  color: #ed2024;
-}
-
-.fav-modal {
-  background: transparent;
-  color: #b3b3b3;
+#unfavorite {
+  color: red;
 }
 
 /*/ Profile /*/

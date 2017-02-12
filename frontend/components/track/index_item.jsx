@@ -119,7 +119,7 @@ var IndexItem = React.createClass({
     if (track.favorite_ids.includes(currentUser.id)) {
       return (
         <button
-          className="unfavorite"
+          id="unfavorite"
           onClick={this._unfavorTrack.bind(this, track.id)}>
           <div><i className="fa fa-heart"></i></div>
         </button>
@@ -127,7 +127,7 @@ var IndexItem = React.createClass({
     } else {
       return (
         <button
-          className="favorite"
+          id="favorite"
           onClick={this._favorTrack.bind(this, track.id)}>
           <div><i className="fa fa-heart"></i></div>
         </button>
