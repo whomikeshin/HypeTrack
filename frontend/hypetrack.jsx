@@ -57,19 +57,3 @@ $(window).scroll(function() {
     $("#player-container").removeClass("sticky");
   }
 });
-
-// function _requireLoggedIn(nextState, replace, callback) {
-//   if (!SessionStore.currentUserHasBeenFetched()) {
-//     ApiUtil.fetchCurrentUser(_requireIfNotLoggedIn);
-//   } else {
-//     _redirectIfNotLoggedIn();
-//   }
-//
-//   function _redirectIfNotLoggedIn () {
-//     if (!SessionStore.isLoggedIn()) {
-//       replace("/login");
-//     }
-//
-//     callback();
-//   }
-// }

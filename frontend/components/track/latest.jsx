@@ -38,7 +38,6 @@ var Latest = React.createClass({
     return (
       <main className="content">
         <section className="playlist">
-
           <header>
             <h2>Latest Blogged Music</h2>
             <ul className="playlist-menu">

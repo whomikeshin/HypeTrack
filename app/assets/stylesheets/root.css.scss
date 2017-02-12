@@ -438,22 +438,42 @@ label {
   color: $white;
 }
 
+
 /*/ Profile /*/
 
 .profile-header {
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-  width: 728px;
-  height: 100px;
-  margin-top: 50px;
-}
-
-.profile-image > img {
-  border: 1px solid #555;
-  max-height: 100px;
-  max-width: 100px;
-  float: left;
-  margin-right: 10px;
+  width: 780px;
+  height: 120px;
+  margin: 20px 0px;
+  display: flex;
+  color: $black;
+  .profile-image {
+    margin-right: 20px;
+    img {
+      border: 1px solid $black;
+      max-height: 100px;
+      max-width: 100px;
+    }
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .profile-info {
+    width: 600px;
+    text-align: right;
+    li {
+      display: inline-block;
+      width: 100px;
+      height: 50px;
+      border: 1px solid $black;
+      margin-left: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 5px 0px;
+    }
+  }
 }
 
 .profile-image.blog > img {
@@ -462,30 +482,6 @@ label {
   max-width: 250px;
   float: left;
   margin-right: 10px;
-}
-
-.profile-header > h1 {
-  color: #222;
-  font-size: 20px;
-  font-weight: 700px;
-}
-
-.profile-header > h2 {
-  color: #222;
-  font-size: 16px;
-  font-weight: 500px;
-}
-
-.profile-header > li {
-  font-size: 20px;
-}
-
-#loader {
-  display: block;
-  margin: 0 auto;
-  // width: 20px;
-  // height: 20px;
-  background: transparent;
 }
 
 /* LOOK AT THIS LATER */
@@ -511,7 +507,7 @@ label {
 }
 
 .blog-url {
-  color: #0063dc;
+  color: $hover-blue;
   font-weight: 600px;
 }
 
@@ -543,17 +539,10 @@ label {
   margin: 0 0 5px;
 }
 
-// .profile-menu > li {
-//   display: block;
-//   border: 1px solid #222;
-//   width: 80px;
-//   height: 60px;
-//   margin: 0 5px 0 0;
-//   text-align: center;
-//   float: right;
-//   font-weight: 600;
-//   font-size: 24px;
-// }
+#loader {
+  display: block;
+  margin: 0 auto;
+}
 
 // wavesurfer
 

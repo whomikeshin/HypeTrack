@@ -44,15 +44,14 @@ var Profile = React.createClass({
 
     return (
       <main className="content">
-        <section className="playlist group">
-          <header className="profile-header group">
+        <section className="playlist">
+          <header className="profile-header">
             <figure className="profile-image">
               <img src={user.thumb_url}/>
             </figure>
             <h1 className="profile-name">{user.username}</h1>
-            <h2><small>Joined on April 12, 2016</small></h2>
 
-            <ul className="profile-menu">
+            <ul className="profile-info">
               <li>
                 0
                 <p className="blog-text">Friends</p>
@@ -66,7 +65,6 @@ var Profile = React.createClass({
                 <p className="blog-text">Favorites</p>
               </li>
             </ul>
-
           </header>
 
           {this.props.children}

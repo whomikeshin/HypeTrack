@@ -42,7 +42,7 @@ var Favorites = React.createClass({
 
     return (
       <main className="content">
-        <section className="playlist group">
+        <section className="playlist">
 
           <header>
             <h2 className="playlist-title">My Favorite Tracks</h2>
