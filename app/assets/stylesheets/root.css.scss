@@ -329,32 +329,6 @@ label {
   text-decoration: underline;
 }
 
-/* LOOK AT THIS LATER */
-
-.playlist-title.blog {
-  font-size: 29px;
-  margin: 25px 0;
-  display: block;
-}
-
-.playlist-menu.alt > li {
-  float: right;
-}
-
-.playlist-menu.alt > li:hover {
-  text-decoration: underline;
-}
-
-.playlist-menu.alt > li:last-child {
-  border-top: 1px solid #999;
-  border-left: 1px solid #999;
-  border-right: 1px solid #999;
-}
-
-.blog-url {
-  color: #0063dc;
-  font-weight: 600px;
-}
 
 /* Track Index Item */
 
@@ -438,7 +412,7 @@ label {
       color: $hover-blue;
     }
     .fav-modal {
-      padding-right: 5px;
+      padding-right: 7px;
     }
   }
 }
@@ -453,10 +427,12 @@ label {
 
 #favorite {
   color: $medium-gray;
+  padding-right: 7px;
 }
 
 #unfavorite {
   color: red;
+  padding-right: 7px;
 }
 
 /*/ Profile /*/
@@ -501,12 +477,40 @@ label {
   font-size: 20px;
 }
 
-.loader {
+#loader {
   display: block;
-  width: 20px;
-  height: 20px;
+  margin: 0 auto;
+  // width: 20px;
+  // height: 20px;
+  background: transparent;
 }
 
+/* LOOK AT THIS LATER */
+
+.playlist-title.blog {
+  font-size: 29px;
+  margin: 25px 0;
+  display: block;
+}
+
+.playlist-menu.alt > li {
+  float: right;
+}
+
+.playlist-menu.alt > li:hover {
+  text-decoration: underline;
+}
+
+.playlist-menu.alt > li:last-child {
+  border-top: 1px solid #999;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+}
+
+.blog-url {
+  color: #0063dc;
+  font-weight: 600px;
+}
 // *Blog //
 .blog-menu > li {
   display: block;
