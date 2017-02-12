@@ -33,12 +33,12 @@ var Blog = React.createClass({
 
     return(
       <main className="content">
-        <section className="playlist group">
-          <header className="profile-header group">
+        <section className="playlist">
+          <header className="profile-header">
             <figure className="profile-image blog">
               <img src={blog.thumb_url}/>
             </figure>
-            <ul className="blog-menu">
+            <ul className="profile-info">
 
               <li>
                 <i className="fa fa-plus"></i>
@@ -56,7 +56,7 @@ var Blog = React.createClass({
               </li>
 
               <li>
-                <a 
+                <a
                   href={blog.twitter_url}>
                   <img className="twitter" src="https://g.twimg.com/Twitter_logo_blue.png"/>
                 </a>
@@ -68,11 +68,11 @@ var Blog = React.createClass({
           </header>
 
           <header>
-            <h2 className="playlist-title blog">
-              Latest Posts From <a href={blog.url} className="blog-url">{blog.name}</a>
+            <h2>
+              Latest Posts From <a href={blog.url} id="blog-url">{blog.name}</a>
             </h2>
-            <ul className="playlist-menu alt">
-              <li><a>Newest First↓</a></li>
+            <ul className="playlist-menu">
+              <li className="highlight"><a>Newest First</a></li>
             </ul>
           </header>
           <ul className="tracks-list">
