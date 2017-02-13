@@ -418,13 +418,17 @@ label {
 }
 
 #favorite {
-  color: $medium-gray;
+  // color: $medium-gray;
   padding-right: 7px;
 }
 
 #unfavorite {
   color: red;
   padding-right: 7px;
+}
+
+#play-button, #pause-button {
+  color: $button-gray;
 }
 
 .follow, .unfollow {
