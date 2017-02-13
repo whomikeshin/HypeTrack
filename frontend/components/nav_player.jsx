@@ -25,7 +25,7 @@ var NavPlayer = React.createClass({
     };
   },
 
-  componentDidMount: function () {
+  componentWillMount: function () {
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
   },
 

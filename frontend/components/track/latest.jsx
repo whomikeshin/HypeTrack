@@ -14,7 +14,7 @@ var Latest = React.createClass({
     };
   },
 
-  componentDidMount: function () {
+  componentWillMount: function () {
     this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
     ApiUtil.fetchTracks();
   },

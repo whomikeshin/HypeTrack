@@ -19,7 +19,7 @@ var App = React.createClass({
     };
   },
 
-  componentDidMount: function () {
+  componentWilMount: function () {
     this.sessionStoreToken = SessionStore.addListener(this.handleChange);
     this.handleChange();
   },
@@ -29,14 +29,13 @@ var App = React.createClass({
     if (this.state.currentUser) {
       sideMenu = <div className="profile-menu">
                     <ProfileMenu/>
-                  </div>;
+                 </div>;
     } else {
       sideMenu = <ul className="login-menu">
                     <li><LoginModal/></li>
                     <li><UserModal/></li>
                     <li>
-                      <button className="player-button"
-                        onClick={this._guestLogin}>
+                      <button className="player-button" onClick={this._guestLogin}>
                         Guest
                       </button>
                     </li>

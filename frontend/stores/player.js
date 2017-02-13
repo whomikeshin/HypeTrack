@@ -57,8 +57,9 @@ var playPause = function () {
 };
 
 var playNext = function () {
+
   var nextTrack = TrackStore.next(_currentTrack.trackInfo.id);
-  
+
   play(nextTrack.id);
 };
 

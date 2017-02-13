@@ -52,8 +52,6 @@ li {
   background: $primary-green;
   height: 42px;
   line-height: 42px;
-  // z-index: 200;
-  // position: relative;
 }
 
 .header-nav {
@@ -136,6 +134,7 @@ li {
 
 .nav-controls {
   height: 35px;
+  width: 150px;
   li {
     margin: 0px 10px;
     vertical-align: middle;
@@ -329,7 +328,6 @@ label {
   text-decoration: underline;
 }
 
-
 /* Track Index Item */
 
 .track {
@@ -441,7 +439,6 @@ label {
 .follow:hover .follow-text, .unfollow:hover .follow-text {
   color: $white;
 }
-
 
 /*/ Profile /*/
 

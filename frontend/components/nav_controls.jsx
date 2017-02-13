@@ -15,7 +15,7 @@ var NavControls = React.createClass({
     };
   },
 
-  componentDidMount: function () {
+  componentWillMount: function () {
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
   },
 
@@ -24,14 +24,30 @@ var NavControls = React.createClass({
   },
 
   render: function () {
-    var currentUser = SessionStore.currentUser();
+    var currentUser = SessionStore.currentUser(),
+        playPause,
+        isPlaying = PlayerStore.isPlaying();
+
+    if (isPlaying) {
+      playPause = <button
+                    onClick={console.log("pause")}
+                    className="fa fa-pause">
+                  </button>
+    } else {
+      playPause = <button
+                    onClick={console.log("play")}
+                    className="fa fa-play">
+                  </button>
+    }
 
     return (
       <ul className="nav-controls">
         <li><i className="fa fa-fast-backward"></i></li>
-        <li><i className="fa fa-play"></i></li>
+        <li>{playPause}</li>
         <li><i className="fa fa-heart"></i></li>
-        <li><i className="fa fa-fast-forward"></i></li>
+        <li>
+          <button className="fa fa-fast-forward"></button>
+        </li>
       </ul>
     );
   },
@@ -40,6 +56,10 @@ var NavControls = React.createClass({
     this.setState({
       playStatus: _isPlaying(),
     });
+  },
+
+  _nextTrack: function () {
+    PlayerActions.next();
   }
 });
 
