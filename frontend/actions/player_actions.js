@@ -2,6 +2,13 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var PlayerConstants = require('../constants/player_constants');
 
 var PlayerActions = {
+  receiveTracks: function (tracks) {
+    AppDispatcher.dispatch({
+      actionType: PlayerConstants.TRACKS_RECEIVED,
+      tracks: tracks
+    });
+  },
+
   receiveWavesurfer: function (track) {
     AppDispatcher.dispatch({
       actionType: PlayerConstants.WAVE_RECEIVED,

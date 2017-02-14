@@ -1,4 +1,5 @@
 var ApiActions = require('../actions/api_actions');
+var PlayerActions = require('../actions/player_actions');
 var SessionActions = require('../actions/session_actions');
 
 ApiUtil = {
@@ -7,7 +8,7 @@ ApiUtil = {
       type: 'GET',
       url: 'api/tracks',
       success: function (tracks) {
-        ApiActions.receiveTracks(tracks);
+        PlayerActions.receiveTracks(tracks);
       },
       error: function(data) {
         console.log(data);

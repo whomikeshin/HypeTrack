@@ -8,7 +8,15 @@ function _getCurrentTrack () {
 }
 
 function _getLoadedTracks () {
-  return PlayerStore.getLoadedTracks();
+  var tracks = [];
+  var cache = PlayerStore.all();
+  while (true) {
+    tracks.push(cache.list.next.value);
+    if (cache.list.next === null) {
+      break;
+    }
+  }
+  return tracks;
 }
 
 function _isPlaying () {

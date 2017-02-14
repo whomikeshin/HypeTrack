@@ -5,22 +5,22 @@ var Link = function (key, value, prev, next) {
   this.next = next;
 };
 
-var List = function () {
+var LinkedList = function () {
   this.head = new Link();
   this.tail = new Link();
-  this._connect(this.head, this.tail);
+  this._link(this.head, this.tail);
 };
 
-List.prototype._connect = function (link1, link2) {
+LinkedList.prototype._link = function (link1, link2) {
   link1.next = link2;
   link2.prev = link1;
 };
 
-List.prototype.empty = function () {
+LinkedList.prototype.empty = function () {
   return this.head.next === this.tail;
 };
 
-List.prototype.first = function () {
+LinkedList.prototype.first = function () {
   if (this.empty()) {
     return undefined;
   }
@@ -28,23 +28,23 @@ List.prototype.first = function () {
   return this.tail.prev;
 };
 
-List.prototype.push = function (key, value) {
+LinkedList.prototype.push = function (key, value) {
   var link = new Link(key, value);
   var tail = this.tail;
   var prev = this.tail.prev;
 
-  this._connect(prev, link);
-  this._connect(link, tail);
+  this._link(prev, link);
+  this._link(link, tail);
 
   return link;
 };
 
-List.prototype.shift = function () {
+LinkedList.prototype.shift = function () {
   return this.remove(this.first());
 };
 
-List.prototype.remove = function (link) {
-  this._connect(link.prev, link.next);
+LinkedList.prototype.remove = function (link) {
+  this._link(link.prev, link.next);
 
   link.next = null;
   link.prev = null;
@@ -53,19 +53,19 @@ List.prototype.remove = function (link) {
 };
 
 var Cache = function (maxLength) {
-  this.store = new List();
-  this.dict = {};
+  this.list = new LinkedList();
+  this.keys = {};
   this.max = maxLength;
   this.length = 0;
 };
 
 Cache.prototype.includes = function (key) {
-  return !!this.dict[key];
+  return !!this.keys[key];
 };
 
 Cache.prototype.remove = function (key) {
-  link = this.store.remove(this.dict[key]);
-  delete this.dict[key];
+  link = this.list.remove(this.keys[key]);
+  delete this.keys[key];
   this.length --;
   return link;
 };
@@ -75,8 +75,8 @@ Cache.prototype.add = function (key, value) {
     this.remove(key);
   }
 
-  var link = this.store.push(key, value);
-  this.dict[key] = link;
+  var link = this.list.push(key, value);
+  this.keys[key] = link;
   this.length ++;
 
   if (this.length > this.max) {
@@ -88,8 +88,8 @@ Cache.prototype.add = function (key, value) {
 };
 
 Cache.prototype._eject = function () {
-  var link = this.store.shift();
-  delete this.dict[link.key];
+  var link = this.list.shift();
+  delete this.keys[link.key];
 };
 
 module.exports = Cache;

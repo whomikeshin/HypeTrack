@@ -3,8 +3,20 @@ var TrackStore = require('../../stores/track');
 var ApiUtil = require('../../util/api_util');
 var TrackIndexItem = require('./index_item');
 
+// function _getAllTracks () {
+//   return TrackStore.all();
+// }
+
 function _getAllTracks () {
-  return TrackStore.all();
+  var tracks = [];
+  var cache = PlayerStore.all();
+  while (true) {
+    tracks.push(cache.list.next.value);
+    if (cache.list.next === null) {
+      break;
+    }
+  }
+  return tracks;
 }
 
 var Latest = React.createClass({

@@ -10,6 +10,13 @@ var PlayerStore = new Store(AppDispatcher),
     _loadedTracks = {},
     _trackCache = new Cache(20);
 
+var receive = function (tracks) {
+  for (var i = 0; i < tracks.length; i++) {
+    var track = tracks[i];
+    _trackCache.add(track.id, track);
+  }
+};
+
 var add = function (track) {
   _loadedTracks[track.trackInfo.id] = track;
 };
@@ -89,8 +96,8 @@ PlayerStore.currentTrack = function () {
   return _currentTrack;
 };
 
-PlayerStore.getLoadedTracks = function () {
-  return _loadedTracks;
+PlayerStore.all = function () {
+  return _trackCache;
 };
 
 PlayerStore.isCurrentTrack = function (trackId) {
@@ -111,6 +118,10 @@ PlayerStore.wavesurferExists = function (trackId) {
 
 PlayerStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
+    case PlayerConstants.TRACKS_RECEIVED:
+      receive(payload.tracks);
+      PlayerStore.__emitChange();
+      break;
     case PlayerConstants.WAVE_RECEIVED:
       add(payload.track);
       PlayerStore.__emitChange();
