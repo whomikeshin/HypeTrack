@@ -7,16 +7,8 @@ function _getCurrentTrack () {
   return PlayerStore.currentTrack();
 }
 
-function _getLoadedTracks () {
-  var tracks = [];
-  var cache = PlayerStore.all();
-  while (true) {
-    tracks.push(cache.list.next.value);
-    if (cache.list.next === null) {
-      break;
-    }
-  }
-  return tracks;
+function _getAllTracks () {
+  return PlayerStore.all();
 }
 
 function _isPlaying () {
@@ -28,13 +20,15 @@ var NavPlayer = React.createClass({
   getInitialState: function () {
     return {
       currentTrack: null,
-      loadedTracks: _getLoadedTracks(),
+      tracks: _getAllTracks(),
       playStatus: _isPlaying()
     };
   },
 
   componentWillMount: function () {
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+    console.log("NavPlayer: before fetchTracks")
+    ApiUtil.fetchTracks();
   },
 
   componentWillUnmount: function () {
@@ -42,9 +36,9 @@ var NavPlayer = React.createClass({
   },
 
   render: function () {
-    var loadedTracks = this.state.loadedTracks;
-    var track = this.state.currentTrack
-      || loadedTracks[parseInt(Object.keys(loadedTracks)[0])];
+    var tracks = this.state.tracks;
+    var track = this.state.currentTrack || tracks[0];
+    debugger
     var playStatus = this.state.playStatus;
 
     if (!track) {
@@ -53,15 +47,15 @@ var NavPlayer = React.createClass({
       return (
       <div>
         <div>
-          <audio src={track.trackInfo.audio_file_name}>
+          <audio src={track.value.audio_file_name}>
           </audio>
         </div>
 
         <ul id="current-track">
-          <li>{track.trackInfo.title}</li>
+          <li>{track.value.title}</li>
           <li>-</li>
-          <li>{track.trackInfo.artist_name}</li>
-          <li><a href={track.trackInfo.posts[0].post_url}>
+          <li>{track.value.artist_name}</li>
+          <li><a href={track.value.posts[0].post_url}>
             <small>Read Post →</small></a></li>
         </ul>
       </div>
@@ -72,7 +66,7 @@ var NavPlayer = React.createClass({
   _onPlayerChange: function () {
     this.setState({
       currentTrack: _getCurrentTrack(),
-      loadedTracks: _getLoadedTracks(),
+      tracks: _getAllTracks(),
       playStatus: _isPlaying()
     });
   },

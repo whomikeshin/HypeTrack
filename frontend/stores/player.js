@@ -3,22 +3,36 @@ var AppDispatcher = require('../dispatcher/dispatcher');
 var PlayerConstants = require('../constants/player_constants');
 var TrackStore = require('./track');
 var Cache = require('../lib/cache');
+var LinkedList = require('../lib/linkedlist');
 
 var PlayerStore = new Store(AppDispatcher),
     _currentTrack = null,
     _playStatus = false,
-    _loadedTracks = {},
-    _trackCache = new Cache(20);
+    _trackCache = new Cache(20),
+    _trackList = new LinkedList(),
+    _trackArray = [];
 
-var receive = function (tracks) {
-  for (var i = 0; i < tracks.length; i++) {
-    var track = tracks[i];
-    _trackCache.add(track.id, track);
+var push = function (tracks) {
+  if (_trackList.length === 0) {
+    for (var i = 0; i < tracks.length; i++) {
+      _trackList.push(tracks[i]);
+    }
+    _toArray();
   }
 };
 
-var add = function (track) {
-  _loadedTracks[track.trackInfo.id] = track;
+var _toArray = function () {
+  var trackList = _trackList,
+      track = _trackList.head;
+  if (track) {
+    while (true) {
+      _trackArray.push(track);
+      track = track.next;
+      if (track === null) {
+        break;
+      }
+    }
+  }
 };
 
 var remount = function (trackId, container, height, visible) {
@@ -97,7 +111,7 @@ PlayerStore.currentTrack = function () {
 };
 
 PlayerStore.all = function () {
-  return _trackCache;
+  return _trackArray;
 };
 
 PlayerStore.isCurrentTrack = function (trackId) {
@@ -119,7 +133,7 @@ PlayerStore.wavesurferExists = function (trackId) {
 PlayerStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case PlayerConstants.TRACKS_RECEIVED:
-      receive(payload.tracks);
+      push(payload.tracks);
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.WAVE_RECEIVED:

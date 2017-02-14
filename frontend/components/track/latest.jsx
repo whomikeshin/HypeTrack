@@ -1,5 +1,6 @@
 var React = require('react');
 var TrackStore = require('../../stores/track');
+var PlayerStore = require('../../stores/player');
 var ApiUtil = require('../../util/api_util');
 var TrackIndexItem = require('./index_item');
 
@@ -8,19 +9,12 @@ var TrackIndexItem = require('./index_item');
 // }
 
 function _getAllTracks () {
-  var tracks = [];
-  var cache = PlayerStore.all();
-  while (true) {
-    tracks.push(cache.list.next.value);
-    if (cache.list.next === null) {
-      break;
-    }
-  }
-  return tracks;
+  return PlayerStore.all();
 }
 
 var Latest = React.createClass({
   getInitialState: function () {
+    console.log("Latest: during getInitialState")
     return {
       tracks: _getAllTracks()
     };
