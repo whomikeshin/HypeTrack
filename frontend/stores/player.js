@@ -36,6 +36,7 @@ var _listToArray = function () {
 };
 
 var remount = function (trackId, container, height, visible) {
+  debugger;
   var cached = _trackCache.remove(trackId).value;
 
   cached.wavesurfer.remount(container, height, visible);
