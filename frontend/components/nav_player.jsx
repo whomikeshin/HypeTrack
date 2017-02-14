@@ -27,7 +27,6 @@ var NavPlayer = React.createClass({
 
   componentWillMount: function () {
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
-    console.log("NavPlayer: before fetchTracks")
     ApiUtil.fetchTracks();
   },
 
@@ -38,7 +37,6 @@ var NavPlayer = React.createClass({
   render: function () {
     var tracks = this.state.tracks;
     var track = this.state.currentTrack || tracks[0];
-    debugger
     var playStatus = this.state.playStatus;
 
     if (!track) {

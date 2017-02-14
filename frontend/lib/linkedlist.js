@@ -27,5 +27,16 @@ LinkedList.prototype.push = function(val) {
   }
 };
 
+LinkedList.prototype.includes = function (key) {
+  var current = this.head;
+  while (current) {
+    if (current.value.id === key) {
+      return true;
+    } else {
+      current = current.next;
+    }
+  }
+  return false;
+};
 
 module.exports = LinkedList;

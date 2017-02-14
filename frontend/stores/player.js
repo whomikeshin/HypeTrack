@@ -8,7 +8,7 @@ var LinkedList = require('../lib/linkedlist');
 var PlayerStore = new Store(AppDispatcher),
     _currentTrack = null,
     _playStatus = false,
-    _trackCache = new Cache(20),
+    // _trackCache = new Cache(20),
     _trackList = new LinkedList(),
     _trackArray = [];
 
@@ -17,11 +17,11 @@ var push = function (tracks) {
     for (var i = 0; i < tracks.length; i++) {
       _trackList.push(tracks[i]);
     }
-    _toArray();
+    _listToArray();
   }
 };
 
-var _toArray = function () {
+var _listToArray = function () {
   var trackList = _trackList,
       track = _trackList.head;
   if (track) {
@@ -70,10 +70,7 @@ var play = function (trackId) {
 };
 
 var pause = function () {
-  if (_currentTrack && _playStatus) {
-    _currentTrack.wavesurfer.pause();
-  }
-  // _currentTrack && _currentTrack.wavesurfer.pause();
+  _currentTrack && _currentTrack.wavesurfer.pause();
 };
 
 var playPause = function () {
@@ -127,7 +124,7 @@ PlayerStore.isPlaying = function () {
 };
 
 PlayerStore.wavesurferExists = function (trackId) {
-  return !!_loadedTracks[trackId] || _trackCache.includes(trackId);
+  return _trackList.includes(trackId);
 };
 
 PlayerStore.__onDispatch = function (payload) {

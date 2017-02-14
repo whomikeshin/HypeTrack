@@ -14,20 +14,18 @@ function _getAllTracks () {
 
 var Latest = React.createClass({
   getInitialState: function () {
-    console.log("Latest: during getInitialState")
     return {
       tracks: _getAllTracks()
     };
   },
 
   componentWillMount: function () {
-    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
-    console.log("Latest: before fetchTracks")
+    this.onPlayerChangeToken = PlayerStore.addListener(this._onTrackChange);
     ApiUtil.fetchTracks();
   },
 
   componentWillUnmount: function () {
-    this.onTrackChangeToken.remove();
+    this.onPlayerChangeToken.remove();
   },
 
   _onTrackChange: function () {
@@ -37,7 +35,6 @@ var Latest = React.createClass({
 
   render: function () {
     var tracks = this.state.tracks;
-    console.log("Latest: tracks rendered")
 
     tracks.sort(function(a, b) {
       return b.created_at - a.created_at;
@@ -58,7 +55,7 @@ var Latest = React.createClass({
 
           <ul className="tracks-list">
             {tracks.map(function (track) {
-              return <TrackIndexItem key={track.id} track={track}/>;
+              return <TrackIndexItem key={track.value.id} track={track.value}/>;
             })}
           </ul>
         </section>
