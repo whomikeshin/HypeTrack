@@ -16,6 +16,7 @@ var Latest = React.createClass({
 
   componentWillMount: function () {
     this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
+    console.log("Latest: before fetchTracks")
     ApiUtil.fetchTracks();
   },
 
@@ -30,6 +31,7 @@ var Latest = React.createClass({
 
   render: function () {
     var tracks = this.state.tracks;
+    console.log("Latest: tracks rendered")
 
     tracks.sort(function(a, b) {
       return b.created_at - a.created_at;

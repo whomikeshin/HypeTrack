@@ -49,7 +49,10 @@ var play = function (trackId) {
 };
 
 var pause = function () {
-  _currentTrack && _currentTrack.wavesurfer.pause();
+  if (_currentTrack && _playStatus) {
+    _currentTrack.wavesurfer.pause();
+  }
+  // _currentTrack && _currentTrack.wavesurfer.pause();
 };
 
 var playPause = function () {
@@ -57,9 +60,7 @@ var playPause = function () {
 };
 
 var playNext = function () {
-
   var nextTrack = TrackStore.next(_currentTrack.trackInfo.id);
-
   play(nextTrack.id);
 };
 
@@ -128,6 +129,7 @@ PlayerStore.__onDispatch = function (payload) {
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PLAYED:
+      _playStatus = true;
       play(payload.trackId);
       PlayerStore.__emitChange();
       break;

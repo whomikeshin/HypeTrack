@@ -30,23 +30,22 @@ var NavControls = React.createClass({
 
     if (isPlaying) {
       playPause = <button
-                    onClick={console.log("pause")}
                     className="fa fa-pause">
                   </button>
     } else {
       playPause = <button
-                    onClick={console.log("play")}
                     className="fa fa-play">
                   </button>
     }
 
     return (
       <ul className="nav-controls">
-        <li><i className="fa fa-fast-backward"></i></li>
+        <li><button className="fa fa-fast-backward"></button></li>
         <li>{playPause}</li>
-        <li><i className="fa fa-heart"></i></li>
-        <li>
-          <button className="fa fa-fast-forward"></button>
+        <li><button className="fa fa-heart"></button></li>
+        <li><button
+          onClick={this._nextTrack()}
+          className="fa fa-fast-forward"></button>
         </li>
       </ul>
     );
@@ -58,8 +57,11 @@ var NavControls = React.createClass({
     });
   },
 
-  _nextTrack: function () {
-    PlayerActions.next();
+  _nextTrack: function (e) {
+    if (!PlayerStore._currentTrack === null) {
+      PlayerActions.next();
+      console.log("Next Pressed!")
+    }
   }
 });
 

@@ -35,7 +35,8 @@ var NavPlayer = React.createClass({
 
   render: function () {
     var loadedTracks = this.state.loadedTracks;
-    var track = this.state.currentTrack || loadedTracks[parseInt(Object.keys(loadedTracks)[0])];
+    var track = this.state.currentTrack
+      || loadedTracks[parseInt(Object.keys(loadedTracks)[0])];
     var playStatus = this.state.playStatus;
 
     if (!track) {

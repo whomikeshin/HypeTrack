@@ -54,18 +54,18 @@ List.prototype.remove = function (link) {
 
 var Cache = function (maxLength) {
   this.store = new List();
-  this.map = {};
+  this.dict = {};
   this.max = maxLength;
   this.length = 0;
 };
 
 Cache.prototype.includes = function (key) {
-  return !!this.map[key];
+  return !!this.dict[key];
 };
 
 Cache.prototype.remove = function (key) {
-  link = this.store.remove(this.map[key]);
-  delete this.map[key];
+  link = this.store.remove(this.dict[key]);
+  delete this.dict[key];
   this.length --;
   return link;
 };
@@ -76,7 +76,7 @@ Cache.prototype.add = function (key, value) {
   }
 
   var link = this.store.push(key, value);
-  this.map[key] = link;
+  this.dict[key] = link;
   this.length ++;
 
   if (this.length > this.max) {
@@ -89,7 +89,7 @@ Cache.prototype.add = function (key, value) {
 
 Cache.prototype._eject = function () {
   var link = this.store.shift();
-  delete this.map[link.key];
+  delete this.dict[link.key];
 };
 
 module.exports = Cache;

@@ -193,7 +193,6 @@ var IndexItem = React.createClass({
   _unfollowBlog: function (blogId) {
     ApiUtil.destroyFollow(blogId);
   }
-
 });
 
 module.exports = IndexItem;
