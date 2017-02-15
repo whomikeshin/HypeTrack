@@ -29,7 +29,6 @@ LinkedList.prototype.push = function(val) {
 
 LinkedList.prototype.remove = function (val) {
   var current = this.head;
-  debugger
   if (current.value === val) {
     this.head = current.next;
   } else {
@@ -39,6 +38,7 @@ LinkedList.prototype.remove = function (val) {
     while (current.next) {
       if (current.value === val) {
         previous.next = current.next;
+        current.next.previous = previous; //links them together
         break;
       }
       previous = current;
@@ -62,5 +62,17 @@ LinkedList.prototype.includes = function (id) {
   return false;
 };
 
+LinkedList.prototype.find = function (id) {
+  var current = this.head;
+  debugger
+  while (current) {
+    if (current.value.id === id) {
+      return current.value;
+    } else {
+      current = current.next;
+    }
+  }
+  return null;
+};
 
 module.exports = LinkedList;
