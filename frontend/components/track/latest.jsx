@@ -3,15 +3,16 @@ var TrackStore = require('../../stores/track');
 var PlayerStore = require('../../stores/player');
 var ApiUtil = require('../../util/api_util');
 var TrackIndexItem = require('./index_item');
+var Loader = require('../loader');
 
 // function _getAllTracks () {
 //   return TrackStore.all();
 // }
 
 function _getAllTracks () {
-  var trackHash = PlayerStore.all(),
-      trackArray = _hashToArray(trackHash);
-  return trackArray;
+  var trackHash = PlayerStore.all();
+      trackArr = _hashToArray(trackHash);
+  return trackArr;
 }
 
 function _hashToArray(hash) {
@@ -45,9 +46,15 @@ var Latest = React.createClass({
 
   render: function () {
     var tracks = this.state.tracks;
-    // tracks.sort(function(a, b) {
-    //   return b.created_at - a.created_at;
-    // });
+    debugger
+
+    if (!tracks) {
+      return <Loader/>;;
+    }
+
+    tracks.sort(function(a, b) {
+      return b.created_at - a.created_at;
+    });
 
     return (
       <main className="content">

@@ -9,7 +9,8 @@ var PlayerStore = new Store(AppDispatcher),
     _currentTrack = null,
     _playStatus = false,
     _trackLinkedList = new LinkedList(),
-    _trackHash = {};
+    _trackHash = {},
+    _trackArray = [];
 
 var push = function (tracks) {
   if (_trackLinkedList.length === 0) {
@@ -23,7 +24,7 @@ var _toArray = function () {
   var track = _trackLinkedList.head;
   if (track) {
     while (true) {
-      _trackArray.push(track);
+      _trackArray.push(track.data);
       track = track.next;
       if (track === null) {
         break;
@@ -32,26 +33,29 @@ var _toArray = function () {
   }
 };
 
-var _linkedListToHash = function () {
-  var track = _trackLinkedList.head;
-  if (track) {
-    while (true) {
-      _trackHash[track.data.id] = track.data;
-      track = track.next;
-      if (track === null) {
-        break;
-      }
-    }
-  }
+var add = function (track) {
+  _trackHash[track.trackData.id] = track;
 };
 
-// var remount = function (trackId, container, height, visible) {
-//   var track = _trackLinkedList.find(trackId);
-//
-//   track.wavesurfer.remount(container, height, visible);
-//
-//   _trackHash[trackId] = cached;
+// var _linkedListToHash = function () {
+//   var track = _trackLinkedList.head;
+//   if (track) {
+//     while (true) {
+//       _trackHash[track.data.id] = track.data;
+//       track = track.next;
+//       if (track === null) {
+//         break;
+//       }
+//     }
+//   }
 // };
+
+var remount = function (trackId, container, height, visible) {
+  // why remove from cache
+  var track = _trackHash[trackId];
+
+  track.wavesurfer.remount(container, height, visible);
+};
 
 var unmount = function (trackId) {
   var isPlaying = false;
@@ -76,7 +80,6 @@ var play = function (trackId) {
   _playStatus = true;
   pause();
   _currentTrack = _trackHash[trackId];
-  debugger
   _currentTrack.wavesurfer.play();
 };
 
@@ -135,29 +138,28 @@ PlayerStore.isPlaying = function () {
 };
 
 PlayerStore.wavesurferExists = function (trackId) {
-  return _trackLinkedList.includes(trackId);
+  return _trackHash[trackId];
 };
 
 PlayerStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case PlayerConstants.TRACKS_RECEIVED:
       push(payload.tracks);
-      _linkedListToHash();
       PlayerStore.__emitChange();
       break;
-    // case PlayerConstants.WAVE_RECEIVED:
-    //   add(payload.track);
-    //   PlayerStore.__emitChange();
-    //   break;
-    // case PlayerConstants.WAVE_REMOUNTED:
-    //   remount(
-    //     payload.trackId,
-    //     payload.container,
-    //     payload.height,
-    //     payload.visible
-    //   );
-    //   PlayerStore.__emitChange();
-    //   break;
+    case PlayerConstants.WAVE_RECEIVED:
+      add(payload.track);
+      PlayerStore.__emitChange();
+      break;
+    case PlayerConstants.WAVE_REMOUNTED:
+      remount(
+        payload.trackId,
+        payload.container,
+        payload.height,
+        payload.visible
+      );
+      PlayerStore.__emitChange();
+      break;
     case PlayerConstants.WAVE_UNMOUNTED:
       unmount(payload.trackId);
       PlayerStore.__emitChange();

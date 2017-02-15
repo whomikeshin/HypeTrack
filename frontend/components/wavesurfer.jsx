@@ -32,17 +32,17 @@ var Wavesurfer = React.createClass({
     var containerClass = "wave-" + track.id;
     var container = $("." + containerClass)[0];
 
-    // if (PlayerStore.wavesurferExists(track.id)) {
-    //   setTimeout(function () {
-    //     PlayerActions.remountWavesurfer(
-    //       track.id,
-    //       container,
-    //       height,
-    //       visible
-    //     );
-    //   }.bind(this), 0);
-    //   return;
-    // }
+    if (PlayerStore.wavesurferExists(track.id)) {
+      setTimeout(function () {
+        PlayerActions.remountWavesurfer(
+          track.id,
+          container,
+          height,
+          visible
+        );
+      }.bind(this), 0);
+      return;
+    }
 
     this.wavesurfer = Object.create(WaveSurfer);
 
@@ -54,22 +54,22 @@ var Wavesurfer = React.createClass({
 
     this.wavesurfer.load(track.audio_file_name);
 
-    // setTimeout(function () {
-    //   PlayerActions.receiveWavesurfer({
-    //     trackInfo: track,
-    //     wavesurfer: this.wavesurfer
-    //   });
-    //
-    //   // this.wavesurfer.on('audioprocess', function () {
-    //   //   PlayerActions.progress();
-    //   // });
-    //
-    //   this.wavesurfer.on('finish', function () {
-    //     this.wavesurfer.seekTo(0);
-    //     PlayerActions.next();
-    //   }.bind(this));
-    //
-    // }.bind(this), 0);
+    setTimeout(function () {
+      PlayerActions.receiveWavesurfer({
+        trackData: track,
+        wavesurfer: this.wavesurfer
+      });
+
+      // this.wavesurfer.on('audioprocess', function () {
+      //   PlayerActions.progress();
+      // });
+
+      this.wavesurfer.on('finish', function () {
+        this.wavesurfer.seekTo(0);
+        PlayerActions.next();
+      }.bind(this));
+
+    }.bind(this), 0);
   }
 });
 

@@ -7,10 +7,16 @@ function _getCurrentTrack () {
   return PlayerStore.currentTrack();
 }
 
+// function _getAllTracks () {
+//   var trackHash = PlayerStore.all(),
+//       trackArray = _hashToArray(trackHash);
+//   return trackArray;
+// }
+
 function _getAllTracks () {
-  var trackHash = PlayerStore.all(),
-      trackArray = _hashToArray(trackHash);
-  return trackArray;
+  var trackHash = PlayerStore.all();
+      trackArr = _hashToArray(trackHash);
+  return trackArr;
 }
 
 function _hashToArray(hash) {
@@ -46,13 +52,15 @@ var NavPlayer = React.createClass({
 
   render: function () {
     var tracks = this.state.tracks;
-    var track = this.state.currentTrack || tracks[0];
+    var track = this.state.currentTrack;
     var playStatus = this.state.playStatus;
+
+    debugger
 
     if (!track) {
       return <Loader/>;
-    } else {
-      return (
+    }
+    return (
       <div>
         <div>
           <audio src={track.audio_file_name}>
@@ -67,8 +75,7 @@ var NavPlayer = React.createClass({
             <small>Read Post →</small></a></li>
         </ul>
       </div>
-      );
-    }
+    );
   },
 
   _onPlayerChange: function () {

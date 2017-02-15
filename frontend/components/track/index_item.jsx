@@ -53,7 +53,7 @@ var IndexItem = React.createClass({
     if (blogs) {
       var blogList = this._blogList(blogs);
     } else {
-      return <Loader />;
+      return <Loader/>;
     }
 
     var currentUser = SessionStore.currentUser();
@@ -101,7 +101,6 @@ var IndexItem = React.createClass({
                 Read Post →</a>
             </p>
           </div>
-
 
         </section>
         <div className="fav-div">
