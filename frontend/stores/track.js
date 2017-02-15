@@ -52,6 +52,7 @@ TrackStore.prev = function (currentTrackId) {
 TrackStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case TrackConstants.TRACKS_RECEIVED:
+      debugger
       reset(payload.tracks);
       TrackStore.__emitChange();
       break;

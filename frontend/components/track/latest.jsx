@@ -5,23 +5,23 @@ var ApiUtil = require('../../util/api_util');
 var TrackIndexItem = require('./index_item');
 var Loader = require('../loader');
 
-// function _getAllTracks () {
-//   return TrackStore.all();
-// }
-
 function _getAllTracks () {
-  var trackHash = PlayerStore.all();
-      trackArr = _hashToArray(trackHash);
-  return trackArr;
+  return TrackStore.all();
 }
 
-function _hashToArray(hash) {
-  var arr = [];
-  for (var key in hash) {
-    arr.push(hash[key]);
-  }
-  return arr;
-}
+// function _getAllTracks () {
+//   var trackHash = PlayerStore.all();
+//       trackArr = _hashToArray(trackHash);
+//   return trackArr;
+// }
+//
+// function _hashToArray(hash) {
+//   var arr = [];
+//   for (var key in hash) {
+//     arr.push(hash[key]);
+//   }
+//   return arr;
+// }
 
 var Latest = React.createClass({
   getInitialState: function () {

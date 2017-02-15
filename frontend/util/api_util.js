@@ -8,7 +8,7 @@ ApiUtil = {
       type: 'GET',
       url: 'api/tracks',
       success: function (tracks) {
-        PlayerActions.receiveTracks(tracks);
+        ApiActions.receiveTracks(tracks);
       },
       error: function(data) {
         console.log(data);

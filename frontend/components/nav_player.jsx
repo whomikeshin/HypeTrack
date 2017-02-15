@@ -1,5 +1,6 @@
 var React = require('react');
 var PlayerStore = require('../stores/player');
+var TrackStore = require('../stores/track');
 var Loader = require('./loader');
 var NavControls = require('./nav_controls');
 
@@ -7,25 +8,23 @@ function _getCurrentTrack () {
   return PlayerStore.currentTrack();
 }
 
-// function _getAllTracks () {
-//   var trackHash = PlayerStore.all(),
-//       trackArray = _hashToArray(trackHash);
-//   return trackArray;
-// }
-
 function _getAllTracks () {
-  var trackHash = PlayerStore.all();
-      trackArr = _hashToArray(trackHash);
-  return trackArr;
+  TrackStore.all();
 }
 
-function _hashToArray(hash) {
-  var arr = [];
-  for (var key in hash) {
-    arr.push(hash[key]);
-  }
-  return arr;
-}
+// function _getAllTracks () {
+//   var trackHash = PlayerStore.all();
+//       trackArr = _hashToArray(trackHash);
+//   return trackArr;
+// }
+//
+// function _hashToArray(hash) {
+//   var arr = [];
+//   for (var key in hash) {
+//     arr.push(hash[key]);
+//   }
+//   return arr;
+// }
 
 function _isPlaying () {
   return PlayerStore.playStatus();
