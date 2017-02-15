@@ -8,7 +8,17 @@ function _getCurrentTrack () {
 }
 
 function _getAllTracks () {
-  return PlayerStore.all();
+  var trackHash = PlayerStore.all(),
+      trackArray = _hashToArray(trackHash);
+  return trackArray;
+}
+
+function _hashToArray(hash) {
+  var arr = [];
+  for (var key in hash) {
+    arr.push(hash[key]);
+  }
+  return arr;
 }
 
 function _isPlaying () {
@@ -45,15 +55,15 @@ var NavPlayer = React.createClass({
       return (
       <div>
         <div>
-          <audio src={track.value.audio_file_name}>
+          <audio src={track.audio_file_name}>
           </audio>
         </div>
 
         <ul id="current-track">
-          <li>{track.value.title}</li>
+          <li>{track.title}</li>
           <li>-</li>
-          <li>{track.value.artist_name}</li>
-          <li><a href={track.value.posts[0].post_url}>
+          <li>{track.artist_name}</li>
+          <li><a href={track.posts[0].post_url}>
             <small>Read Post →</small></a></li>
         </ul>
       </div>

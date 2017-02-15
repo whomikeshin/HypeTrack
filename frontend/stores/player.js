@@ -8,22 +8,19 @@ var LinkedList = require('../lib/linkedlist');
 var PlayerStore = new Store(AppDispatcher),
     _currentTrack = null,
     _playStatus = false,
-    // _trackCache = new Cache(20),
-    _trackList = new LinkedList(),
-    _trackArray = [];
+    _trackLinkedList = new LinkedList(),
+    _trackHash = {};
 
 var push = function (tracks) {
-  if (_trackList.length === 0) {
+  if (_trackLinkedList.length === 0) {
     for (var i = 0; i < tracks.length; i++) {
-      _trackList.push(tracks[i]);
+      _trackLinkedList.push(tracks[i]);
     }
-    _listToArray();
   }
 };
 
-var _listToArray = function () {
-  var trackList = _trackList,
-      track = _trackList.head;
+var _toArray = function () {
+  var track = _trackLinkedList.head;
   if (track) {
     while (true) {
       _trackArray.push(track);
@@ -35,14 +32,26 @@ var _listToArray = function () {
   }
 };
 
-var remount = function (trackId, container, height, visible) {
-  debugger;
-  var track = _trackList.find(trackId);
-
-  track.wavesurfer.remount(container, height, visible);
-
-  _loadedTracks[trackId] = cached;
+var _linkedListToHash = function () {
+  var track = _trackLinkedList.head;
+  if (track) {
+    while (true) {
+      _trackHash[track.data.id] = track.data;
+      track = track.next;
+      if (track === null) {
+        break;
+      }
+    }
+  }
 };
+
+// var remount = function (trackId, container, height, visible) {
+//   var track = _trackLinkedList.find(trackId);
+//
+//   track.wavesurfer.remount(container, height, visible);
+//
+//   _trackHash[trackId] = cached;
+// };
 
 var unmount = function (trackId) {
   var isPlaying = false;
@@ -50,12 +59,12 @@ var unmount = function (trackId) {
     isPlaying = true;
   }
 
-  var track = _loadedTracks[trackId];
+  var track = _trackHash[trackId];
 
   if (track) {
     track.wavesurfer.dismount(isPlaying);
     _trackCache.add(trackId, track);
-    delete _loadedTracks[trackId];
+    delete _trackHash[trackId];
   }
 };
 
@@ -64,9 +73,10 @@ var isCurrentTrack = function (trackId) {
 };
 
 var play = function (trackId) {
+  _playStatus = true;
   pause();
-
-  _currentTrack = _loadedTracks[trackId];
+  _currentTrack = _trackHash[trackId];
+  debugger
   _currentTrack.wavesurfer.play();
 };
 
@@ -90,7 +100,7 @@ var playPrev = function () {
 };
 
 var destroy = function (trackId) {
-  _loadedTracks[trackId].wavesurfer.destroy();
+  _trackHash[trackId].wavesurfer.destroy();
 
   if (isCurrentTrack(trackId)) {
     _currentTrack = null;
@@ -109,7 +119,7 @@ PlayerStore.currentTrack = function () {
 };
 
 PlayerStore.all = function () {
-  return _trackArray;
+  return _trackHash;
 };
 
 PlayerStore.isCurrentTrack = function (trackId) {
@@ -125,34 +135,34 @@ PlayerStore.isPlaying = function () {
 };
 
 PlayerStore.wavesurferExists = function (trackId) {
-  return _trackList.includes(trackId);
+  return _trackLinkedList.includes(trackId);
 };
 
 PlayerStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case PlayerConstants.TRACKS_RECEIVED:
       push(payload.tracks);
+      _linkedListToHash();
       PlayerStore.__emitChange();
       break;
-    case PlayerConstants.WAVE_RECEIVED:
-      add(payload.track);
-      PlayerStore.__emitChange();
-      break;
-    case PlayerConstants.WAVE_REMOUNTED:
-      remount(
-        payload.trackId,
-        payload.container,
-        payload.height,
-        payload.visible
-      );
-      PlayerStore.__emitChange();
-      break;
+    // case PlayerConstants.WAVE_RECEIVED:
+    //   add(payload.track);
+    //   PlayerStore.__emitChange();
+    //   break;
+    // case PlayerConstants.WAVE_REMOUNTED:
+    //   remount(
+    //     payload.trackId,
+    //     payload.container,
+    //     payload.height,
+    //     payload.visible
+    //   );
+    //   PlayerStore.__emitChange();
+    //   break;
     case PlayerConstants.WAVE_UNMOUNTED:
       unmount(payload.trackId);
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PLAYED:
-      _playStatus = true;
       play(payload.trackId);
       PlayerStore.__emitChange();
       break;

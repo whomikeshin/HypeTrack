@@ -3,9 +3,9 @@ var LinkedList = function () {
   this.length = 0;
 };
 
-LinkedList.prototype.push = function(val) {
+LinkedList.prototype.push = function (object) {
   var node = {
-    value: val,
+    data: object,
     next: null,
     previous: null
   };
@@ -27,16 +27,16 @@ LinkedList.prototype.push = function(val) {
   }
 };
 
-LinkedList.prototype.remove = function (val) {
+LinkedList.prototype.remove = function (object) {
   var current = this.head;
-  if (current.value === val) {
+  if (current.data === object) {
     this.head = current.next;
   } else {
     var previous = current;
         current = current.next;
 
     while (current.next) {
-      if (current.value === val) {
+      if (current.data === object) {
         previous.next = current.next;
         current.next.previous = previous; //links them together
         break;
@@ -44,7 +44,7 @@ LinkedList.prototype.remove = function (val) {
       previous = current;
       current = current.next;
     }
-    if (current.value === val) {
+    if (current.data === object) {
       previous.next = null;
     }
   }
@@ -53,7 +53,7 @@ LinkedList.prototype.remove = function (val) {
 LinkedList.prototype.includes = function (id) {
   var current = this.head;
   while (current) {
-    if (current.value.id === id) {
+    if (current.data.id === id) {
       return true;
     } else {
       current = current.next;
@@ -64,10 +64,9 @@ LinkedList.prototype.includes = function (id) {
 
 LinkedList.prototype.find = function (id) {
   var current = this.head;
-  debugger
   while (current) {
-    if (current.value.id === id) {
-      return current.value;
+    if (current.data.id === id) {
+      return current.data;
     } else {
       current = current.next;
     }

@@ -9,7 +9,17 @@ var TrackIndexItem = require('./index_item');
 // }
 
 function _getAllTracks () {
-  return PlayerStore.all();
+  var trackHash = PlayerStore.all(),
+      trackArray = _hashToArray(trackHash);
+  return trackArray;
+}
+
+function _hashToArray(hash) {
+  var arr = [];
+  for (var key in hash) {
+    arr.push(hash[key]);
+  }
+  return arr;
 }
 
 var Latest = React.createClass({
@@ -35,10 +45,9 @@ var Latest = React.createClass({
 
   render: function () {
     var tracks = this.state.tracks;
-
-    tracks.sort(function(a, b) {
-      return b.created_at - a.created_at;
-    });
+    // tracks.sort(function(a, b) {
+    //   return b.created_at - a.created_at;
+    // });
 
     return (
       <main className="content">
@@ -55,7 +64,7 @@ var Latest = React.createClass({
 
           <ul className="tracks-list">
             {tracks.map(function (track) {
-              return <TrackIndexItem key={track.value.id} track={track.value}/>;
+              return <TrackIndexItem key={track.id} track={track}/>;
             })}
           </ul>
         </section>
