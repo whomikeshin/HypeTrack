@@ -8,9 +8,9 @@ function _getCurrentTrack () {
   return PlayerStore.currentTrack();
 }
 
-function _getAllTracks () {
-  TrackStore.all();
-}
+// function _getAllTracks () {
+//   TrackStore.all();
+// }
 
 // function _getAllTracks () {
 //   var trackHash = PlayerStore.all();
@@ -35,7 +35,7 @@ var NavPlayer = React.createClass({
   getInitialState: function () {
     return {
       currentTrack: null,
-      tracks: _getAllTracks(),
+      // tracks: _getAllTracks(),
       playStatus: _isPlaying()
     };
   },
@@ -50,11 +50,9 @@ var NavPlayer = React.createClass({
   },
 
   render: function () {
-    var tracks = this.state.tracks;
+    // var tracks = this.state.tracks;
     var track = this.state.currentTrack;
     var playStatus = this.state.playStatus;
-
-    debugger
 
     if (!track) {
       return <Loader/>;

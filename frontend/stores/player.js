@@ -9,46 +9,20 @@ var PlayerStore = new Store(AppDispatcher),
     _currentTrack = null,
     _playStatus = false,
     _trackLinkedList = new LinkedList(),
-    _trackHash = {},
-    _trackArray = [];
+    _trackHash = {};
 
-var push = function (tracks) {
-  if (_trackLinkedList.length === 0) {
-    for (var i = 0; i < tracks.length; i++) {
-      _trackLinkedList.push(tracks[i]);
-    }
-  }
-};
-
-var _toArray = function () {
-  var track = _trackLinkedList.head;
-  if (track) {
-    while (true) {
-      _trackArray.push(track.data);
-      track = track.next;
-      if (track === null) {
-        break;
-      }
-    }
-  }
-};
-
-var add = function (track) {
-  _trackHash[track.trackData.id] = track;
-};
-
-// var _linkedListToHash = function () {
-//   var track = _trackLinkedList.head;
-//   if (track) {
-//     while (true) {
-//       _trackHash[track.data.id] = track.data;
-//       track = track.next;
-//       if (track === null) {
-//         break;
-//       }
+// var push = function (tracks) {
+//   if (_trackLinkedList.length === 0) {
+//     for (var i = 0; i < tracks.length; i++) {
+//       _trackLinkedList.push(tracks[i]);
 //     }
 //   }
 // };
+
+var add = function (track) {
+  debugger
+  _trackHash[track.trackData.id] = track;
+};
 
 var remount = function (trackId, container, height, visible) {
   // why remove from cache
@@ -148,6 +122,7 @@ PlayerStore.__onDispatch = function (payload) {
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.WAVE_RECEIVED:
+      debugger;
       add(payload.track);
       PlayerStore.__emitChange();
       break;
@@ -170,10 +145,6 @@ PlayerStore.__onDispatch = function (payload) {
       break;
     case PlayerConstants.PAUSED:
       pause();
-      PlayerStore.__emitChange();
-      break;
-    case PlayerConstants.ADD:
-      add(payload.track);
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PROGRESS:

@@ -50,6 +50,7 @@ var IndexItem = React.createClass({
     var track = this.props.track;
     var blogs = this.state.blogs;
 
+    debugger
     if (blogs) {
       var blogList = this._blogList(blogs);
     } else {

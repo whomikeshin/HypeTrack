@@ -6,11 +6,12 @@ var _tracks = [];
 var TrackStore = new Store(AppDispatcher);
 
 var reset = function (tracks) {
+  debugger
   _tracks = tracks.slice();
 };
 
 TrackStore.all = function () {
-  return _tracks.slice();
+  return _tracks;
 };
 
 TrackStore.next = function(currentTrackId) {
@@ -52,7 +53,6 @@ TrackStore.prev = function (currentTrackId) {
 TrackStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case TrackConstants.TRACKS_RECEIVED:
-      debugger
       reset(payload.tracks);
       TrackStore.__emitChange();
       break;
