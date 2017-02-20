@@ -69,12 +69,6 @@ var PlayerActions = {
     AppDispatcher.dispatch({
       actionType: PlayerConstants.RESET
     });
-  },
-
-  progress: function () {
-    AppDispatcher.dispatch({
-      actionType: PlayerConstants.PROGRESS
-    });
   }
 };
 

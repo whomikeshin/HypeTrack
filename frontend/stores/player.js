@@ -8,16 +8,7 @@ var LinkedList = require('../lib/linkedlist');
 var PlayerStore = new Store(AppDispatcher),
     _currentTrack = null,
     _playStatus = false,
-    _trackLinkedList = new LinkedList(),
     _trackHash = {};
-
-// var push = function (tracks) {
-//   if (_trackLinkedList.length === 0) {
-//     for (var i = 0; i < tracks.length; i++) {
-//       _trackLinkedList.push(tracks[i]);
-//     }
-//   }
-// };
 
 var add = function (track) {
   // add a min and max key tracker
@@ -72,10 +63,6 @@ var next = function () {
 var prev = function () {
   currentTrackId = _currentTrack.trackData.id;
   play(currentTrackId - 1);
-};
-
-var playPause = function () {
-  _currentTrack && _currentTrack.wavesurfer.playPause();
 };
 
 var destroy = function (trackId) {
@@ -146,9 +133,6 @@ PlayerStore.__onDispatch = function (payload) {
       break;
     case PlayerConstants.PAUSED:
       pause();
-      PlayerStore.__emitChange();
-      break;
-    case PlayerConstants.PROGRESS:
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.NEXT:

@@ -5,11 +5,10 @@ link, canvas {
   border: 0;
   margin: 0;
   padding: 0;
-  outline: 0;
+  font-size: 100%;
   font: inherit;
-  box-sizing: border-box;
-  text-align: inherit;
-  vertical-align: inherit;
+  // text-align: inherit;
+  vertical-align: baseline;
   color: inherit;
   text-decoration: inherit;
   background: transparent;
@@ -140,10 +139,10 @@ li {
     vertical-align: middle;
     font-size: 13px;
     width: 20px;
-  }
-  li:hover {
-    color: $hover-blue;
-    cursor: pointer;
+    button:hover {
+      color: $hover-blue;
+      cursor: pointer;
+    }
   }
 }
 

@@ -19,7 +19,7 @@ var App = React.createClass({
     };
   },
 
-  componentWilMount: function () {
+  componentDidMount: function () {
     this.sessionStoreToken = SessionStore.addListener(this.handleChange);
     this.handleChange();
   },
