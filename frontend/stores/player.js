@@ -20,8 +20,10 @@ var PlayerStore = new Store(AppDispatcher),
 // };
 
 var add = function (track) {
-  debugger
   _trackHash[track.trackData.id] = track;
+  if (!_currentTrack) {
+    _currentTrack = _trackHash[track.trackData.id];
+  }
 };
 
 var remount = function (trackId, container, height, visible) {
@@ -47,12 +49,12 @@ var unmount = function (trackId) {
 };
 
 var isCurrentTrack = function (trackId) {
-  return (_currentTrack && _currentTrack.id === trackId);
+  return (_currentTrack && _currentTrack.trackData.id === trackId);
 };
 
 var play = function (trackId) {
   _playStatus = true;
-  pause();
+  playPause();
   _currentTrack = _trackHash[trackId];
   _currentTrack.wavesurfer.play();
 };
@@ -66,12 +68,12 @@ var playPause = function () {
 };
 
 var playNext = function () {
-  var nextTrack = TrackStore.next(_currentTrack.trackInfo.id);
+  var nextTrack = TrackStore.next(_currentTrack.trackData.id);
   play(nextTrack.id);
 };
 
 var playPrev = function () {
-  var prevTrack = TrackStore.prev(_currentTrack.trackInfo.id);
+  var prevTrack = TrackStore.prev(_currentTrack.trackData.id);
 
   play(prevTrack.id);
 };
@@ -100,7 +102,7 @@ PlayerStore.all = function () {
 };
 
 PlayerStore.isCurrentTrack = function (trackId) {
-  return (_currentTrack && _currentTrack.trackInfo.id === parseInt(trackId));
+  return (_currentTrack && _currentTrack.trackData.id === parseInt(trackId));
 };
 
 PlayerStore.playStatus = function () {
@@ -122,7 +124,6 @@ PlayerStore.__onDispatch = function (payload) {
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.WAVE_RECEIVED:
-      debugger;
       add(payload.track);
       PlayerStore.__emitChange();
       break;

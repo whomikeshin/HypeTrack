@@ -7,7 +7,6 @@ var Loader = require('../loader');
 
 function _getAllTracks () {
   return TrackStore.all();
-  debugger
 }
 
 // function _getAllTracks () {
@@ -31,9 +30,9 @@ var Latest = React.createClass({
     };
   },
 
-  componentWillMount: function () {
-    this.onPlayerChangeToken = PlayerStore.addListener(this._onTrackChange);
-    // ApiUtil.fetchTracks();
+  componentDidMount: function () {
+    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
+    ApiUtil.fetchTracks();
   },
 
   componentWillUnmount: function () {

@@ -6,7 +6,6 @@ var _tracks = [];
 var TrackStore = new Store(AppDispatcher);
 
 var reset = function (tracks) {
-  debugger
   _tracks = tracks.slice();
 };
 
