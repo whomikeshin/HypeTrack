@@ -53,8 +53,8 @@ var isCurrentTrack = function (trackId) {
 };
 
 var play = function (trackId) {
+  if (_playStatus) { pause(); }
   _playStatus = true;
-  playPause();
   _currentTrack = _trackHash[trackId];
   _currentTrack.wavesurfer.play();
 };
