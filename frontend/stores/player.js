@@ -20,6 +20,7 @@ var PlayerStore = new Store(AppDispatcher),
 // };
 
 var add = function (track) {
+  // add a min and max key tracker
   _trackHash[track.trackData.id] = track;
   if (!_currentTrack) {
     _currentTrack = _trackHash[track.trackData.id];
@@ -63,19 +64,18 @@ var pause = function () {
   _currentTrack && _currentTrack.wavesurfer.pause();
 };
 
+var next = function () {
+  currentTrackId = _currentTrack.trackData.id;
+  play(currentTrackId + 1);
+};
+
+var prev = function () {
+  currentTrackId = _currentTrack.trackData.id;
+  play(currentTrackId - 1);
+};
+
 var playPause = function () {
   _currentTrack && _currentTrack.wavesurfer.playPause();
-};
-
-var playNext = function () {
-  var nextTrack = TrackStore.next(_currentTrack.trackData.id);
-  play(nextTrack.id);
-};
-
-var playPrev = function () {
-  var prevTrack = TrackStore.prev(_currentTrack.trackData.id);
-
-  play(prevTrack.id);
 };
 
 var destroy = function (trackId) {
@@ -152,11 +152,12 @@ PlayerStore.__onDispatch = function (payload) {
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.NEXT:
-      playNext();
+      next();
       PlayerStore.__emitChange();
       break;
     case PlayerConstants.PREV:
-      playPrev();
+      prev();
+      PlayerStore.__emitChange();
       break;
   }
 };
