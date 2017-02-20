@@ -10,6 +10,7 @@ var PlayPause = require('./play_pause');
 var PlayerActions = require('../../actions/player_actions');
 var Loader = require('../loader');
 var WaveSurfer = require('../wavesurfer');
+var FavoriteButton = require('./favorite_button');
 
 function _getAllBlogs () {
   return BlogStore.all();
@@ -57,12 +58,12 @@ var IndexItem = React.createClass({
     }
 
     var currentUser = SessionStore.currentUser();
-    if (currentUser) {
-      favoriteButton = this._favorite();
-      followButton = this._follow();
-    } else {
-      favoriteButton = <div><FavLoginModal/></div>;
-    }
+    // if (currentUser) {
+    //   favoriteButton = this._favorite();
+    //   followButton = this._follow();
+    // } else {
+    //   favoriteButton = <div><FavLoginModal/></div>;
+    // }
 
     return (
       <li className="track group">
@@ -106,6 +107,7 @@ var IndexItem = React.createClass({
         <div className="fav-div">
           <p>{track.favorite_count}</p>
           {favoriteButton}
+          // <FavoriteButton user={currentUser} track={track}/>
           <PlayPause playing={this.state.playing} track={track}/>
         </div>
       </li>

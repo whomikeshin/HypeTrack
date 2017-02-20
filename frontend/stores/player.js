@@ -2,8 +2,6 @@ var Store = require('flux/utils').Store;
 var AppDispatcher = require('../dispatcher/dispatcher');
 var PlayerConstants = require('../constants/player_constants');
 var TrackStore = require('./track');
-var Cache = require('../lib/cache');
-var LinkedList = require('../lib/linkedlist');
 
 var PlayerStore = new Store(AppDispatcher),
     _currentTrack = null,
