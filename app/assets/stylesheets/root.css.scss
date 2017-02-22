@@ -45,8 +45,8 @@ li {
   display: block;
 }
 
-button:active {
-  border: none;
+button:focus {
+  outline: 0;
 }
 
 /* Header */

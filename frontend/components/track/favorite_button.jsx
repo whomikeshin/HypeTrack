@@ -23,7 +23,9 @@ var FavoriteButton = React.createClass({
   },
 
   _favorite: function () {
-    var track = this.props.track;
+    var track = this.props.track,
+        currentUser = this.props.user;
+
     if (track.favorite_ids.includes(currentUser.id)) {
       return (
         <button
