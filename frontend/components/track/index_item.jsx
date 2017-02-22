@@ -29,19 +29,10 @@ var IndexItem = React.createClass({
     ApiUtil.fetchBlogs();
   },
 
-  _onBlogChange: function () {
-    this.setState({ blogs: _getAllBlogs() })
-  },
-
-  _onPlayerChange: function () {
-    this.setState({ playing: PlayerStore.isCurrentTrack(this.props.track.id) })
-  },
-
   componentWillUnmount: function () {
     this.onBlogChangeToken.remove();
     this.onPlayerChangeToken.remove();
   },
-
 
   render: function () {
     var blogList;
@@ -105,26 +96,12 @@ var IndexItem = React.createClass({
     );
   },
 
-  _favorite: function () {
-    var track = this.props.track;
-    var currentUser = SessionStore.currentUser();
-    if (track.favorite_ids.includes(currentUser.id)) {
-      return (
-        <button
-          id="unfavorite"
-          onClick={this._unfavorTrack.bind(this, track.id)}>
-          <i className="fa fa-heart"></i>
-        </button>
-      );
-    } else {
-      return (
-        <button
-          id="favorite"
-          onClick={this._favorTrack.bind(this, track.id)}>
-          <i className="fa fa-heart"></i>
-        </button>
-      );
-    }
+  _onBlogChange: function () {
+    this.setState({ blogs: _getAllBlogs() })
+  },
+
+  _onPlayerChange: function () {
+    this.setState({ playing: PlayerStore.isCurrentTrack(this.props.track.id) })
   },
 
   _follow: function () {

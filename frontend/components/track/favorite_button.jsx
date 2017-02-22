@@ -2,9 +2,20 @@ var React = require('react');
 var ApiUtil = require('../../util/api_util');
 var PlayerActions = require('../../actions/player_actions');
 var SessionStore = require('../../stores/session');
+var PlayerStore = require('../../stores/player');
 var FavLoginModal = require('../user/fav_modal');
 
 var FavoriteButton = React.createClass({
+  getInitialState: function () {
+    return ({
+      currentTrack: this.props.track
+    })
+  },
+
+  componentDidMount: function() {
+    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+  },
+
   render: function () {
     var currentUser = this.props.user,
         favButton;
@@ -23,14 +34,14 @@ var FavoriteButton = React.createClass({
   },
 
   _favorite: function () {
-    var track = this.props.track,
+    var currentTrack = this.state.currentTrack,
         currentUser = this.props.user;
 
-    if (track.favorite_ids.includes(currentUser.id)) {
+    if (currentTrack.favorite_ids.includes(currentUser.id)) {
       return (
         <button
           id="unfavorite"
-          onClick={this._unfavorTrack.bind(this, track.id)}>
+          onClick={this._unfavorTrack.bind(this, currentTrack.id)}>
           <i className="fa fa-heart"></i>
         </button>
       );
@@ -38,7 +49,7 @@ var FavoriteButton = React.createClass({
       return (
         <button
           id="favorite"
-          onClick={this._favorTrack.bind(this, track.id)}>
+          onClick={this._favorTrack.bind(this, currentTrack.id)}>
           <i className="fa fa-heart"></i>
         </button>
       );
@@ -51,6 +62,10 @@ var FavoriteButton = React.createClass({
 
   _unfavorTrack: function (trackId) {
     ApiUtil.destroyFavorite(trackId);
+  },
+
+  _onPlayerChange: function () {
+    this.setState({ currenTrack: this.props.track })
   }
 });
 

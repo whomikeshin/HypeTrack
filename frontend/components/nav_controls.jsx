@@ -2,6 +2,7 @@ var React = require('react');
 var PlayerStore = require('../stores/player');
 var SessionStore = require('../stores/session');
 var PlayerActions = require('../actions/player_actions');
+var FavoriteButton = require('./track/favorite_button');
 
 function _isPlaying () {
   return PlayerStore.playStatus();
@@ -15,11 +16,11 @@ var NavControls = React.createClass({
   getInitialState: function () {
     return {
       playStatus: _isPlaying(),
-      currentTrack: null
+      currentTrack: _getCurrentTrack()
     };
   },
 
-  componentWillMount: function () {
+  componentDidMount: function () {
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
   },
 
@@ -29,19 +30,25 @@ var NavControls = React.createClass({
 
   render: function () {
     var currentUser = SessionStore.currentUser(),
+        currentTrack = PlayerStore.currentTrack(),
         isPlaying = PlayerStore.isPlaying(),
-        playPause;
+        playPause,
+        favButton;
 
     if (isPlaying) {
       playPause = <button
-                    onClick={this._pauseTrack}
-                    className="fa fa-pause">
+                    onClick={this._pauseTrack} className="fa fa-pause">
                   </button>
     } else {
       playPause = <button
-                    onClick={this._playTrack}
-                    className="fa fa-play">
+                    onClick={this._playTrack} className="fa fa-play">
                   </button>
+    }
+
+    if (currentTrack) {
+      favButton = <FavoriteButton user={currentUser} track={currentTrack.trackData}/>
+    } else {
+      favButton = <button className="fa fa-heart"></button>
     }
 
     return (
@@ -51,7 +58,7 @@ var NavControls = React.createClass({
           className="fa fa-fast-backward"></button>
         </li>
         <li>{playPause}</li>
-        <li><button className="fa fa-heart"></button></li>
+        <li>{favButton}</li>
         <li><button
           onClick={this._nextTrack}
           className="fa fa-fast-forward"></button>

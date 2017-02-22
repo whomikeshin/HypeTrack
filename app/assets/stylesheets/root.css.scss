@@ -400,7 +400,7 @@ label {
     color: $medium-gray;
     display: flex;
     background: transparent;
-    // margin-left: 10px;
+    justify-content: space-between;
     p {
       margin-top: 5px;
       font-size: 14px;
@@ -421,12 +421,10 @@ label {
 
 #favorite {
   color: $medium-gray;
-  padding-right: 7px;
 }
 
 #unfavorite {
   color: red;
-  padding-right: 7px;
 }
 
 #play-button, #pause-button {
