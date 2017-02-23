@@ -11,10 +11,15 @@ var ProfileMenu = React.createClass({
 
     return(
       <div className="profile-menu group">
-        <a href="#">Me</a>
-        <figure><img src={imgSource}/></figure>
+        <figure>
+          <img src={imgSource}></img>
+          <figcaption>
+            {currentUser.username}
+            <i className="fa fa-caret-down"></i>
+          </figcaption>
+        </figure>
 
-        <ul className="profile-list">
+        <ul className="profile-menu-list">
           <li><Link to={"/users/" + currentUser.id + "/feed"}>Feed</Link></li>
           <li><Link to={"/users/" + currentUser.id + "/favorites"}>Favorites</Link></li>
           <li><button id="logout-button" onClick={ApiUtil.logout}>Logout</button></li>

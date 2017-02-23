@@ -12,8 +12,9 @@ var FavoriteButton = React.createClass({
     })
   },
 
-  componentDidMount: function() {
-    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+  componentWillReceiveProps: function() {
+    // debugger
+    this.setState({ currentTrack: this.props.track })
   },
 
   render: function () {
@@ -63,10 +64,6 @@ var FavoriteButton = React.createClass({
   _unfavorTrack: function (trackId) {
     ApiUtil.destroyFavorite(trackId);
   },
-
-  _onPlayerChange: function () {
-    this.setState({ currentTrack: this.props.track })
-  }
 });
 
 module.exports = FavoriteButton;

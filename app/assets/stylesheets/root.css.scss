@@ -188,24 +188,26 @@ button:focus {
 
 .profile-menu {
   background: $primary-gray;
-  width: 80px;
+  width: 100%;
   height: 35px;
-  a, figure {
-    line-height: 35px;
-    vertical-align: middle;
-    display: inline-block;
-    height: inherit;
-  }
+  position: relative;
   figure {
-    margin-left: 15px;
+    height: inherit;
     img {
-      max-height: 30px;
-      max-width: 30px;
-      border: 1px solid $medium-gray;
+      margin-left: 10px;
+      max-height: 33px;
+      max-width: 33px;
+    }
+    figcaption {
+      margin-left: 10px;
+      float: right;
+      i {
+        margin-left: 5px;
+      }
     }
   }
 
-  .profile-list {
+  .profile-menu-list {
     border: 1px solid $primary-gray;
     display: none;
     position: absolute;
@@ -214,19 +216,18 @@ button:focus {
       background: $button-gray;
       padding-left: 10px;
       border-bottom: 1px solid $primary-gray;
-      font-size: 12px;
-      width: 80px;
+      font-size: 13px;
+      width: 110px;
     }
   }
 }
 
-.profile-menu:hover .profile-list {
+.profile-menu:hover .profile-menu-list {
   display: block;
 }
 
 #logout-button {
-  font-size: 12px;
-  margin-left: -2px;
+  font-size: 13px;
 }
 
 /*/ Modal /*/
