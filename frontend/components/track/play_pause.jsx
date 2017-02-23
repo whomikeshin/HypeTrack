@@ -20,7 +20,7 @@ var PlayPause = React.createClass({
     if (isPlaying) {
       return (
         <button
-          id="pause-button"
+          id="play-button"
           onClick={this._pauseTrack}>
           <i className="fa fa-pause"></i>
         </button>
@@ -28,7 +28,7 @@ var PlayPause = React.createClass({
     } else {
       return (
         <button
-          id="play-button"
+          id="pause-button"
           onClick={this._playTrack.bind(null, this.props.track)}>
           <i className="fa fa-play"></i>
         </button>

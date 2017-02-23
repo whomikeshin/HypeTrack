@@ -65,7 +65,7 @@ var FavoriteButton = React.createClass({
   },
 
   _onPlayerChange: function () {
-    this.setState({ currenTrack: this.props.track })
+    this.setState({ currentTrack: this.props.track })
   }
 });
 

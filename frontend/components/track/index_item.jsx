@@ -87,11 +87,11 @@ var IndexItem = React.createClass({
           </div>
 
         </section>
-        <div className="fav-div">
-          <p>{track.favorite_count}</p>
-          <FavoriteButton user={currentUser} track={track}/>
-          <PlayPause playing={this.state.playing} track={track}/>
-        </div>
+        <ul className="fav-div">
+          <li><p>{track.favorite_count}</p></li>
+          <li><FavoriteButton user={currentUser} track={track}/></li>
+          <li><PlayPause playing={this.state.playing} track={track}/></li>
+        </ul>
       </li>
     );
   },
