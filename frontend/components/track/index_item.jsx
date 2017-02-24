@@ -6,7 +6,6 @@ var PlayerStore = require('../../stores/player');
 var BlogStore = require('../../stores/blog');
 var ApiUtil = require('../../util/api_util');
 var PlayPause = require('./play_pause');
-var PlayerActions = require('../../actions/player_actions');
 var Loader = require('../loader');
 var WaveSurfer = require('../wavesurfer');
 var FavoriteButton = require('./favorite_button');

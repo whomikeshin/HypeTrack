@@ -13,6 +13,14 @@ TrackStore.all = function () {
   return _tracks;
 };
 
+TrackStore.find = function (trackId) {
+  for (var i = 0; i < _tracks.length; i++) {
+    if (_tracks[i].id === trackId) {
+      return _tracks[i];
+    }
+  }
+};
+
 TrackStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case TrackConstants.TRACKS_RECEIVED:

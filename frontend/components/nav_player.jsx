@@ -10,8 +10,8 @@ function _getCurrentTrack () {
   return PlayerStore.currentTrack();
 }
 
-function _isPlaying () {
-  return PlayerStore.playStatus();
+function _getIsPlaying () {
+  return PlayerStore.isPlaying();
 }
 
 var NavPlayer = React.createClass({
@@ -19,7 +19,7 @@ var NavPlayer = React.createClass({
   getInitialState: function () {
     return {
       currentTrack: null,
-      playStatus: _isPlaying()
+      isPlaying: _getIsPlaying()
     };
   },
 
@@ -33,7 +33,7 @@ var NavPlayer = React.createClass({
 
   render: function () {
     var track = this.state.currentTrack;
-    var playStatus = this.state.playStatus;
+    var isPlaying = this.state.isPlaying;
 
     if (!track) {
       return <Loader/>;
@@ -59,7 +59,7 @@ var NavPlayer = React.createClass({
   _onPlayerChange: function () {
     this.setState({
       currentTrack: _getCurrentTrack(),
-      playStatus: _isPlaying()
+      isPlaying: _getIsPlaying()
     });
   },
 });

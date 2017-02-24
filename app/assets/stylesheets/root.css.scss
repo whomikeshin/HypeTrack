@@ -148,6 +148,9 @@ button:focus {
     margin-left: 10px;
     font-size: 14px;
     width: 20px;
+    button {
+      color: $medium-gray;
+    }
     button:hover {
       color: $hover-blue;
       cursor: pointer;
@@ -430,8 +433,16 @@ label {
   color: red;
 }
 
+#favorite:hover, #unfavorite:hover {
+  color: $hover-blue;
+}
+
 #play-button, #pause-button {
   color: $button-gray;
+}
+
+#play-button:hover, #pause-button:hover {
+  color: $hover-blue;
 }
 
 .follow, .unfollow {

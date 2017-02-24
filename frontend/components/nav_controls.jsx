@@ -1,37 +1,51 @@
 var React = require('react');
 var PlayerStore = require('../stores/player');
 var SessionStore = require('../stores/session');
+var TrackStore = require('../stores/track');
 var PlayerActions = require('../actions/player_actions');
 var FavoriteButton = require('./track/favorite_button');
 
-function _isPlaying () {
-  return PlayerStore.playStatus();
+function _getIsPlaying () {
+  return PlayerStore.isPlaying();
 }
 
 function _getCurrentTrack () {
   return PlayerStore.currentTrack();
 }
 
+function _findCurrentTrack (trackId) {
+  return TrackStore.find(trackId);
+}
+
+function _getCurrentUser () {
+  return SessionStore.currentUser();
+}
+
 var NavControls = React.createClass({
   getInitialState: function () {
     return {
-      playStatus: _isPlaying(),
-      currentTrack: _getCurrentTrack()
+      isPlaying: _getIsPlaying(),
+      currentTrack: _getCurrentTrack(),
+      // currentUser: null,
+      favTrack: null
     };
   },
 
   componentDidMount: function () {
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+    this.onTrackChangeToken = TrackStore.addListener(this._onTrackChange);
   },
 
   componentWillUnmount: function () {
     this.onPlayerChangeToken.remove();
+    this.onTrackChangeToken.remove();
   },
 
   render: function () {
-    var currentUser = SessionStore.currentUser(),
-        currentTrack = PlayerStore.currentTrack(),
-        isPlaying = PlayerStore.isPlaying(),
+    var currentUser = _getCurrentUser(),
+        currentTrack = this.state.currentTrack,
+        isPlaying = this.state.isPlaying,
+        favTrack = this.state.favTrack,
         playPause,
         favButton;
 
@@ -46,7 +60,10 @@ var NavControls = React.createClass({
     }
 
     if (currentTrack) {
-      favButton = <FavoriteButton user={currentUser} track={currentTrack.trackData}/>
+      if (!favTrack) {
+        favTrack = _findCurrentTrack(currentTrack.trackData.id);
+      }
+      favButton = <FavoriteButton user={currentUser} track={favTrack}/>
     } else {
       favButton = <button className="fa fa-heart"></button>
     }
@@ -69,9 +86,18 @@ var NavControls = React.createClass({
 
   _onPlayerChange: function () {
     this.setState({
-      playStatus: _isPlaying(),
+      isPlaying: _getIsPlaying(),
       currentTrack: _getCurrentTrack()
     });
+  },
+
+  _onTrackChange: function () {
+    var currentTrack = this.state.currentTrack;
+    if (currentTrack) {
+      this.setState({
+        favTrack: _findCurrentTrack(currentTrack.trackData.id)
+      })
+    }
   },
 
   _playTrack: function () {

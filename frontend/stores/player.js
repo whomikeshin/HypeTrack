@@ -42,13 +42,16 @@ var isCurrentTrack = function (trackId) {
 };
 
 var play = function (trackId) {
-  if (_playStatus) { pause(); }
+  if (_playStatus) {
+    pause();
+  }
   _playStatus = true;
   _currentTrack = _trackHash[trackId];
   _currentTrack.wavesurfer.play();
 };
 
 var pause = function () {
+  _playStatus = false;
   _currentTrack && _currentTrack.wavesurfer.pause();
 };
 
@@ -87,10 +90,6 @@ PlayerStore.all = function () {
 
 PlayerStore.isCurrentTrack = function (trackId) {
   return (_currentTrack && _currentTrack.trackData.id === parseInt(trackId));
-};
-
-PlayerStore.playStatus = function () {
-  return _playStatus;
 };
 
 PlayerStore.isPlaying = function () {
