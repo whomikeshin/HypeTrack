@@ -17,9 +17,9 @@ var React = require('react'),
     Artist = require('./components/artist'),
     Blog = require('./components/blog'),
 
-    Remix = require('./components/track/remix');
-    NoRemix = require('./components/track/no_remix');
-    Freshest = require('./components/track/freshest');
+    Remix = require('./components/track/remix'),
+    NoRemix = require('./components/track/no_remix'),
+    Freshest = require('./components/track/freshest'),
 
     ApiUtil = require('./util/api_util'),
     Modal = require("react-modal");

@@ -55,10 +55,7 @@ var LoginForm = React.createClass({
   },
 
   _guestLogin: function () {
-    var router = this.context.router;
-    ApiUtil.login({ username: "yeezus", password: "password" }, function() {
-      router.push("/");
-    });
+    this.setState({ username: "yeezus", password: "password"});
   }
 });
 

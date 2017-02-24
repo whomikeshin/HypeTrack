@@ -15,11 +15,20 @@ function _getAllBlogs () {
   return BlogStore.all();
 }
 
+function _getIsCurrentTrack (trackId) {
+  return PlayerStore.isCurrentTrack(trackId);
+}
+
+function _getCurrentUser () {
+  return SessionStore.currentUser();
+}
+
 var IndexItem = React.createClass({
   getInitialState: function () {
     return ({
       track: this.props.track,
-      playing: PlayerStore.isCurrentTrack(this.props.track.id),
+      playing: _getIsCurrentTrack(this.props.track.id),
+      currentUser: _getCurrentUser(),
       blogs: null
     });
   },
@@ -30,7 +39,8 @@ var IndexItem = React.createClass({
 
   componentDidMount: function () {
     this.onBlogChangeToken = BlogStore.addListener(this._onBlogChange);
-    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange)
+    this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
+    this.onSessionChangeToken = SessionStore.addListener(this._onSessionChange);
     ApiUtil.fetchBlogs();
   },
 
@@ -44,6 +54,7 @@ var IndexItem = React.createClass({
         followButton,
         track = this.state.track,
         playing = this.state.playing,
+        currentUser = this.state.currentUser,
         blogs = this.state.blogs;
 
     if (blogs) {
@@ -51,8 +62,6 @@ var IndexItem = React.createClass({
     } else {
       return <Loader/>;
     }
-
-    var currentUser = SessionStore.currentUser();
 
     return (
       <li className="track group">
@@ -107,7 +116,11 @@ var IndexItem = React.createClass({
   },
 
   _onPlayerChange: function () {
-    this.setState({ playing: PlayerStore.isCurrentTrack(this.props.track.id) })
+    this.setState({ playing: _getIsCurrentTrack(this.props.track.id) })
+  },
+
+  _onSessionChange: function () {
+    this.setState({ currentUser: _getCurrentUser() })
   },
 
   _follow: function () {
