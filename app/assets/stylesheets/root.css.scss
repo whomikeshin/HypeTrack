@@ -467,36 +467,45 @@ label {
 
 .profile-header {
   width: 780px;
-  height: 150px;
+  height: 200px;
   margin: 20px 0px;
   display: flex;
-  color: $black;
+  color: $white;
+  background-image: url("http://i.imgur.com/hoY8rue.jpg");
+  background-size: 200px 200px;
+  // background-repeat: no-repeat;
   .profile-image {
+    margin: 20px 0px 0px 20px;
     margin-right: 20px;
     img {
-      border: 1px solid $black;
       max-height: 150px;
       max-width: 150px;
     }
   }
   h1 {
+    margin-top: 20px;
     font-size: 28px;
+    padding: 0px 10px;
     font-weight: bold;
+    background-color: $primary-gray;
+    height: 36px;
   }
   .profile-info {
     width: 600px;
+    margin-top: 20px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     li {
-      width: 100px;
-      height: 50px;
-      border: 1px solid $black;
-      margin-left: 20px;
+      width: 80px;
+      height: 40px;
+      border: 2px solid $white;
+      margin-right: 20px;
       text-align: center;
       font-size: 20px;
       font-weight: bold;
       padding: 5px 0px;
+      background-color: $primary-gray;
     }
   }
 }
