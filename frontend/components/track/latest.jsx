@@ -26,7 +26,6 @@ var Latest = React.createClass({
   },
 
   _onTrackChange: function () {
-    debugger
     var tracks = _getAllTracks();
     this.setState({ tracks: tracks });
   },

@@ -41,7 +41,9 @@ var IndexItem = React.createClass({
     this.onBlogChangeToken = BlogStore.addListener(this._onBlogChange);
     this.onPlayerChangeToken = PlayerStore.addListener(this._onPlayerChange);
     this.onSessionChangeToken = SessionStore.addListener(this._onSessionChange);
-    ApiUtil.fetchBlogs();
+    if (!this.state.blogs) {
+      ApiUtil.fetchBlogs();
+    }
   },
 
   componentWillUnmount: function () {
