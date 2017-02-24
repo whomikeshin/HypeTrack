@@ -1,6 +1,5 @@
 var React = require('react');
 var TrackStore = require('../../stores/track');
-var PlayerStore = require('../../stores/player');
 var ApiUtil = require('../../util/api_util');
 var TrackIndexItem = require('./index_item');
 var Loader = require('../loader');
@@ -22,7 +21,7 @@ var Latest = React.createClass({
   },
 
   componentWillUnmount: function () {
-    this.onPlayerChangeToken.remove();
+    this.onTrackChangeToken.remove();
   },
 
   _onTrackChange: function () {

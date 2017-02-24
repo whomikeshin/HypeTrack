@@ -32,7 +32,7 @@ var unmount = function (trackId) {
 
   if (track) {
     track.wavesurfer.dismount(isPlaying);
-    _trackCache.add(trackId, track);
+    // _trackCache.add(trackId, track);
     delete _trackHash[trackId];
   }
 };
