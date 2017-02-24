@@ -13,42 +13,6 @@ TrackStore.all = function () {
   return _tracks;
 };
 
-TrackStore.next = function(currentTrackId) {
-  var prevTrack = _tracks.find(function (track) {
-    return track.id === currentTrackId;
-  });
-
-  var index = -1;
-  if (prevTrack) {
-    index = _tracks.indexOf(prevTrack);
-  }
-
-  index += 1;
-  if (index === _tracks.length) {
-    index = 0;
-  }
-
-  return _tracks[index];
-};
-
-TrackStore.prev = function (currentTrackId) {
-  var prevTrack = _tracks.find(function (track) {
-    return track.id === currentTrackId;
-  });
-
-  var index = _tracks.length;
-  if (prevTrack) {
-    index = _tracks.indexOf(prevTrack);
-  }
-
-  index -= 1;
-  if (index === -1) {
-    index += _tracks.length;
-  }
-
-  return _tracks[index];
-};
-
 TrackStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
     case TrackConstants.TRACKS_RECEIVED:

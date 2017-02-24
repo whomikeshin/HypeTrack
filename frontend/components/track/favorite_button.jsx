@@ -12,9 +12,8 @@ var FavoriteButton = React.createClass({
     })
   },
 
-  componentWillReceiveProps: function() {
-    // debugger
-    this.setState({ currentTrack: this.props.track })
+  componentWillReceiveProps: function(newProps) {
+    this.setState({ currentTrack: newProps.track })
   },
 
   render: function () {

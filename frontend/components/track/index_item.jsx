@@ -18,9 +18,14 @@ function _getAllBlogs () {
 var IndexItem = React.createClass({
   getInitialState: function () {
     return ({
+      track: this.props.track,
       playing: PlayerStore.isCurrentTrack(this.props.track.id),
       blogs: null
     });
+  },
+
+  componentWillReceiveProps: function(newProps) {
+    this.setState({ track: newProps.track})
   },
 
   componentDidMount: function () {
@@ -35,10 +40,11 @@ var IndexItem = React.createClass({
   },
 
   render: function () {
-    var blogList;
-    var followButton;
-    var track = this.props.track;
-    var blogs = this.state.blogs;
+    var blogList,
+        followButton,
+        track = this.state.track,
+        playing = this.state.playing,
+        blogs = this.state.blogs;
 
     if (blogs) {
       var blogList = this._blogList(blogs);
@@ -90,7 +96,7 @@ var IndexItem = React.createClass({
         <ul className="fav-div">
           <li><p>{track.favorite_count}</p></li>
           <li><FavoriteButton user={currentUser} track={track}/></li>
-          <li><PlayPause playing={this.state.playing} track={track}/></li>
+          <li><PlayPause playing={playing} track={track}/></li>
         </ul>
       </li>
     );

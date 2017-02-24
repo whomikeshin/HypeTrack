@@ -17,7 +17,6 @@ var add = function (track) {
 };
 
 var remount = function (trackId, container, height, visible) {
-  // why remove from cache
   var track = _trackHash[trackId];
 
   track.wavesurfer.remount(container, height, visible);
@@ -63,20 +62,20 @@ var prev = function () {
   play(currentTrackId - 1);
 };
 
-var destroy = function (trackId) {
-  _trackHash[trackId].wavesurfer.destroy();
+// var destroy = function (trackId) {
+//   _trackHash[trackId].wavesurfer.destroy();
+//
+//   if (isCurrentTrack(trackId)) {
+//     _currentTrack = null;
+//   }
+// };
 
-  if (isCurrentTrack(trackId)) {
-    _currentTrack = null;
-  }
-};
-
-var reset = function () {
-  if (_currentTrack) {
-    pause();
-    _currentTrack = null;
-  }
-};
+// var reset = function () {
+//   if (_currentTrack) {
+//     pause();
+//     _currentTrack = null;
+//   }
+// };
 
 PlayerStore.currentTrack = function () {
   return _currentTrack;
@@ -104,10 +103,6 @@ PlayerStore.wavesurferExists = function (trackId) {
 
 PlayerStore.__onDispatch = function (payload) {
   switch(payload.actionType) {
-    case PlayerConstants.TRACKS_RECEIVED:
-      push(payload.tracks);
-      PlayerStore.__emitChange();
-      break;
     case PlayerConstants.WAVE_RECEIVED:
       add(payload.track);
       PlayerStore.__emitChange();
