@@ -48,6 +48,7 @@ var IndexItem = React.createClass({
   componentWillUnmount: function () {
     this.onBlogChangeToken.remove();
     this.onPlayerChangeToken.remove();
+    this.onSessionChangeToken.remove();
   },
 
   render: function () {
@@ -62,6 +63,10 @@ var IndexItem = React.createClass({
       var blogList = this._blogList(blogs);
     } else {
       return <Loader/>;
+    }
+
+    if (currentUser) {
+      followButton = this._follow();
     }
 
     return (
@@ -131,7 +136,7 @@ var IndexItem = React.createClass({
     if (blog.follower_ids.includes(currentUser.id)) {
       return (
         <button
-          className="unfollow"
+          id="unfollow"
           onClick={this._unfollowBlog.bind(this, blog.id)}>
           <div>
             <i className="fa fa-minus"></i>
@@ -142,7 +147,7 @@ var IndexItem = React.createClass({
     } else {
       return (
         <button
-          className="follow"
+          id="follow"
           onClick={this._followBlog.bind(this, blog.id)}>
           <div>
             <i className="fa fa-plus"></i>

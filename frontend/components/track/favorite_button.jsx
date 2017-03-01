@@ -1,8 +1,5 @@
 var React = require('react');
 var ApiUtil = require('../../util/api_util');
-var PlayerActions = require('../../actions/player_actions');
-var SessionStore = require('../../stores/session');
-var PlayerStore = require('../../stores/player');
 var FavLoginModal = require('../user/fav_modal');
 
 var FavoriteButton = React.createClass({
@@ -12,7 +9,7 @@ var FavoriteButton = React.createClass({
     })
   },
 
-  componentWillReceiveProps: function(newProps) {
+  componentWillReceiveProps: function (newProps) {
     this.setState({ currentTrack: newProps.track })
   },
 

@@ -387,17 +387,6 @@ label {
       .track-blog-name:hover {
         text-decoration: underline;
       }
-      .follow, .unfollow {
-        background: transparent;
-        color: $hover-blue;
-        font-weight: 500;
-      }
-      .follow:hover, .unfollow:hover {
-        text-decoration: none;
-        color: $white;
-        background-color: $hover-blue;
-        border-radius: 5px;
-      }
       .track-post-info {
         color: $black;
         word-wrap: break-word;
@@ -452,14 +441,25 @@ label {
   color: $hover-blue;
 }
 
-.follow, .unfollow {
+#follow, #unfollow {
   font-size: 12px;
+  margin-left: 2px;
+  background: transparent;
+  color: $hover-blue;
+  font-weight: 500;
   .follow-text {
     color: transparent;
   }
 }
 
-.follow:hover .follow-text, .unfollow:hover .follow-text {
+#follow:hover, #unfollow:hover {
+  text-decoration: none;
+  color: $white;
+  background-color: $hover-blue;
+  border-radius: 3px;
+}
+
+#follow:hover .follow-text, #unfollow:hover .follow-text {
   color: $white;
 }
 
