@@ -59,6 +59,9 @@ var next = function () {
   currentTrackId = _currentTrack.trackData.id;
   play(currentTrackId + 1);
 };
+// ONLY WORKS FOR LATEST WHEN THE ID's are in subsequent order
+// LINKEDLIST?
+
 
 var prev = function () {
   currentTrackId = _currentTrack.trackData.id;
