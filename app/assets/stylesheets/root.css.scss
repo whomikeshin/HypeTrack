@@ -384,6 +384,9 @@ label {
       .track-post-count {
         margin: 5px 0px;
       }
+      .track-blog-name {
+        position: relative;
+      }
       .track-blog-name:hover {
         text-decoration: underline;
       }
@@ -442,11 +445,11 @@ label {
 }
 
 #follow, #unfollow {
-  font-size: 12px;
-  margin-left: 2px;
+  font-size: inherit;
   background: transparent;
   color: $hover-blue;
-  font-weight: 500;
+  position: absolute;
+  margin-left: 4px;
   .follow-text {
     color: transparent;
   }
@@ -456,7 +459,8 @@ label {
   text-decoration: none;
   color: $white;
   background-color: $hover-blue;
-  border-radius: 3px;
+  border-radius: 2px;
+  padding: 0px 2px;
 }
 
 #follow:hover .follow-text, #unfollow:hover .follow-text {

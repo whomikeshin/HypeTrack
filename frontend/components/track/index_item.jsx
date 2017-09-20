@@ -9,6 +9,7 @@ var PlayPause = require('./play_pause');
 var Loader = require('../loader');
 var WaveSurfer = require('../wavesurfer');
 var FavoriteButton = require('./favorite_button');
+var FollowButton = require('./follow_button');
 
 function _getAllBlogs () {
   return BlogStore.all();
@@ -66,7 +67,7 @@ var IndexItem = React.createClass({
     }
 
     if (currentUser) {
-      followButton = this._follow();
+      followButton = <FollowButton user={currentUser} blogs={blogs}/>;
     }
 
     return (

@@ -3,7 +3,7 @@ var ApiUtil = require('../../util/api_util');
 
 var FollowButton = React.createClass({
   // getInitialState: function () {
-  //   currentTrack: this.props.track,
+  //   currentTrack: null
   // },
   //
   // componentWillReceiveProps: function (newProps) {
@@ -17,12 +17,18 @@ var FollowButton = React.createClass({
     if (currentUser) {
       followButon = this._follow();
     }
+
+    return (
+      <div>
+        {followButton}
+      </div>
+    );
   },
 
   _follow: function () {
-    var blogList = this.props.blogs;
-        blog = blogList[0],
-        
+    var blogList = this.props.blogs,
+        blog = blogList[0];
+
     if (blog.follower_ids.includes(currentUser.id)) {
       return (
         <button
@@ -54,7 +60,7 @@ var FollowButton = React.createClass({
 
   _unfollowBlog: function (blogId) {
     ApiUtil.destroyFollow(blogId);
-  }
+  },
 });
 
 module.exports = FollowButton;
